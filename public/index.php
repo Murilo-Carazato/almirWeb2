@@ -1,5 +1,28 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
+
+use App\Dal\UserDal;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+// use App\Database\QueryBuilder;
+
+// $query = new QueryBuilder();
+
+// var_dump($query->select()->from("usuario")->get());
+
+$userDal = new UserDal();
+$users = $userDal->select();
+
+echo "<pre>";
+var_dump($users);
+echo "</pre>";
+
+
+
+
+
+
+
 
 ?>
 <!DOCTYPE html>

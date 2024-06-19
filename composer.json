@@ -2,7 +2,10 @@
     "name": "autoload/almir-web2",
     "autoload": {
         "psr-4": {
-            "Autoload\\AlmirWeb2\\": "src/"
+            "App\\": "app/",
+            "App\\Models\\": "app/Models/",
+            "App\\Database\\": "app/Database/"
+            
         }
     },
     "require": {}
