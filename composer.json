@@ -1,0 +1,9 @@
+{
+    "name": "autoload/almir-web2",
+    "autoload": {
+        "psr-4": {
+            "Autoload\\AlmirWeb2\\": "src/"
+        }
+    },
+    "require": {}
+}
