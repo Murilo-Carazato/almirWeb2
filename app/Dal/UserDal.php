@@ -8,7 +8,7 @@ use App\Models\User;
 class UserDal
 {
 
-    private $table = "usuario";
+    private $table = "user";
     function select()
     {
 
@@ -22,8 +22,8 @@ class UserDal
 
             $user = new User();
             $user->setId($result['id']);
-            $user->setNome($result['nome']);
-            $user->setSenha($result['senha']);
+            $user->setName($result['name']);
+            $user->setPassword($result['password']);
 
             $users[] = $user;
         }
@@ -36,8 +36,8 @@ class UserDal
         $query = new QueryBuilder();
 
         $data = [
-            'nome' => $user->getNome(),
-            'senha' => $user->getSenha(),
+            'name' => $user->getName(),
+            'password' => $user->getPassword(),
         ];
 
         $result = $query->insert($data, $this->table);
@@ -53,8 +53,8 @@ class UserDal
 
         $data = [
             'id' => $user->getId(),
-            'nome' => $user->getNome(),
-            'senha' => $user->getSenha(),
+            'name' => $user->getName(),
+            'password' => $user->getPassword(),
         ];
 
         $query->update($data, $this->table);

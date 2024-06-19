@@ -4,6 +4,7 @@ namespace App\Database;
 
 use Exception;
 use PDO;
+use PDOException;
 
 class QueryBuilder
 {
@@ -37,27 +38,25 @@ class QueryBuilder
 
     function get()
     {
-        $connectionInstance = Connection::getInstance();
-        $connect = $connectionInstance->connect();
+        $connection = Connection::connect();
         try {
-            $stmt = $connect->prepare($this->query);
+            $stmt = $connection->prepare($this->query);
             $results = $stmt->execute();
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $connectionInstance->disconnect();
+            Connection::disconnect();
             return $results;
-        } catch (\PDOException $e) {
-            throw new \Exception("erro de banco de dados: " . $e->getMessage());
+        } catch (PDOException $e) {
+            throw new Exception("erro de banco de dados: " . $e->getMessage());
         }
     }
 
 
     function insert(array $data, string $table)
     {
-        $connectionInstance = Connection::getInstance();
-        $connect = $connectionInstance->connect();
+        $connection = Connection::connect();
 
         try {
-            $stmt = $connect->prepare('INSERT INTO ' . $table . ' (' . implode(', ', array_keys($data)) . ') VALUES (' . implode(', ', array_fill(0, count($data), '?')) . ')');
+            $stmt = $connection->prepare('INSERT INTO ' . $table . ' (' . implode(', ', array_keys($data)) . ') VALUES (' . implode(', ', array_fill(0, count($data), '?')) . ')');
 
             $paramNumber = 1;
             foreach ($data as $value) {
@@ -66,20 +65,19 @@ class QueryBuilder
 
             $stmt->execute();
 
-            $lastInsertedId = $connect->lastInsertId();
+            $lastInsertedId = $connection->lastInsertId();
 
-            $connectionInstance->disconnect();
+            Connection::disconnect();
 
             return $lastInsertedId;
-        } catch (\PDOException $e) {
-            throw new \Exception("erro de banco de dados: " . $e->getMessage());
+        } catch (PDOException $e) {
+            throw new Exception("erro de banco de dados: " . $e->getMessage());
         }
     }
 
     public function update(array $data, string $table)
     {
-        $connectionInstance = Connection::getInstance();
-        $connection = $connectionInstance->connect();
+        $connection = Connection::connect();
 
         try {
             // Construir a parte SET da query
@@ -105,33 +103,31 @@ class QueryBuilder
            
             $update = $stmt->execute();
 
-            // Desconectar do banco de dados
-            $connectionInstance->disconnect();
+            Connection::disconnect();
 
             return $update;
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             // Handle exception
-            throw new \Exception("Database Query Error: " . $e->getMessage());
+            throw new Exception("Database Query Error: " . $e->getMessage());
         }
     }
 
     public function delete(int $id, string $table)
     {
-        $connectionInstance = Connection::getInstance();
-        $connection = $connectionInstance->connect();
+        $connection = Connection::connect();
 
         try {
             $sql = 'DELETE FROM ' . $table . ' WHERE id = ?';
             $stmt = $connection->prepare($sql);
             $delete = $stmt->execute(array($id));
 
-            $connectionInstance->disconnect();
+            Connection::disconnect();
             return $delete;
 
             
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             // Handle exception
-            throw new \Exception("Database Query Error: " . $e->getMessage());
+            throw new Exception("Database Query Error: " . $e->getMessage());
         }
     }
 }

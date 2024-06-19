@@ -9,24 +9,22 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 // $query = new QueryBuilder();
 
-// var_dump($query->select()->from("usuario")->get());
+// var_dump($query->select()->from("user")->get());
 
 $userDal = new UserDal();
 
-//
+$users = $userDal->select();
 
-// $users = $userDal->select();
-
-// echo "<pre>";
-// var_dump($users);
-// echo "</pre>";
+echo "<pre>";
+var_dump($users);
+echo "</pre>";
 
 //
 
 $userModel = new User();
 
-// $userModel->setNome("Teste");
-// $userModel->setSenha(md5("123"));
+// $userModel->setName("Teste");
+// $userModel->setPassword(md5("123"));
 // $userInsert = $userDal->insert($userModel);
 
 
@@ -37,8 +35,8 @@ $userModel = new User();
 //
 
 // $userModel->setId(1);
-// $userModel->setNome("TesteUpdate2");
-// $userModel->setSenha(md5("1234"));
+// $userModel->setName("TesteUpdate2");
+// $userModel->setPassword(md5("1234"));
 // $teste = $userDal->update($userModel);
 
 

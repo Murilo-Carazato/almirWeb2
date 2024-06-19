@@ -5,8 +5,8 @@ namespace App\Models;
 class User
 {
    private ?int $id;
-   private ?string $nome;
-   private ?string $senha;
+   private ?string $name;
+   private ?string $password;
 
    public function __construct()
    {
@@ -22,24 +22,24 @@ class User
       $this->id = $id;
    }
 
-   public function getNome()
+   public function getName()
    {
-      return $this->nome;
+      return $this->name;
    }
 
-   public function setNome(string $nome)
+   public function setName(string $name)
    {
-      $this->nome = $nome;
+      $this->name = $name;
    }
 
-   public function getSenha()
+   public function getPassword()
    {
-      return $this->senha;
+      return $this->password;
    }
 
-   public function setSenha(string $senha)
+   public function setPassword(string $password)
    {
-      $this->senha = $senha;
+      $this->password = $password;
    }
 
 }
