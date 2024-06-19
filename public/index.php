@@ -1,6 +1,7 @@
 <?php
 
 use App\Dal\UserDal;
+use App\Models\User;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -11,17 +12,49 @@ require_once __DIR__ . '/../vendor/autoload.php';
 // var_dump($query->select()->from("usuario")->get());
 
 $userDal = new UserDal();
-$users = $userDal->select();
 
-echo "<pre>";
-var_dump($users);
-echo "</pre>";
+//
+
+// $users = $userDal->select();
+
+// echo "<pre>";
+// var_dump($users);
+// echo "</pre>";
+
+//
+
+$userModel = new User();
+
+// $userModel->setNome("Teste");
+// $userModel->setSenha(md5("123"));
+// $userInsert = $userDal->insert($userModel);
 
 
+// echo "<pre>";
+// var_dump($userInsert);
+// echo "</pre>";
+
+//
+
+// $userModel->setId(1);
+// $userModel->setNome("TesteUpdate2");
+// $userModel->setSenha(md5("1234"));
+// $teste = $userDal->update($userModel);
 
 
+// echo "<pre>";
+// var_dump($teste);
+// echo "</pre>";
 
+//
 
+// $id = 4;
+
+// $teste = $userDal->delete($id);
+
+// echo "<pre>";
+// var_dump($teste);
+// echo "</pre>";
 
 
 ?>
