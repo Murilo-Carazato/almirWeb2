@@ -49,7 +49,7 @@
         </div>
         <div class="flex w-full lg:w-1/2 justify-center items-center bg-white dark:bg-gray-950 space-y-8">
             <div class="w-full px-8 md:px-32 lg:px-24">
-                <form class="bg-white dark:bg-gray-900 rounded-md shadow-2xl p-5" method="post" action="register.php">
+                <form class="bg-white dark:bg-gray-900 rounded-md shadow-2xl p-5" method="post" action="/public/index.php?action=postUser">
                     <h1 class="text-gray-800 dark:text-gray-200 font-bold text-2xl mb-1 transition-all">Registro</h1>
                     <p class="text-sm font-normal text-gray-600 dark:text-gray-100 mb-8 transition-all">Bem-vindo de volta</p>
 
