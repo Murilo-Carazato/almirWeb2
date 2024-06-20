@@ -38,7 +38,7 @@ class UserController
         $_SESSION['currentUser'] = serialize($result);
 
         if ($result instanceof User) {
-            header("location: /public/index.php");
+            header("location: /resources/views/menu.php");
         } else {
             echo "Erro ao criar usuário";
         }

@@ -47,26 +47,26 @@
                 </div>
             </div>
         </div>
-        <div class="flex w-full lg:w-1/2 justify-center items-center bg-white dark:bg-gray-950 space-y-8">
+        <div class="flex w-full lg:w-1/2 justify-center items-center bg-white dark:bg-gray-950 space-y-8 transition-all">
             <div class="w-full px-8 md:px-32 lg:px-24">
-                <form class="bg-white dark:bg-gray-900 rounded-md shadow-2xl p-5" method="post" action="/public/index.php?action=registerUser">
-                    <h1 class="text-gray-800 dark:text-gray-200 font-bold text-2xl mb-1 transition-all">Registro</h1>
-                    <p class="text-sm font-normal text-gray-600 dark:text-gray-100 mb-8 transition-all">Bem-vindo de volta</p>
+                <form class="bg-white dark:bg-gray-900 shadow-lg shadow-gray-500 dark:shadow-black rounded-md p-5 duration-300" method="post" action="/public/index.php?action=registerUser">
+                    <h1 class="text-gray-800 dark:text-gray-200 font-bold text-2xl mb-1">Registro</h1>
+                    <p class="text-sm font-normal text-gray-600 dark:text-gray-100 mb-8">Bem-vindo!</p>
 
                     <!-- Inserir nome -->
-                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white transition-all">Nome</label>
-                    <input type="text" name="name" required placeholder="Digite seu nome" id="name" class="mb-5 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all">
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
+                    <input type="text" name="name" required placeholder="Digite seu nome" id="name" class="duration-300 mb-5 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                     <!-- Inserir senha -->
-                    <label for="paswword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white transition-all">Senha</label>
-                    <input type="password" id="password" name="password" placeholder="Digite sua senha" required aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all">
+                    <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Senha</label>
+                    <input type="password" id="password" name="password" placeholder="Digite sua senha" required aria-describedby="helper-text-explanation" class="duration-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
-                    <button type="submit" name="action" class="block w-full bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2">Registrar-se</button>
+                    <button type="submit" name="action" class="block w-full bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 duration-300 text-white font-semibold mb-2">Registrar-se</button>
                     <div class="flex justify-between mt-4">
-                        <span class="text-sm ml-2 hover:text-blue-500 dark:text-gray-300 cursor-pointer hover:-translate-y-1 duration-500 transition-all">Esqueceu
+                        <span class="text-sm ml-2 hover:text-blue-500 dark:text-gray-300 cursor-pointer hover:-translate-y-1 duration-300">Esqueceu
                             a senha?</span>
 
-                        <a href="index.html" class="text-sm ml-2 hover:text-blue-500 dark:text-gray-300 cursor-pointer hover:-translate-y-1 duration-500 transition-all">Já
+                        <a href="login.php" class="text-sm ml-2 hover:text-blue-500 dark:text-gray-300 cursor-pointer hover:-translate-y-1 duration-300">Já
                             possui uma conta?</a>
                     </div>
 
