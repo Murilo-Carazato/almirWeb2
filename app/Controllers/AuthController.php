@@ -38,7 +38,7 @@ class AuthController
             $user->setPassword($result['password']);
 
             $_SESSION['currentUser'] =  serialize($user);
-            header("location: /public/index.php");
+            header("location: /resources/views/menu.php");
         } else header("location:index.html");
     }
 }
