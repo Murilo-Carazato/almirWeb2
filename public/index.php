@@ -4,9 +4,15 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\UserController;
 
-if (isset($_GET['action']) && $_GET['action'] === 'postUser') {
+if (isset($_GET['action'])) {
+    $action = $_GET['action'];
     $controller = new UserController();
-    $controller->postUser();
+
+    switch ($action) {
+        case 'postUser':
+            $controller->postUser();
+            break;
+    }
 }
 
 session_start();
@@ -14,7 +20,6 @@ session_start();
 
 if (isset($_SESSION['currentUser'])) {
     $user = unserialize($_SESSION['currentUser']);
-    
 } else {
     echo "Usuário não está logado.";
 }
@@ -43,7 +48,7 @@ echo "</pre>";
 <body>
     <h1>Menu de Navegação</h1>
     <ul>
-       
+
         <li>TESTE CARAZATO</li>
         <li><a class="" href="/app/Views/register.php">register.php</a></li>
 
