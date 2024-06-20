@@ -13,6 +13,13 @@ class UserBll
         return $dalUser->Select();
     }
 
+    public function SelectWhereNameEquals(string $name)
+    {
+        $dalUser = new UserDal();
+
+        return $dalUser->SelectWhereNameEquals($name);
+    }
+
     public function Insert(UserModel $user)
     {
         $dalUser = new UserDal();

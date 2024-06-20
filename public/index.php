@@ -2,15 +2,20 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use App\Controllers\AuthController;
 use App\Controllers\UserController;
 
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
-    $controller = new UserController();
+    $userController = new UserController();
+    $authController = new AuthController();
 
     switch ($action) {
-        case 'postUser':
-            $controller->postUser();
+        case 'registerUser':
+            $userController->registerUser();
+            break;
+        case 'loginUser':
+            $authController->loginUser();
             break;
     }
 }
@@ -50,7 +55,8 @@ echo "</pre>";
     <ul>
 
         <li>TESTE CARAZATO</li>
-        <li><a class="" href="/app/Views/register.php">register.php</a></li>
+        <li><a class="" href="/resources/views/register.php">register.php</a></li>
+        <li><a class="" href="/resources/views/login.php">login.php</a></li>
 
 
     </ul>
