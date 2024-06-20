@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Bll\UserBll;
@@ -15,23 +16,18 @@ class UserController
         $this->userBll = new UserBll();
     }
 
-    public function postUser()
+    //register
+    public function registerUser()
     {
-
         session_start();
 
         $user = new User();
 
         if (isset($_POST['name']) && !is_null($_POST['name'])) {
             $user->setName($_POST['name']);
-        } else {
-            $user->setName("sem nome");
-        }
-
+        } 
         if (isset($_POST['password']) && !is_null($_POST['password'])) {
             $user->setPassword(md5($_POST['password']));
-        } else {
-            $user->setPassword('');
         }
 
         $result = $this->userBll->insert($user);
@@ -44,5 +40,6 @@ class UserController
             echo "Erro ao criar usuário";
         }
     }
-    
+
+
 }

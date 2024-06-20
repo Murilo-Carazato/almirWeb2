@@ -19,26 +19,38 @@ class UserDal
 
     public function Select()
     {
+        $pdo = Connection::connect();
         $sql = "SELECT * FROM user;";
+        $stmt = $pdo->query($sql);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $con = Connection::connect();
-        $data = $con->query($sql);
-        $con = Connection::disconnect();
+        Connection::disconnect();
 
         $users = [];
 
         foreach ($data as $line) {
-
             $user = new UserModel();
-
             $user->setId($line['id']);
             $user->setName($line['name']);
             $user->setPassword($line['password']);
-
             $users[] = $user;
         }
 
         return $users;
+    }
+
+    public function SelectWhereNameEquals(string $name)
+    {
+        $pdo = Connection::connect();
+        $sql = "SELECT * FROM user WHERE name = :name;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':name', $name);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        Connection::disconnect();
+
+        return $data;
     }
 
     public function insert(UserModel $user)
