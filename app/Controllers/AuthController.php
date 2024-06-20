@@ -29,7 +29,10 @@ class AuthController
         $result = $this->userBll->SelectWhereNameEquals($name);
 
         if (md5($password) == $result['password']) {
-            session_start();
+
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
 
             $user = new User();
 
@@ -40,5 +43,15 @@ class AuthController
             $_SESSION['currentUser'] =  serialize($user);
             header("location: /public/index.php");
         } else header("location:index.html");
+    }
+
+    public function logoutUser()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        session_destroy();
+        header("Location: /public/index.php");
     }
 }

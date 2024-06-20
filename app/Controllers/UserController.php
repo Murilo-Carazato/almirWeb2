@@ -19,13 +19,16 @@ class UserController
     //register
     public function registerUser()
     {
-        session_start();
+
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
 
         $user = new User();
 
         if (isset($_POST['name']) && !is_null($_POST['name'])) {
             $user->setName($_POST['name']);
-        } 
+        }
         if (isset($_POST['password']) && !is_null($_POST['password'])) {
             $user->setPassword(md5($_POST['password']));
         }
@@ -40,6 +43,4 @@ class UserController
             echo "Erro ao criar usuário";
         }
     }
-
-
 }

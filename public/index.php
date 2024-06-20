@@ -17,24 +17,26 @@ if (isset($_GET['action'])) {
         case 'loginUser':
             $authController->loginUser();
             break;
+        case 'logoutUser':
+            $authController->logoutUser();
+            break;
     }
 }
 
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 
 if (isset($_SESSION['currentUser'])) {
     $user = unserialize($_SESSION['currentUser']);
+
+    echo "<pre>";
+    var_dump($user);
+    echo "</pre>";
 } else {
     echo "Usuário não está logado.";
 }
-
-echo "<pre>";
-var_dump($user);
-echo "</pre>";
-
-
-//$_SERVER[] //se redirecionar para userController, switch de rota simples, retorna pro controller
 
 
 ?>
@@ -57,6 +59,7 @@ echo "</pre>";
         <li>TESTE CARAZATO</li>
         <li><a class="" href="/resources/views/register.php">register.php</a></li>
         <li><a class="" href="/resources/views/login.php">login.php</a></li>
+        <li><a class="" href="/public/index.php?action=logoutUser">logout.php</a></li>
 
 
     </ul>
