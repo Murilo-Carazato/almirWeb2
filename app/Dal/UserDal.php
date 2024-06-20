@@ -2,28 +2,38 @@
 
 namespace App\Dal;
 
-use App\Database\QueryBuilder;
-use App\Models\User;
+use App\Database\Connection;
+use App\Models\User as UserModel;
+use PDO;
 
 class UserDal
 {
+    private $pdo; //usar para pegar o id
 
-    private $table = "user";
-    function select()
+    public function __construct()
     {
+        $this->pdo = Connection::connect();
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
 
-        $query = new QueryBuilder();
 
-        $results = $query->select()->from($this->table)->get();
+    public function Select()
+    {
+        $sql = "SELECT * FROM user;";
+
+        $con = Connection::connect();
+        $data = $con->query($sql);
+        $con = Connection::disconnect();
 
         $users = [];
 
-        foreach ($results as $result) {
+        foreach ($data as $line) {
 
-            $user = new User();
-            $user->setId($result['id']);
-            $user->setName($result['name']);
-            $user->setPassword($result['password']);
+            $user = new UserModel();
+
+            $user->setId($line['id']);
+            $user->setName($line['name']);
+            $user->setPassword($line['password']);
 
             $users[] = $user;
         }
@@ -31,43 +41,25 @@ class UserDal
         return $users;
     }
 
-    function insert(User $user)
+    public function insert(UserModel $user)
     {
-        $query = new QueryBuilder();
+        $pdo = Connection::connect();
+        $sql = "INSERT INTO user (name, password) VALUES (:name, :password)";
+        $stmt = $pdo->prepare($sql);
 
-        $data = [
-            'name' => $user->getName(),
-            'password' => $user->getPassword(),
-        ];
+        $name = $user->getName();
+        $password = $user->getPassword();
 
-        $result = $query->insert($data, $this->table);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':password', $password);
 
-        $user->setId($result);
+        $stmt->execute();
+        $lastUserId = $pdo->lastInsertId();
+
+        $user->setId($lastUserId);
+
+        Connection::disconnect();
 
         return $user;
-    }
-
-    function update(User $user)
-    {
-        $query = new QueryBuilder();
-
-        $data = [
-            'id' => $user->getId(),
-            'name' => $user->getName(),
-            'password' => $user->getPassword(),
-        ];
-
-        $query->update($data, $this->table);
-
-        return $user;
-    }
-
-    function delete(int $id)
-    {
-        $query = new QueryBuilder();
-
-        $query->delete($id, $this->table);
-
-        return $query;
     }
 }
