@@ -7,52 +7,29 @@ use PDOException;
 
 class Connection
 {
-    private static ?Connection $instance = null;
-    private ?PDO $connection = null;
-    private $host = 'localhost:3306';
-    private $dbname = 'almirweb';
-    private $username = 'root';
-    private $password = 'root';
+    private static $dbName = 'almirWeb';
+    private static $dbHost = 'localhost';
+    private static $dbUser = 'root';
+    private static $dbPassword = 'root';
 
-    // Constructor privado para impedir a criação direta de instâncias
-    private function __construct()
-    {
-        // Não abre a conexão diretamente no construtor
-    }
+    private static $cont = null;
 
-    // Método para obter a instância única (singleton)
-    public static function getInstance(): Connection
-    {
-        if (self::$instance === null) {
-            self::$instance = new Connection();
-        }
-        return self::$instance;
-    }
 
-    // Método para abrir a conexão com o banco de dados
-    public function connect(): PDO
+    public static function connect()
     {
-        if ($this->connection === null) {
+        if (self::$cont == null) {
             try {
-                $dsn = "mysql:host=$this->host;dbname=$this->dbname;charset=utf8";
-                $this->connection = new PDO($dsn, $this->username, $this->password);
-                $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $e) {
-                die($e->getMessage());
+                self::$cont = new PDO("mysql:host=" . self::$dbHost . ";dbname=" . self::$dbName,  self::$dbUser, self::$dbPassword);
+            } catch (PDOException $exception) {
+                die($exception->getMessage());
             }
         }
-        return $this->connection;
+        return self::$cont;
     }
 
-    // Método para fechar a conexão com o banco de dados
-    public function disconnect(): void
+    public static function disconnect()
     {
-        $this->connection = null;
-    }
-
-    // Método para obter a conexão atual
-    public function getConnection(): ?PDO
-    {
-        return $this->connection;
+        self::$cont = null;
+        return self::$cont;
     }
 }

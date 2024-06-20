@@ -1,27 +1,30 @@
 <?php
 
-use App\Dal\UserDal;
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// use App\Database\QueryBuilder;
+use App\Controllers\UserController;
 
-// $query = new QueryBuilder();
+if (isset($_GET['action']) && $_GET['action'] === 'postUser') {
+    $controller = new UserController();
+    $controller->postUser();
+}
 
-// var_dump($query->select()->from("usuario")->get());
+session_start();
 
-$userDal = new UserDal();
-$users = $userDal->select();
+
+if (isset($_SESSION['currentUser'])) {
+    $user = unserialize($_SESSION['currentUser']);
+    
+} else {
+    echo "Usuário não está logado.";
+}
 
 echo "<pre>";
-var_dump($users);
+var_dump($user);
 echo "</pre>";
 
 
-
-
-
-
+//$_SERVER[] //se redirecionar para userController, switch de rota simples, retorna pro controller
 
 
 ?>
@@ -42,13 +45,8 @@ echo "</pre>";
     <ul>
        
         <li>TESTE CARAZATO</li>
+        <li><a class="" href="/app/Views/register.php">register.php</a></li>
 
-        <li><a class="" href="/App/VIEW/INVENTARIO/lstInventario.php">lstInventario.php</a></li>
-        <li><a class="" href="/App/VIEW/INVENTARIO/formDetInventario.php?id=1">formDetInventario.php</a></li>
-        <li><a class="" href="/App/VIEW/EQUIPAMENTO/formEdtInventario.php?id=1">formEdtInventario.php</a></li>
-        <li><a class="" href="/App/VIEW/INVENTARIO/formInventario.php">formInventario.php</a></li>
-        <li><a class="" href="/App/VIEW/RECEITA/lstReceita.php">lstReceita.php</a></li>
-        <li><a class="" href="/App/VIEW/RECEITA/formReceita.php">formReceita.php</a></li>
 
     </ul>
 </body>
