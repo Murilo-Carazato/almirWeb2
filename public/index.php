@@ -50,7 +50,7 @@ echo "</pre>";
     <ul>
 
         <li>TESTE CARAZATO</li>
-        <li><a class="" href="/app/Views/register.php">register.php</a></li>
+        <li><a class="" href="/resources/views/register.php">register.php</a></li>
 
 
     </ul>
