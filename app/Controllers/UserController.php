@@ -5,7 +5,7 @@ namespace App\Controllers;
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Bll\UserBll;
-use App\Models\User;
+use App\Models\User as UserModel;
 
 class UserController
 {
@@ -24,7 +24,7 @@ class UserController
             session_start();
         }
 
-        $user = new User();
+        $user = new UserModel();
 
         if (isset($_POST['name']) && !is_null($_POST['name'])) {
             $user->setName($_POST['name']);
@@ -37,7 +37,7 @@ class UserController
 
         $_SESSION['currentUser'] = serialize($result);
 
-        if ($result instanceof User) {
+        if ($result instanceof UserModel) {
             header("location: /resources/views/menu.php");
         } else {
             echo "Erro ao criar usuário";

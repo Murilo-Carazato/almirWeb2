@@ -53,6 +53,8 @@ $products = $bllProduct->Select();
                     <td><?php echo $product->getUnitPrice(); ?></td>
                     <td><?php echo $product->getStock(); ?></td>
                     <td><?php echo $product->getUserId(); ?></td>
+
+                    <?php if ($userId == $product->getUserId()) { ?>
                     <td>
                         <a class="btn-floating btn-small waves-effect waves-light orange" onclick="JavaScript:location.href='formEdtProduct.php?id=' + '<?php echo $product->getId(); ?>'">
                             <i class="material-icons">edit</i></a>
@@ -63,13 +65,13 @@ $products = $bllProduct->Select();
                             <i class="material-icons">delete</i></a>
 
                     </td>
+                    <?php } ?>
                 </tr>
             <?php } ?>
 
         </table>
 
-
-    <button class="waves-effect waves-light btn green" type="button" onclick="JavaScript:location.href='formProduct.php'"><i class="material-icons">add</i>
+    <button class="waves-effect waves-light btn green" type="button" onclick="JavaScript:location.href='/resources/views/productForm.php'"><i class="material-icons">add</i>
     </button>
 </body>
 

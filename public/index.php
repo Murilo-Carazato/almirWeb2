@@ -4,11 +4,13 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\AuthController;
 use App\Controllers\UserController;
+use App\Controllers\ProductController;
 
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
     $userController = new UserController();
     $authController = new AuthController();
+    $productController = new ProductController();
 
     switch ($action) {
         case 'registerUser':
@@ -19,6 +21,9 @@ if (isset($_GET['action'])) {
             break;
         case 'logoutUser':
             $authController->logoutUser();
+            break;
+        case 'addProduct':
+            $productController->addProduct();
             break;
     }
 }

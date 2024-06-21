@@ -13,4 +13,11 @@ class ProductBll
 
         return $dalProduct->Select();
     }
+
+    public function Insert(ProductModel $product)
+    {
+        $dalProduct = new ProductDal();
+
+        return $dalProduct->Insert($product);
+    }
 }
