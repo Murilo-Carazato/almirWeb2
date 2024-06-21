@@ -35,5 +35,10 @@ class ProductBll
         return $dalProduct->Insert($product);
     }
 
+    public function Delete(int $id)
+    {
+        $dalProduct = new ProductDal();
 
+        return $dalProduct->Delete($id);
+    }
 }

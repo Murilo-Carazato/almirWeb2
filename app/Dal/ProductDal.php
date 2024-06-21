@@ -88,4 +88,16 @@ class ProductDal
 
         return $product;
     }
+
+    public function Delete(int $id)
+    {
+        $sql = "delete from product WHERE id = ?;";
+
+        $pdo = Connection::connect();
+        $query = $pdo->prepare($sql);
+        $result = $query->execute(array($id));
+        Connection::disconnect();
+
+        return $result;
+    }
 }

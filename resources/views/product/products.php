@@ -79,8 +79,8 @@ $products = $bllProduct->Select();
 
 <script>
     function remover(id) {
-        if (confirm('Excluir a product ' + id + '?')) {
-            location.href = 'remProduct.php?id=' + id;
+        if (confirm('Excluir o produto ' + id + '?')) {
+            location.href = '/public/index.php?action=deleteProduct&id=' + id;
         }
     }
 </script>

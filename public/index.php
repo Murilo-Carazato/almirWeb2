@@ -12,7 +12,12 @@ if (isset($_GET['action'])) {
     $authController = new AuthController();
     $productController = new ProductController();
 
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
+    }
+
     switch ($action) {
+        //User
         case 'registerUser':
             $userController->registerUser();
             break;
@@ -22,14 +27,16 @@ if (isset($_GET['action'])) {
         case 'logoutUser':
             $authController->logoutUser();
             break;
+
+        //Product
         case 'addProduct':
             $productController->addProduct();
             break;
         case 'editProduct':
-            if (isset($_GET['id'])) {
-                $id = $_GET['id'];
-            }
             $productController->editProduct($id);
+            break;
+        case 'deleteProduct':
+            $productController->deleteProduct($id);
             break;
     }
 }

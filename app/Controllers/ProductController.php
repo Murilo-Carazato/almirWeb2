@@ -91,4 +91,15 @@ class ProductController
             echo "Erro ao atualizar produto";
         }
     }
+
+    public function deleteProduct($id)
+    {
+        $result = $this->productBll->Delete($id);
+
+        if ($result == true) {
+            header("location: /resources/views/product/products.php");
+        } else {
+            echo "Erro ao atualizar produto";
+        }
+    }
 }
