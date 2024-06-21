@@ -5,7 +5,7 @@ use App\Controllers\ProductController;
 
 $productController = new ProductController();
 
-$data = $productController->listProducts();
+$data = $productController->index();
 $userId = $data['userId'];
 $products = $data['products'];
 ?>
@@ -65,7 +65,7 @@ $products = $data['products'];
 <script>
     function remover(id) {
         if (confirm('Excluir o produto ' + id + '?')) {
-            location.href = '/public/index.php?action=deleteProduct&id=' + id;
+            location.href = '/public/index.php?action=destroy&id=' + id;
         }
     }
 </script>

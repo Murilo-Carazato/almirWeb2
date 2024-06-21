@@ -19,7 +19,7 @@
             <h1>Inserir Receita</h1>
         </div>
         <div class="row black-text">
-            <form action="/public/index.php?action=addProduct" method="POST" class="col s12">
+            <form action="/public/index.php?action=create" method="POST" class="col s12">
                 
                 <div class="input-field col s8">
                     <input placeholder="informe a descrição" id="description" name="description" type="text" class="validate">

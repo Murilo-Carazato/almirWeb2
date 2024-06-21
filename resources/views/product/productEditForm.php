@@ -7,7 +7,7 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
     $productController = new ProductController();
-    $product = $productController->getProductForEdit($id);
+    $product = $productController->show($id);
 } else {
     die("ID inválido.");
 }
@@ -34,10 +34,10 @@ if (isset($_GET['id'])) {
 <body>
     <div class="container indigo lighten-4 deep-orange-text col s12">
         <div class="center green">
-            <h1>Editar Product</h1>
+            <h1>updatear Product</h1>
         </div>
         <div class="row  black-text">
-            <form action="/public/index.php?action=editProduct&id=<?php echo $product->getId(); ?>" method="POST" class="col s12">
+            <form action="/public/index.php?action=update&id=<?php echo $product->getId(); ?>" method="POST" class="col s12">
 
                 <div class="input-field col s8">
                     <input placeholder="informe a descrição" id="description" name="description" type="text" class="validate" value="<?php echo $product->getDescription(); ?>">

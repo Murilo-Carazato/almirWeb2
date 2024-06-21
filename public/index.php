@@ -29,14 +29,14 @@ if (isset($_GET['action'])) {
             break;
 
         //Product
-        case 'addProduct':
-            $productController->addProduct();
+        case 'create':
+            $productController->create();
             break;
-        case 'editProduct':
-            $productController->editProduct($id);
+        case 'update':
+            $productController->update($id);
             break;
-        case 'deleteProduct':
-            $productController->deleteProduct($id);
+        case 'destroy':
+            $productController->destroy($id);
             break;
     }
 }

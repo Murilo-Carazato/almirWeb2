@@ -7,7 +7,7 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
     $productController = new ProductController();
-    $product = $productController->getProductDetails($id);
+    $product = $productController->show($id);
 } else {
     die("ID inválido.");
 }
