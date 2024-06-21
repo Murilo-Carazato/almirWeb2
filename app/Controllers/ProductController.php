@@ -47,7 +47,7 @@ class ProductController
         $result = $this->productBll->insert($product);
 
         if ($result instanceof ProductModel) {
-            header("location: /resources/views/products.php");
+            header("location: /resources/views/product/products.php");
         } else {
             echo "Erro ao criar produto";
         }

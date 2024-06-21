@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -71,7 +71,7 @@ $products = $bllProduct->Select();
 
         </table>
 
-    <button class="waves-effect waves-light btn green" type="button" onclick="JavaScript:location.href='/resources/views/productForm.php'"><i class="material-icons">add</i>
+    <button class="waves-effect waves-light btn green" type="button" onclick="JavaScript:location.href='/resources/views/product/productForm.php'"><i class="material-icons">add</i>
     </button>
 </body>
 
