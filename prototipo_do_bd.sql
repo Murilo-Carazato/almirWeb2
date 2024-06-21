@@ -55,7 +55,14 @@ CREATE TABLE IF NOT EXISTS `almirweb`.`product` (
   `description` VARCHAR(85) NOT NULL,
   `unit_price` FLOAT NOT NULL,
   `stock` INT NOT NULL,
-  PRIMARY KEY (`id`))
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_product_user1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_product_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `almirweb`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4

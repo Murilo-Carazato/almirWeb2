@@ -60,6 +60,8 @@ if (isset($_SESSION['currentUser'])) {
         <li><a class="" href="/resources/views/register.php">register.php</a></li>
         <li><a class="" href="/resources/views/login.php">login.php</a></li>
         <li><a class="" href="/public/index.php?action=logoutUser">logout.php</a></li>
+        <li></li>
+        <li><a class="" href="/resources/views/products.php">products.php</a></li>
 
 
     </ul>
