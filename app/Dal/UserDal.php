@@ -39,7 +39,7 @@ class UserDal
         return $users;
     }
 
-    public function SelectWhereNameEquals(string $name)
+    public function SelectByName(string $name)
     {
         $pdo = Connection::connect();
         $sql = "SELECT * FROM user WHERE name = :name;";

@@ -25,6 +25,12 @@ if (isset($_GET['action'])) {
         case 'addProduct':
             $productController->addProduct();
             break;
+        case 'editProduct':
+            if (isset($_GET['id'])) {
+                $id = $_GET['id'];
+            }
+            $productController->editProduct($id);
+            break;
     }
 }
 

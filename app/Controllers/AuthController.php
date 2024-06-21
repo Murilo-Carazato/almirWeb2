@@ -26,7 +26,7 @@ class AuthController
             $password = $_POST['password'];
         }
 
-        $result = $this->userBll->SelectWhereNameEquals($name);
+        $result = $this->userBll->SelectByName($name);
 
         if (md5($password) == $result['password']) {
 

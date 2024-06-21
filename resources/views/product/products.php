@@ -56,10 +56,10 @@ $products = $bllProduct->Select();
 
                     <?php if ($userId == $product->getUserId()) { ?>
                     <td>
-                        <a class="btn-floating btn-small waves-effect waves-light orange" onclick="JavaScript:location.href='formEdtProduct.php?id=' + '<?php echo $product->getId(); ?>'">
+                        <a class="btn-floating btn-small waves-effect waves-light orange" onclick="JavaScript:location.href='/resources/views/product/productEditForm.php?id=' + '<?php echo $product->getId(); ?>'">
                             <i class="material-icons">edit</i></a>
 
-                        <a class="btn-floating btn-small waves-effect waves-light blue" onclick="JavaScript:location.href='formDetProduct.php?id=' + '<?php echo $product->getId(); ?>'"><i class="material-icons">details</i></a>
+                        <a class="btn-floating btn-small waves-effect waves-light blue" onclick="JavaScript:location.href='/resources/views/product/productDetails.php?id=' + '<?php echo $product->getId(); ?>'"><i class="material-icons">details</i></a>
 
                         <a class="btn-floating btn-small waves-effect waves-light red" onclick="JavaScript: remover( <?php echo $product->getId(); ?> )">
                             <i class="material-icons">delete</i></a>
