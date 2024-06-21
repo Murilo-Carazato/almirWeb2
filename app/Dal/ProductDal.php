@@ -27,6 +27,7 @@ class ProductDal
             $product->setDescription($line['description']);
             $product->setUnitPrice($line['unit_price']);
             $product->setStock($line['stock']);
+            $product->setUserId($line['user_id']);
             $products[] = $product;
         }
 
@@ -45,9 +46,9 @@ class ProductDal
         $userId = $product->getUserId();
 
         $stmt->bindParam(':description', $description);
-        $stmt->bindParam(':unitPrice', $unitPrice);
+        $stmt->bindParam(':unit_price', $unitPrice);
         $stmt->bindParam(':stock', $stock);
-        $stmt->bindParam(':userId', $userId);
+        $stmt->bindParam(':user_id', $userId);
         $stmt->execute();
 
         Connection::disconnect();
