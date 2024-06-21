@@ -4,34 +4,22 @@ namespace App\Controllers;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
+use App\Controllers\SessionController;
 use App\Bll\ProductBll;
 use App\Models\Product as ProductModel;
 
 class ProductController
 {
     private $productBll;
+    private $sessionController;
 
     public function __construct()
     {
         $this->productBll = new ProductBll();
+        $this->sessionController = new SessionController();
     }
 
-    private function validateSession()
-    {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        if (isset($_SESSION['currentUser'])) {
-            $user = unserialize($_SESSION['currentUser']);
-            return $user->getId();
-        } else {
-            echo "Usuário não está logado.";
-            exit;
-        }
-    }
-
-    private function validateProductInput($product)
+    private function validateProductInput($product)//rever
     {
         if (isset($_POST['description']) && !empty($_POST['description'])) {
             $product->setDescription($_POST['description']);
@@ -45,12 +33,11 @@ class ProductController
     }
 
     //CRUD
-
     public function create()
     {
         $product = new ProductModel();
         $this->validateProductInput($product);
-        $userId = $this->validateSession();
+        $userId = $this->sessionController->getCurrentUserId();
 
         $product->setUserId($userId);
         $result = $this->productBll->insert($product);
@@ -64,18 +51,16 @@ class ProductController
 
     public function index()
     {
-        $userId = $this->validateSession();
+        $userId = $this->sessionController->getCurrentUserId();
         $products = $this->productBll->Select();
 
-        return [
-            'userId' => $userId,
-            'products' => $products
-        ];
+        return $products;
+        
     }
 
     public function show($id)
     {
-        $this->validateSession();
+        $this->sessionController->getCurrentUserId();
         return $this->productBll->SelectById($id);
     }
 
@@ -84,7 +69,7 @@ class ProductController
         $product = new ProductModel();
         $product->setId($id);
         $this->validateProductInput($product);
-        $userId = $this->validateSession();
+        $userId = $this->sessionController->getCurrentUserId();
 
         $product->setUserId($userId);
         $result = $this->productBll->Update($product);

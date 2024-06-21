@@ -2,12 +2,14 @@
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use App\Controllers\ProductController;
+use App\Controllers\SessionController;
 
 $productController = new ProductController();
+$sessionController = new SessionController();
 
 $data = $productController->index();
-$userId = $data['userId'];
-$products = $data['products'];
+$userId = $sessionController->getCurrentUserId();
+$products = $data;
 ?>
 
 <!DOCTYPE html>
