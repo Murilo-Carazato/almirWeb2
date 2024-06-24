@@ -5,12 +5,9 @@ use App\Bll\ProductBll;
 $bllProduct = new ProductBll();
 $products = $bllProduct->Select();
 
-
-function remove(int $id){
-    $bllProduct = new ProductBll();
-    var_dump($id);
-    die();
-    $bllProduct->Delete($id);
+if (isset($_SESSION['currentUser'])) {
+    $user = unserialize($_SESSION['currentUser']);
+    $type = $user->getType();
 }
 ?>
 
@@ -51,6 +48,9 @@ function remove(int $id){
         },
         deleteProduct(id){
             window.location.href = `http://localhost:8000/resources/views/product/deleteProduct.php?id=${id}`;
+        },
+        showProduct(id){
+            window.location.href = `http://localhost:8000/resources/views/product/productEditForm.php?id=${id}`;
         },
         removeItemFromCart(index){
             // remove índice recebido do parâmetro da lista de compras
@@ -176,14 +176,18 @@ function remove(int $id){
 
 
                 <!-- Cards de produtos -->
+                <?php if (count($products) < 1) { ?>
+                    <h1 class="text-center my-10 text-gray-600 dark:text-gray-400">Nenhum produto encontrado...</h1>
+                <?php } ?>
                 <div class="grid grid-cols-3 gap-6">
                     <?php foreach ($products as $product) : ?>
                         <div class="relative w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                            <a href="#">
+                            <!-- Se usuário for admin, será redirecionado para update do produto -->
+                            <a class="hover:cursor-pointer" <?php if ($type == 'admin') { ?> @click="showProduct(<?php echo $product->getId() ?>)" <?php } ?>>
                                 <img class="p-5 rounded-t-lg" src="https://cdn.pixabay.com/photo/2016/11/19/18/06/feet-1840619_1280.jpg" alt="product image" />
                             </a>
                             <div class="px-5 pb-5">
-                                <a href="#">
+                                <a>
                                     <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white uppercase"><?php echo $product->getDescription() ?></h5>
                                 </a>
                                 <div class="flex items-center mt-2.5 mb-5">
@@ -217,10 +221,6 @@ function remove(int $id){
                                 </div>
                             </div>
                             <?php
-                            if (isset($_SESSION['currentUser'])) {
-                                $user = unserialize($_SESSION['currentUser']);
-                                $type = $user->getType();
-                            }
                             if ($type == 'admin') { ?>
                                 <div class="absolute hover:cursor-pointer inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900" @click="deleteProduct(<?php echo $product->getId() ?>)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash">

@@ -42,7 +42,7 @@ class ProductController
         $result = $this->productBll->insert($product);
 
         if ($result instanceof ProductModel) {
-            header("Location: /resources/views/product/products.php");
+            header("Location: /resources/views/menu.php");
         } else {
             echo "Erro ao criar produto";
         }
@@ -73,7 +73,7 @@ class ProductController
         $result = $this->productBll->Update($product);
 
         if ($result) {
-            header("Location: /resources/views/product/products.php");
+            header("Location: /resources/views/menu.php");
         } else {
             echo "Erro ao atualizar produto";
         }
