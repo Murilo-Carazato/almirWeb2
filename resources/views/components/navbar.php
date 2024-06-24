@@ -1,8 +1,10 @@
-<link href="../../../public/build/output.css" rel="stylesheet">
+<!-- <?php session_start(); ?> -->
+
+<link href="/public/build/output.css" rel="stylesheet">
 <div class="w-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200">
     <div x-data="{ open: false }" class="flex flex-col px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
         <div class="flex flex-row items-center justify-between p-4">
-            <a href="menu.php" class="text-lg font-semibold tracking-widest text-gray-900 dark:text-gray-200 uppercase rounded-lg focus:outline-none focus:shadow-outline transition-all">FinanGE</a>
+            <a href="../views/menu.php" class="text-lg font-semibold tracking-widest text-gray-900 dark:text-gray-200 uppercase rounded-lg focus:outline-none focus:shadow-outline transition-all">FinanGE</a>
             <button class="rounded-lg md:hidden focus:outline-none focus:shadow-outline" @click="open = !open">
                 <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
                     <path x-show="!open" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z" clip-rule="evenodd"></path>
@@ -11,6 +13,21 @@
             </button>
         </div>
         <nav :class="{'flex': open, 'hidden': !open}" class="flex-col flex-grow justify-end hidden pb-4 md:pb-0 md:flex md:justify-end md:flex-row">
+            <?php
+            
+            if (isset($_SESSION['currentUser'])) {
+                $user = unserialize($_SESSION['currentUser']);
+                // echo "<pre>";
+                // var_dump($user);
+                // echo "</pre>";
+                // die();
+                $type = $user->getType();
+                
+            }
+            if ($type == 'admin') {
+            ?>
+                <a class="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline transition-all" href="/resources/views/product/send_products.php">Cadastrar produto</a>
+            <?php  } ?>
             <a class="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline transition-all" href="#">Meus pedidos</a>
             <a class="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline transition-all" href="#">Novidades</a>
             <a class="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-white focus:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-red-400 focus:bg-gray-200 focus:outline-none focus:shadow-outline transition-all" href="/public/index.php?action=logoutUser">Logout</a>

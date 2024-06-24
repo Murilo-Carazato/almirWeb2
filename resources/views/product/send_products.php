@@ -1,3 +1,12 @@
+<?php
+// if (isset($_SESSION['currentUser'])) {
+//     $user = unserialize($_SESSION['currentUser']);
+//     $type = $user->getType();
+//     if ($type != 'admin') {
+//         header("Location: /resources/views/menu.php");
+//     }
+// }
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <script>
@@ -30,7 +39,7 @@
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-950 overflow-x-hidden transition-all">
-    <?php include('resources\views\components\navbar.html') ?>
+    <?php include('resources\views\components\navbar.php') ?>
     <div class="mx-60">
         <div class="mt-10 mb-5">
             <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Cadastre um produto</h2>
