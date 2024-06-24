@@ -33,6 +33,8 @@ class UserController
             $user->setPassword(md5($_POST['password']));
         }
 
+        $user->setType("client");
+
         $result = $this->userBll->insert($user);
 
         $_SESSION['currentUser'] = serialize($result);
