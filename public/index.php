@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\AuthController;
+use App\Controllers\OrderController;
 use App\Controllers\UserController;
 use App\Controllers\ProductController;
 
@@ -11,13 +12,14 @@ if (isset($_GET['action'])) {
     $userController = new UserController();
     $authController = new AuthController();
     $productController = new ProductController();
+    $orderController = new OrderController();
 
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
     }
 
     switch ($action) {
-        //User
+            //User
         case 'registerUser':
             $userController->registerUser();
             break;
@@ -28,15 +30,26 @@ if (isset($_GET['action'])) {
             $authController->logoutUser();
             break;
 
-        //Product
-        case 'create':
+            //Product
+        case 'createProduct':
             $productController->create();
             break;
-        case 'update':
+        case 'updateProduct':
             $productController->update($id);
             break;
-        case 'destroy':
+        case 'destroyProduct':
             $productController->destroy($id);
+            break;
+
+            //Order
+        case 'createOrder':
+            $orderController->create();
+            break;
+        case 'updateOrder':
+            $orderController->update($id);
+            break;
+        case 'destroyOrder':
+            $orderController->destroy($id);
             break;
     }
 }
@@ -80,6 +93,8 @@ if (isset($_SESSION['currentUser'])) {
         <li><a class="" href="/public/index.php?action=logoutUser">logout.php</a></li>
         <li></li>
         <li><a class="" href="/resources/views/product/products.php">products.php</a></li>
+        <li></li>
+        <li><a class="" href="/resources/views/order/orders.php">orders.php</a></li>
 
 
     </ul>

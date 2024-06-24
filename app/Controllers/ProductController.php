@@ -19,7 +19,7 @@ class ProductController
         $this->sessionController = new SessionController();
     }
 
-    private function validateProductInput($product)//rever
+    private function validateProductInput(ProductModel $product)
     {
         if (isset($_POST['description']) && !empty($_POST['description'])) {
             $product->setDescription($_POST['description']);

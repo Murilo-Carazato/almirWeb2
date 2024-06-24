@@ -67,7 +67,7 @@ $products = $data;
 <script>
     function remover(id) {
         if (confirm('Excluir o produto ' + id + '?')) {
-            location.href = '/public/index.php?action=destroy&id=' + id;
+            location.href = '/public/index.php?action=destroyProduct&id=' + id;
         }
     }
 </script>

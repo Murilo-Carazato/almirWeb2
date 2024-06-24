@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `almirweb`.`user` (
   `password` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -32,16 +32,14 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `almirweb`.`order`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `almirweb`.`order` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `date` DATE NOT NULL,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_pedido_user1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_pedido_user1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `almirweb`.`user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `almirweb`.`user` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -60,11 +58,9 @@ CREATE TABLE IF NOT EXISTS `almirweb`.`product` (
   INDEX `fk_product_user1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_product_user1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `almirweb`.`user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `almirweb`.`user` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 10
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -82,14 +78,10 @@ CREATE TABLE IF NOT EXISTS `almirweb`.`cart` (
   INDEX `fk_order_has_product_order1_idx` (`order_id` ASC) VISIBLE,
   CONSTRAINT `fk_order_has_product_order1`
     FOREIGN KEY (`order_id`)
-    REFERENCES `almirweb`.`order` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `almirweb`.`order` (`id`),
   CONSTRAINT `fk_order_has_product_product1`
     FOREIGN KEY (`product_id`)
-    REFERENCES `almirweb`.`product` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `almirweb`.`product` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;

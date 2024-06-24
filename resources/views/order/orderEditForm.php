@@ -1,13 +1,13 @@
 <?php
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
-use App\Controllers\ProductController;
+use App\Controllers\OrderController;
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-    $productController = new ProductController();
-    $product = $productController->show($id);
+    $orderController = new OrderController();
+    $order = $orderController->show($id);
 } else {
     die("ID inválido.");
 }
@@ -28,30 +28,20 @@ if (isset($_GET['id'])) {
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <title>Editar Products</title>
+    <title>Editar Orders</title>
 </head>
 
 <body>
     <div class="container indigo lighten-4 deep-orange-text col s12">
         <div class="center green">
-            <h1>updatear Product</h1>
+            <h1>updatear Order</h1>
         </div>
         <div class="row  black-text">
-            <form action="/public/index.php?action=updateProduct&id=<?php echo $product->getId(); ?>" method="POST" class="col s12">
+            <form action="/public/index.php?action=updateOrder&id=<?php echo $order->getId(); ?>" method="POST" class="col s12">
 
                 <div class="input-field col s8">
-                    <input placeholder="informe a descrição" id="description" name="description" type="text" class="validate" value="<?php echo $product->getDescription(); ?>">
-                    <label for="description">Descrição</label>
-                </div>
-
-                <div class="input-field col s8">
-                    <input placeholder="Informe a data de Vencimento" id="unitPrice" name="unitPrice" type="number" class="validate" value="<?php echo $product->getUnitPrice(); ?>">
-                    <label for="unitPrice">Preço Unitário</label>
-                </div>
-
-                <div class="input-field col s8">
-                    <input placeholder="informe o estoque" id="stock" name="stock" type="number" class="validate" value="<?php echo $product->getStock(); ?>">
-                    <label for="stock">Estoque</label>
+                    <input placeholder="informe a data" id="date" name="date" type="date" class="validate" value="<?php echo $order->getDate(); ?>">
+                    <label for="date">Data</label>
                 </div>
 
                 <div class="brown lighten-3 center col s12">

@@ -6,7 +6,7 @@
 <html lang="pt-Br">
 
 <head>
-    <title>Inserir Produto</title>
+    <title>Inserir Pedido</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="../js/init.js"></script>
 </head>
@@ -19,21 +19,11 @@
             <h1>Inserir Receita</h1>
         </div>
         <div class="row black-text">
-            <form action="/public/index.php?action=createProduct" method="POST" class="col s12">
+            <form action="/public/index.php?action=createOrder" method="POST" class="col s12">
                 
                 <div class="input-field col s8">
-                    <input placeholder="informe a descrição" id="description" name="description" type="text" class="validate">
-                    <label for="description">Descrição</label>
-                </div>
-                
-                <div class="input-field col s8">
-                    <input placeholder="Informe a data de Vencimento" id="unitPrice" name="unitPrice" type="number" class="validate">
-                    <label for="unitPrice">Preço Unitário</label>
-                </div>
-
-                <div class="input-field col s8">
-                    <input placeholder="informe o estoque" id="stock" name="stock" type="number" class="validate">
-                    <label for="stock">Estoque</label>
+                    <input placeholder="informe a data" id="date" name="date" type="date" class="validate">
+                    <label for="date">Data</label>
                 </div>
                
                 <div class="brown lighten-3 center col s12">
