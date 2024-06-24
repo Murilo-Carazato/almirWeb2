@@ -84,7 +84,7 @@ class ProductController
         $result = $this->productBll->Delete($id);
 
         if ($result) {
-            header("Location: /resources/views/product/products.php");
+            header("Location: /resources/views/menu.php");
         } else {
             echo "Erro ao deletar produto";
         }

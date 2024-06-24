@@ -1,8 +1,17 @@
 <?php require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Bll\ProductBll;
+
 $bllProduct = new ProductBll();
 $products = $bllProduct->Select();
+
+
+function remove(int $id){
+    $bllProduct = new ProductBll();
+    var_dump($id);
+    die();
+    $bllProduct->Delete($id);
+}
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +48,9 @@ $products = $bllProduct->Select();
                 return 0;
             }
             return this.cart.length;
+        },
+        deleteProduct(id){
+            window.location.href = `http://localhost:8000/resources/views/product/deleteProduct.php?id=${id}`;
         },
         removeItemFromCart(index){
             // remove índice recebido do parâmetro da lista de compras
@@ -166,7 +178,7 @@ $products = $bllProduct->Select();
                 <!-- Cards de produtos -->
                 <div class="grid grid-cols-3 gap-6">
                     <?php foreach ($products as $product) : ?>
-                        <div class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                        <div class="relative w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                             <a href="#">
                                 <img class="p-5 rounded-t-lg" src="https://cdn.pixabay.com/photo/2016/11/19/18/06/feet-1840619_1280.jpg" alt="product image" />
                             </a>
@@ -204,6 +216,20 @@ $products = $bllProduct->Select();
                                 })" class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800">Comprar</button>
                                 </div>
                             </div>
+                            <?php
+                            if (isset($_SESSION['currentUser'])) {
+                                $user = unserialize($_SESSION['currentUser']);
+                                $type = $user->getType();
+                            }
+                            if ($type == 'admin') { ?>
+                                <div class="absolute hover:cursor-pointer inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900" @click="deleteProduct(<?php echo $product->getId() ?>)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash">
+                                        <path d="M3 6h18" />
+                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                    </svg>
+                                </div>
+                            <?php } ?>
                         </div>
                     <?php endforeach ?>
                 </div>
