@@ -1,10 +1,8 @@
-<?php
-require_once __DIR__ . '/../../vendor/autoload.php';
+<?php require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Bll\ProductBll;
 
 $bllProduct = new ProductBll();
-
 $products = $bllProduct->Select();
 ?>
 
@@ -15,12 +13,40 @@ $products = $bllProduct->Select();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../../public/build/output.css" rel="stylesheet">
-
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <title>Inicio</title>
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-950 overflow-x-hidden transition-all">
-    <div class="min-h-screen">
+    <div class="min-h-screen" x-data="{
+        cart:[], 
+        init(){
+            this.cart = JSON.parse(localStorage.getItem('cart'));
+            if(!this.cart){
+                this.cart = [];
+            }
+        },
+        isOpen: false,
+        addToCart(product){
+            this.cart.push(product);
+            localStorage.setItem('cart',JSON.stringify(this.cart));
+        },
+        clearCart(){
+            this.cart = [];
+            localStorage.removeItem('cart');
+        },
+        getSizeOfCart(){
+            if(!this.cart){
+                return 0;
+            }
+            return this.cart.length;
+        },
+        removeItemFromCart(index){
+            // remove índice recebido do parâmetro da lista de compras
+            this.cart.splice(index, 1);
+            // sobrescreve localStorage com nova lista de compras
+            localStorage.setItem('cart',JSON.stringify(this.cart));
+        }}">
         <div class="antialiased">
             <?php include('resources\views\components\navbar.html') ?>
             <div class="bg-white border-gray-200 shadow-sm border-y dark:bg-gray-800 dark:border-gray-600">
@@ -81,7 +107,7 @@ $products = $bllProduct->Select();
                 </div>
             </div>
             <section class="w-full max-w-7xl lg:px-8 sm:px-6 mx-auto mb-10">
-                <!-- SearchBar de produos -->
+                <!-- SearchBar de produtos -->
                 <div class="flex-row flex justify-between mt-10 gap-40 w-full py-2 mb-5">
                     <form class="w-full">
                         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
@@ -95,15 +121,46 @@ $products = $bllProduct->Select();
                             <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800">Pesquisar</button>
                         </div>
                     </form>
-                    <button type="button" class="relative inline-flex items-center px-5 text-sm font-medium text-white bg-indigo-700 rounded-lg hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart">
-                            <circle cx="8" cy="21" r="1" />
-                            <circle cx="19" cy="21" r="1" />
-                            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-                        </svg>
+                    <div>
+                        <!-- Dropdown toggle button -->
+                        <button @click="isOpen = !isOpen" class="relative inline-flex items-center px-5 h-full text-sm font-medium text-white bg-indigo-700 rounded-lg hover:bg-indigo-800 focus:ring-4 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart">
+                                <circle cx="8" cy="21" r="1" />
+                                <circle cx="19" cy="21" r="1" />
+                                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+                            </svg>
+                            <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900" x-text="getSizeOfCart()"></div>
+                        </button>
 
-                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">8</div>
-                    </button>
+                        <!-- Dropdown Carrinho -->
+                        <div class="absolute right-0 z-20 w-64 mt-2 overflow-hidden origin-top-right bg-white rounded-md shadow-lg sm:w-80 dark:bg-gray-800" x-show="isOpen" @click.away="isOpen = !isOpen" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90">
+                            <div class="py-2">
+                                <template x-for="(item, index) in cart" :key="index">
+                                    <div class="flex justify-between items-center px-4 py-3 -mx-2 transition-all duration-300 transform border-b border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 dark:border-gray-700">
+                                        <div class="flex justify-evenly">
+                                            <img class="flex-shrink-0 object-cover w-8 h-8 mx-1 rounded-full" :src="item.image" alt="avatar" />
+                                            <div class="flex flex-col">
+                                                <span class=" mx-2 text-gray-600 dark:text-white text-lg font-bold" x-text="item.title"></span>
+                                                <span class="mx-2  text-blue-500 text-sm" x-text="item.price"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Delete item do carrinho -->
+                                        <button @click="removeItemFromCart(index)" class="text-red-500 hover:text-white border border-red-500 hover:bg-red-500 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2">
+                                                <path d="M3 6h18" />
+                                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                                <line x1="10" x2="10" y1="11" y2="17" />
+                                                <line x1="14" x2="14" y1="11" y2="17" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </template>
+                            </div>
+                            <button class="block w-full py-2 font-bold text-center text-white bg-red-500 dark:bg-red-700 hover:dark:bg-red-800 hover:bg-red-600 hover:cursor-pointer" @click="clearCart(); isOpen = false">Limpar carrinho</button>
+                            <button class="block w-full py-2 font-bold text-center bg-indigo-700 hover:bg-indigo-800 text-gray-200 hover:cursor-pointer">Finalizar compra</button>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -140,7 +197,12 @@ $products = $bllProduct->Select();
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <span class="text-3xl font-bold text-gray-900 dark:text-white"><?php echo '$' . $product->getUnitPrice() ?></span>
-                                    <a href="#" class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800">Comprar</a>
+                                    <button @click="addToCart({
+                                        'id': <?php echo $product->getId() ?>,
+                                        'image': 'https:cdn.pixabay.com/photo/2016/11/19/18/06/feet-1840619_1280.jpg',
+                                        'title': '<?php echo $product->getDescription() ?>',
+                                        'price': '<?php echo $product->getUnitPrice() ?>'
+                                })" class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800">Comprar</button>
                                 </div>
                             </div>
                         </div>
