@@ -18,14 +18,13 @@ class ProductController
         $this->productBll = new ProductBll();
         $this->sessionController = new SessionController();
     }
-
     private function validateProductInput(ProductModel $product)
     {
         if (isset($_POST['description']) && !empty($_POST['description'])) {
             $product->setDescription($_POST['description']);
         }
-        if (isset($_POST['unitPrice']) && is_numeric($_POST['unitPrice'])) {
-            $product->setUnitPrice($_POST['unitPrice']);
+        if (isset($_POST['unitPrice'])) {
+            $product->setUnitPrice((float)$_POST['unitPrice']);
         }
         if (isset($_POST['stock']) && is_numeric($_POST['stock'])) {
             $product->setStock($_POST['stock']);
@@ -55,7 +54,6 @@ class ProductController
         $products = $this->productBll->Select();
 
         return $products;
-        
     }
 
     public function show($id)
