@@ -35,6 +35,8 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `almirweb`.`order` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `date` DATE NOT NULL,
+  `total_price` FLOAT NOT NULL,
+  `status` VARCHAR(45) NOT NULL,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_pedido_user1_idx` (`user_id` ASC) VISIBLE,
@@ -53,7 +55,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `almirweb`.`product` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `description` VARCHAR(85) NOT NULL,
-  `unit_price` FLOAT NOT NULL,
+  `price` FLOAT NOT NULL,
   `stock` INT NOT NULL,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -74,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `almirweb`.`cart` (
   `order_id` INT NOT NULL,
   `product_id` INT NOT NULL,
   `quantity` INT NOT NULL,
-  `total_price` FLOAT NOT NULL,
+  `unit_price` FLOAT NOT NULL,
   PRIMARY KEY (`order_id`, `product_id`),
   INDEX `fk_order_has_product_product1_idx` (`product_id` ASC) VISIBLE,
   INDEX `fk_order_has_product_order1_idx` (`order_id` ASC) VISIBLE,

@@ -39,6 +39,7 @@ class AuthController
             $user->setId($result['id']);
             $user->setName($result['name']);
             $user->setPassword($result['password']);
+            $user->setType("client");
 
             $_SESSION['currentUser'] =  serialize($user);
             header("location: /resources/views/menu.php");
