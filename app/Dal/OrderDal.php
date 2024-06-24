@@ -79,10 +79,6 @@ class OrderDal
         $stmt->bindParam(':date', $date);
         $stmt->bindParam(':user_id', $userId);
 
-        var_dump($date);
-        var_dump($stmt);
-        var_dump($userId);
-        die();
         $stmt->execute();
 
         Connection::disconnect();
