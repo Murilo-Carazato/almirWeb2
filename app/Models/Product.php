@@ -49,7 +49,7 @@ class Product
       return $this->unitPrice;
    }
 
-   public function setUnitPrice(float $unitPrice)
+   public function setUnitPrice($unitPrice)
    {
       $this->unitPrice = $unitPrice;
    }
