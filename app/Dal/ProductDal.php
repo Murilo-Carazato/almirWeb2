@@ -34,6 +34,39 @@ class ProductDal
         return $products;
     }
 
+    public function SelectById(string $id)
+    {
+        $pdo = Connection::connect();
+        $sql = "SELECT * FROM product WHERE id = :id;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        Connection::disconnect();
+
+        $product = new ProductModel();
+        $product->setId($data['id']);
+        $product->setDescription($data['description']);
+        $product->setUnitPrice($data['unit_price']);
+        $product->setStock($data['stock']);
+        $product->setUserId($data['user_id']);
+
+        return $product;
+    }
+
+    public function Update(ProductModel $product)
+    {
+        $sql = "UPDATE product SET description = ?, unit_price = ?, stock = ? WHERE id = ?;";
+
+        $pdo = Connection::connect();
+        $query = $pdo->prepare($sql);
+        $result = $query->execute(array($product->getDescription(), $product->getUnitPrice(), $product->getStock(), $product->getId()));
+        Connection::disconnect();
+
+        return $result;
+    }
+
     public function insert(ProductModel $product)
     {
         $pdo = Connection::connect();
@@ -54,5 +87,17 @@ class ProductDal
         Connection::disconnect();
 
         return $product;
+    }
+
+    public function Delete(int $id)
+    {
+        $sql = "delete from product WHERE id = ?;";
+
+        $pdo = Connection::connect();
+        $query = $pdo->prepare($sql);
+        $result = $query->execute(array($id));
+        Connection::disconnect();
+
+        return $result;
     }
 }

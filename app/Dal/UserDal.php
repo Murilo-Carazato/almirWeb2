@@ -33,13 +33,14 @@ class UserDal
             $user->setId($line['id']);
             $user->setName($line['name']);
             $user->setPassword($line['password']);
+            $user->setType($line['type']);
             $users[] = $user;
         }
 
         return $users;
     }
 
-    public function SelectWhereNameEquals(string $name)
+    public function SelectByName(string $name)
     {
         $pdo = Connection::connect();
         $sql = "SELECT * FROM user WHERE name = :name;";
@@ -56,14 +57,18 @@ class UserDal
     public function insert(UserModel $user)
     {
         $pdo = Connection::connect();
-        $sql = "INSERT INTO user (name, password) VALUES (:name, :password)";
+        $sql = "INSERT INTO user (name, password, type) VALUES (:name, :password, :type)";
         $stmt = $pdo->prepare($sql);
 
         $name = $user->getName();
         $password = $user->getPassword();
 
+        $type = $user->getType();
+
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':password', $password);
+
+        $stmt->bindParam(':type', $type);
 
         $stmt->execute();
         $lastUserId = $pdo->lastInsertId();
