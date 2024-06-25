@@ -7,9 +7,8 @@ use App\Controllers\SessionController;
 $orderController = new OrderController();
 $sessionController = new SessionController();
 
-$data = $orderController->index();
+$orders = $orderController->index();
 $userId = $sessionController->getCurrentUserId();
-$orders = $data;
 ?>
 
 <!DOCTYPE html>
@@ -29,14 +28,20 @@ $orders = $data;
         <tr>
             <th>ID</th>
             <th>Data</th>
+            <th>Quantidade</th>
+            <th>Preço total</th>
             <th>IdUser</th>
+            <th>IdProduct</th>
         </tr>
 
         <?php foreach ($orders as $order) { ?>
             <tr>
                 <td><?php echo $order->getId(); ?></td>
-                <td><?php echo $order->getDate()->format('d-m-Y'); ?></td>
+                <td><?php echo $order->getDate()->format('d-m-Y H:i:s'); ?></td>
+                <td><?php echo $order->getQuantity(); ?></td>
+                <td><?php echo $order->getTotalPrice(); ?></td>
                 <td><?php echo $order->getUserId(); ?></td>
+                <td><?php echo $order->getProductId(); ?></td>
 
                 <?php if ($userId == $order->getUserId()) { ?>
                     <td>

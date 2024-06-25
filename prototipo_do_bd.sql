@@ -24,25 +24,7 @@ CREATE TABLE IF NOT EXISTS `almirweb`.`user` (
   `type` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 11
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `almirweb`.`order`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `almirweb`.`order` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `date` DATE NOT NULL,
-  `user_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_pedido_user1_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_pedido_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `almirweb`.`user` (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -68,23 +50,26 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `almirweb`.`cart`
+-- Table `almirweb`.`order`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `almirweb`.`cart` (
-  `order_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `almirweb`.`order` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `product_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   `quantity` INT NOT NULL,
   `total_price` FLOAT NOT NULL,
-  PRIMARY KEY (`order_id`, `product_id`),
+  `date` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
   INDEX `fk_order_has_product_product1_idx` (`product_id` ASC) VISIBLE,
-  INDEX `fk_order_has_product_order1_idx` (`order_id` ASC) VISIBLE,
-  CONSTRAINT `fk_order_has_product_order1`
-    FOREIGN KEY (`order_id`)
-    REFERENCES `almirweb`.`order` (`id`),
+  INDEX `fk_cart_user1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_cart_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `almirweb`.`user` (`id`),
   CONSTRAINT `fk_order_has_product_product1`
     FOREIGN KEY (`product_id`)
     REFERENCES `almirweb`.`product` (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 

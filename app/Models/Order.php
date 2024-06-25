@@ -7,9 +7,12 @@ use DateTime;
 class Order
 {
    private ?int $id;
-   private ?DateTime $date;
    private ?int $userId;
-
+   private ?int $productId;
+   private ?int $quantity;
+   private ?float $totalPrice;
+   private ?DateTime $date;
+   
    public function __construct()
    {
    }
@@ -24,6 +27,26 @@ class Order
       $this->id = $id;
    }
 
+   public function getUserId()
+   {
+      return $this->userId;
+   }
+
+   public function setUserId(int $userId)
+   {
+      $this->userId = $userId;
+   }
+
+   public function getProductId()
+   {
+      return $this->productId;
+   }
+
+   public function setProductId(int $productId)
+   {
+      $this->productId = $productId;
+   }
+
    public function getDate()
    {
       return $this->date;
@@ -34,13 +57,23 @@ class Order
       $this->date = $date;
    }
 
-   public function getUserId()
+   public function getQuantity()
    {
-      return $this->userId;
+      return $this->quantity;
    }
 
-   public function setUserId(int $userId)
+   public function setQuantity(int $quantity)
    {
-      $this->userId = $userId;
+      $this->quantity = $quantity;
+   }
+
+   public function getTotalPrice()
+   {
+      return $this->totalPrice;
+   }
+
+   public function setTotalPrice(float $totalPrice)
+   {
+      $this->totalPrice = $totalPrice;
    }
 }

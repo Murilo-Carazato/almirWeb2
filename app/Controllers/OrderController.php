@@ -6,7 +6,9 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Controllers\SessionController;
 use App\Bll\OrderBll;
+use App\Bll\ProductBll;
 use App\Models\Order as OrderModel;
+use App\Models\Product;
 use DateTime;
 
 class OrderController
@@ -26,7 +28,23 @@ class OrderController
             $dateString = $_POST['date'];
             $date = new DateTime($dateString);
             $order->setDate($date);
+        } else {
+            date_default_timezone_set('America/Sao_Paulo');
+            $dateString = date("Y-m-d H:i:s");
+            $date = new DateTime($dateString);
+            $order->setDate($date);
         }
+
+        if (isset($_POST['quantity']) && !empty($_POST['quantity'])) {
+            $quantity = $_POST['quantity'];
+            $order->setQuantity($quantity);
+        }
+
+        if (isset($_POST['productId']) && !empty($_POST['productId'])) {
+            $productId = $_POST['productId'];
+            $order->setProductId($productId);
+        }
+
     }
 
     //CRUD
@@ -36,7 +54,18 @@ class OrderController
         $this->validateOrderInput($order);
         $userId = $this->sessionController->getCurrentUserId();
         $order->setUserId($userId);
+
+        $productId = $order->getProductId();
+        $productBll = new ProductBll();
+        $product = $productBll->SelectById($productId);
+        
+        $order->setTotalPrice( $order->getQuantity() * $product->getUnitPrice());
+        
         $result = $this->orderBll->insert($order);
+
+        $product->setStock( $product->getStock() - $order->getQuantity());
+
+        $productBll->update($product);
 
         if ($result instanceof OrderModel) {
             header("Location: /resources/views/order/orders.php");
