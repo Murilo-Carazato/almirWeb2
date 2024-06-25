@@ -145,13 +145,13 @@ if ($_GET['search']) {
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                 </svg>
                             </div>
-                            <input type="search" id="default-search" name="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pesquise um produto..." value="<?php echo (isset($search) ? $search : "")  ?>" />
+                            <input type="search" id="default-search" name="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pesquise um produto..." value="<?php  if(isset($search)) {echo$search;} else{echo"";}  ?>" />
                             <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800">Pesquisar</button>
                         </div>
                     </form>
                     <div>
                         <!-- Dropdown toggle button -->
-                        <button @click="isOpen = !isOpen" class="relative inline-flex items-center px-5 h-full text-sm font-medium text-white bg-indigo-700 rounded-lg hover:bg-indigo-800 focus:ring-4 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800">
+                        <button @click="cart.length>0 ? isOpen = !isOpen : ''" class="relative inline-flex items-center px-5 h-full text-sm font-medium text-white bg-indigo-700 rounded-lg hover:bg-indigo-800 focus:ring-4 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart">
                                 <circle cx="8" cy="21" r="1" />
                                 <circle cx="19" cy="21" r="1" />
@@ -186,7 +186,7 @@ if ($_GET['search']) {
                                 </template>
                             </div>
                             <button class="block w-full py-2 font-bold text-center text-white bg-red-500 dark:bg-red-700 hover:dark:bg-red-800 hover:bg-red-600 hover:cursor-pointer" @click="clearCart(); isOpen = false">Limpar carrinho</button>
-                            <button class="block w-full py-2 font-bold text-center bg-indigo-700 hover:bg-indigo-800 text-gray-200 hover:cursor-pointer">Finalizar compra</button>
+                            <a class="block w-full py-2 font-bold text-center bg-indigo-700 hover:bg-indigo-800 text-gray-200 hover:cursor-pointer" href="/resources/views/order/send_order.php">Finalizar compra</a>
                         </div>
                     </div>
                 </div>
