@@ -68,10 +68,13 @@ class OrderBll
 
     private function validateOrderInput($data, Order $order)
     {
+        // $data['date'] = $data['date'] . " 00:00:00"; //hardcode
+
         if (isset($data['date']) && !empty($data['date'])) {
             $date = new DateTime($data['date']);
-            $order->setDate($date);
-        } else {
+            $order->setDate($date); 
+            echo "teste2";
+        }else {
             date_default_timezone_set('America/Sao_Paulo');
             $dateString = date("Y-m-d H:i:s");
             $date = new DateTime($dateString);
