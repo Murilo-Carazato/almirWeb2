@@ -3,7 +3,7 @@
 use App\Bll\ProductBll;
 
 $bllProduct = new ProductBll();
-$products = $bllProduct->Select();
+$products = $bllProduct->getAllProducts();
 
 if (isset($_SESSION['currentUser'])) {
     $user = unserialize($_SESSION['currentUser']);
