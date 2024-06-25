@@ -35,6 +35,7 @@ class OrderBll
         if ($result instanceof Order) {
             $productDal = new ProductDal(); //usar dal ou bll? bll tem somente o método de update específico para o formulário
             $product->setStock($product->getStock() - $order->getQuantity());
+
             $productDal->update($product);
         }
 
@@ -53,24 +54,56 @@ class OrderBll
 
     public function updateOrder($id, $orderData, $userId)
     {
+        $lastQuantity = $this->orderDal->selectById($id)->getQuantity();
+
         $order = new Order();
         $order->setId($id);
         $this->validateOrderInput($orderData, $order);
+        $newQuantity =  $order->getQuantity();
+
+        $productId = $order->getProductId();
+        $product = $this->productBll->getProductById($productId);
+
+        if ($lastQuantity > $newQuantity) {
+            $product->setStock($product->getStock() + ($lastQuantity - $newQuantity));
+        } else {
+            $product->setStock($product->getStock() - ($newQuantity - $lastQuantity));
+        }
+
+        $order->setTotalPrice($newQuantity * $product->getUnitPrice());
+
+        $productDal = new ProductDal();
+        $productDal->update($product);
+
         $order->setUserId($userId);
 
-        return $this->orderDal->update($order);
+
+        $result = $this->orderDal->update($order);
+
+        return $result;
     }
 
     public function deleteOrder($id)
     {
+        $order = $this->orderDal->selectById($id);
+        $productId = $order->getProductId();
+        $product = $this->productBll->getProductById($productId);
+        $product->setStock($product->getStock() + $order->getQuantity());
+
+        $productDal = new ProductDal();
+        $productDal->update($product);
+
         return $this->orderDal->delete($id);
     }
 
     private function validateOrderInput($data, Order $order)
     {
+        // $data['date'] = $data['date'] . " 00:00:00"; //hardcode
+
         if (isset($data['date']) && !empty($data['date'])) {
             $date = new DateTime($data['date']);
             $order->setDate($date);
+            echo "teste2";
         } else {
             date_default_timezone_set('America/Sao_Paulo');
             $dateString = date("Y-m-d H:i:s");

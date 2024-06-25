@@ -21,7 +21,7 @@ if (isset($_GET['id'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Produto</title>
+    <title>Detalhes do Pedido</title>
 </head>
 
 <body>
@@ -29,15 +29,19 @@ if (isset($_GET['id'])) {
     <table class="highlight">
         <tr>
             <th>ID</th>
-            <th>Descrição</th>
-            <th>Preço Unitário</th>
-            <th>Estoque</th>
+            <th>Data</th>
+            <th>Quantidade</th>
+            <th>Preço Total</th>
+            <th>IdProduct</th>
             <th>IdUser</th>
         </tr>
 
         <tr>
             <td><?php echo $order->getId(); ?></td>
-            <td><?php echo $order->getDate(); ?></td>
+            <td><?php echo $order->getDate()->format('d-m-Y H:i:s'); ?></td>
+            <td><?php echo $order->getQuantity(); ?></td>
+            <td><?php echo $order->getTotalPrice(); ?></td>
+            <td><?php echo $order->getProductId(); ?></td>
             <td><?php echo $order->getUserId(); ?></td>
 
             <td>

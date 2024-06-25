@@ -29,10 +29,10 @@ class OrderDal
             $date = new DateTime($line['date']);
             $order->setDate($date);
 
-            $order->setProductId($line['product_id']);
-            $order->setUserId($line['user_id']);
             $order->setQuantity($line['quantity']);
             $order->setTotalPrice($line['total_price']);
+            $order->setProductId($line['product_id']);
+            $order->setUserId($line['user_id']);
             $orders[] = $order;
         }
 
@@ -52,19 +52,26 @@ class OrderDal
 
         $order = new OrderModel();
         $order->setId($data['id']);
-        $order->setDate($data['date']);
+
+        $date = new DateTime($data['date']);
+        $order->setDate($date);
+
+        $order->setQuantity($data['quantity']);
+        $order->setTotalPrice($data['total_price']);
         $order->setUserId($data['user_id']);
+        $order->setProductId($data['product_id']);
 
         return $order;
     }
 
     public function Update(OrderModel $order)
     {
-        $sql = "UPDATE almirweb.order SET date = ?, user_id = ? WHERE id = ?;";
+        $sql = "UPDATE almirweb.order SET date = ?, product_id = ?, quantity = ?, total_price = ? WHERE id = ?;";
 
         $pdo = Connection::connect();
         $query = $pdo->prepare($sql);
-        $result = $query->execute(array($order->getDate(), $order->getUserId(), $order->getId()));
+
+        $result = $query->execute(array($order->getDate()->format('Y-m-d H:i:s'), $order->getProductId(), $order->getQuantity(), $order->getTotalPrice() ,$order->getId()));
         Connection::disconnect();
 
         return $result;
@@ -73,11 +80,10 @@ class OrderDal
     public function insert(OrderModel $order)
     {
         $pdo = Connection::connect();
-        // $sql = "INSERT INTO almirweb.order (date, user_id) VALUES (:date, :user_id)";
         $sql = "INSERT INTO almirweb.order (product_id, user_id, quantity, total_price, date) VALUES (:product_id, :user_id, :quantity, :total_price, :date);";
 
         $stmt = $pdo->prepare($sql);
-        
+
         $userId = $order->getUserId();
         $productId = $order->getProductId();
         $quantity = $order->getQuantity();
@@ -99,7 +105,7 @@ class OrderDal
 
     public function Delete(int $id)
     {
-        $sql = "delete from order WHERE id = ?;";
+        $sql = "DELETE FROM almirweb.order WHERE id = ?;";
 
         $pdo = Connection::connect();
         $query = $pdo->prepare($sql);
