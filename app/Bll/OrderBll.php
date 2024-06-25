@@ -4,6 +4,7 @@ namespace App\Bll;
 
 use App\Models\Order;
 use App\Dal\OrderDal;
+use App\Dal\ProductDal;
 use App\Bll\ProductBll;
 use DateTime;
 
@@ -31,9 +32,10 @@ class OrderBll
 
         $result = $this->orderDal->insert($order);
 
-        if ($result) {
+        if ($result instanceof Order) {
+            $productDal = new ProductDal(); //usar dal ou bll? bll tem somente o método de update específico para o formulário
             $product->setStock($product->getStock() - $order->getQuantity());
-            $this->productBll->updateProduct($productId, $product, $userId);
+            $productDal->update($product);
         }
 
         return $result;
@@ -70,7 +72,9 @@ class OrderBll
             $date = new DateTime($data['date']);
             $order->setDate($date);
         } else {
-            $date = new DateTime();
+            date_default_timezone_set('America/Sao_Paulo');
+            $dateString = date("Y-m-d H:i:s");
+            $date = new DateTime($dateString);
             $order->setDate($date);
         }
 

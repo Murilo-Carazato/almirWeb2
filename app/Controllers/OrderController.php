@@ -26,6 +26,8 @@ class OrderController
     public function create()
     {
         $orderData = $_POST;
+        // var_dump($orderData);
+
         $userId = $this->sessionController->getCurrentUserId();
         $result = $this->orderBll->createOrder($orderData, $userId);
 
