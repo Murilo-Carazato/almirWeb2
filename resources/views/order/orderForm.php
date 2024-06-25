@@ -49,7 +49,7 @@ use App\Models\Order;
 
                         <?php
                         $bllProduct = new ProductBll();
-                        $products = $bllProduct->Select();
+                        $products = $bllProduct->getAllProducts();
 
                         foreach ($products as $Product) { ?>
 

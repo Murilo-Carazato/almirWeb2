@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use App\Controllers\SessionController;
 use App\Bll\ProductBll;
 use App\Models\Product as ProductModel;
+use App\Controllers\SessionController;
 
 class ProductController
 {
@@ -18,28 +18,12 @@ class ProductController
         $this->productBll = new ProductBll();
         $this->sessionController = new SessionController();
     }
-    private function validateProductInput(ProductModel $product)
-    {
-        if (isset($_POST['description']) && !empty($_POST['description'])) {
-            $product->setDescription($_POST['description']);
-        }
-        if (isset($_POST['unitPrice'])) {
-            $product->setUnitPrice((float)$_POST['unitPrice']);
-        }
-        if (isset($_POST['stock']) && is_numeric($_POST['stock'])) {
-            $product->setStock($_POST['stock']);
-        }
-    }
 
-    //CRUD
     public function create()
     {
-        $product = new ProductModel();
-        $this->validateProductInput($product);
+        $productData = $_POST;
         $userId = $this->sessionController->getCurrentUserId();
-
-        $product->setUserId($userId);
-        $result = $this->productBll->insert($product);
+        $result = $this->productBll->createProduct($productData, $userId);
 
         if ($result instanceof ProductModel) {
             header("Location: /resources/views/menu.php");
@@ -50,27 +34,28 @@ class ProductController
 
     public function index()
     {
-        $userId = $this->sessionController->getCurrentUserId();
-        $products = $this->productBll->Select();
-
+        $products = $this->productBll->getAllProducts();
         return $products;
     }
 
     public function show($id)
     {
-        $this->sessionController->getCurrentUserId();
-        return $this->productBll->SelectById($id);
+        return $this->productBll->getProductById($id);
     }
 
     public function update($id)
     {
-        $product = new ProductModel();
-        $product->setId($id);
-        $this->validateProductInput($product);
-        $userId = $this->sessionController->getCurrentUserId();
+        
+        $unitPrice = str_replace("R$", "", $_POST["unitPrice"]);
+        $unitPrice = preg_replace("/[^\d.,]/", "", $unitPrice);
+        $unitPrice = str_replace(",", ".", $unitPrice);
 
-        $product->setUserId($userId);
-        $result = $this->productBll->Update($product);
+        $_POST["unitPrice"] = (float)$unitPrice; 
+        
+        $productData = $_POST;
+
+        $userId = $this->sessionController->getCurrentUserId();
+        $result = $this->productBll->updateProduct($id, $productData, $userId);
 
         if ($result) {
             header("Location: /resources/views/menu.php");
@@ -81,7 +66,7 @@ class ProductController
 
     public function destroy($id)
     {
-        $result = $this->productBll->Delete($id);
+        $result = $this->productBll->deleteProduct($id);
 
         if ($result) {
             header("Location: /resources/views/menu.php");

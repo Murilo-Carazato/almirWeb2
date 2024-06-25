@@ -2,43 +2,62 @@
 
 namespace App\Bll;
 
+use App\Models\Product;
 use App\Dal\ProductDal;
-use App\Models\Product as ProductModel;
 
 class ProductBll
 {
-    public function Select()
-    {
-        $dalProduct = new ProductDal();
+    private $productDal;
 
-        return $dalProduct->Select();
+    public function __construct()
+    {
+        $this->productDal = new ProductDal();
     }
 
-    public function SelectById(int $id)
+    public function createProduct($productData, $userId)
     {
-        $dalProduct = new ProductDal();
+        $product = new Product();
+        $this->validateProductInput($productData, $product);
+        $product->setUserId($userId);
 
-        return $dalProduct->SelectById($id);
+        return $this->productDal->insert($product);
     }
 
-    public function Update(ProductModel $product)
+    public function getAllProducts()
     {
-        $dalProduct = new ProductDal();
-
-        return $dalProduct->Update($product);
+        return $this->productDal->select();
     }
 
-    public function Insert(ProductModel $product)
+    public function getProductById($id)
     {
-        $dalProduct = new ProductDal();
-
-        return $dalProduct->Insert($product);
+        return $this->productDal->selectById($id);
     }
 
-    public function Delete(int $id)
+    public function updateProduct($id, $productData, $userId)
     {
-        $dalProduct = new ProductDal();
+        $product = new Product();
+        $product->setId($id);
+        $this->validateProductInput($productData, $product);
+        $product->setUserId($userId);
 
-        return $dalProduct->Delete($id);
+        return $this->productDal->update($product);
+    }
+
+    public function deleteProduct($id)
+    {
+        return $this->productDal->delete($id);
+    }
+
+    private function validateProductInput($data, Product $product)
+    {
+        if (isset($data['description']) && !empty($data['description'])) {
+            $product->setDescription($data['description']);
+        }
+        if (isset($data['unitPrice'])) {
+            $product->setUnitPrice((float)$data['unitPrice']);
+        }
+        if (isset($data['stock']) && is_numeric($data['stock'])) {
+            $product->setStock($data['stock']);
+        }
     }
 }

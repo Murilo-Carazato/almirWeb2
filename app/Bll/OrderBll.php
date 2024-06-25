@@ -2,43 +2,84 @@
 
 namespace App\Bll;
 
+use App\Models\Order;
 use App\Dal\OrderDal;
-use App\Models\Order as OrderModel;
+use App\Bll\ProductBll;
+use DateTime;
 
 class OrderBll
 {
-    public function Select()
-    {
-        $dalOrder = new OrderDal();
+    private $orderDal;
+    private $productBll;
 
-        return $dalOrder->Select();
+    public function __construct()
+    {
+        $this->orderDal = new OrderDal();
+        $this->productBll = new ProductBll();
     }
 
-    public function SelectById(int $id)
+    public function createOrder($orderData, $userId)
     {
-        $dalOrder = new OrderDal();
+        $order = new Order();
+        $this->validateOrderInput($orderData, $order);
+        $order->setUserId($userId);
 
-        return $dalOrder->SelectById($id);
+        $productId = $order->getProductId();
+        $product = $this->productBll->getProductById($productId);
+
+        $order->setTotalPrice($order->getQuantity() * $product->getUnitPrice());
+
+        $result = $this->orderDal->insert($order);
+
+        if ($result) {
+            $product->setStock($product->getStock() - $order->getQuantity());
+            $this->productBll->updateProduct($productId, $product, $userId);
+        }
+
+        return $result;
     }
 
-    public function Update(OrderModel $order)
+    public function getAllOrders()
     {
-        $dalOrder = new OrderDal();
-
-        return $dalOrder->Update($order);
+        return $this->orderDal->select();
     }
 
-    public function Insert(OrderModel $order)
+    public function getOrderById($id)
     {
-        $dalOrder = new OrderDal();
-
-        return $dalOrder->Insert($order);
+        return $this->orderDal->selectById($id);
     }
 
-    public function Delete(int $id)
+    public function updateOrder($id, $orderData, $userId)
     {
-        $dalOrder = new OrderDal();
+        $order = new Order();
+        $order->setId($id);
+        $this->validateOrderInput($orderData, $order);
+        $order->setUserId($userId);
 
-        return $dalOrder->Delete($id);
+        return $this->orderDal->update($order);
+    }
+
+    public function deleteOrder($id)
+    {
+        return $this->orderDal->delete($id);
+    }
+
+    private function validateOrderInput($data, Order $order)
+    {
+        if (isset($data['date']) && !empty($data['date'])) {
+            $date = new DateTime($data['date']);
+            $order->setDate($date);
+        } else {
+            $date = new DateTime();
+            $order->setDate($date);
+        }
+
+        if (isset($data['quantity']) && !empty($data['quantity'])) {
+            $order->setQuantity($data['quantity']);
+        }
+
+        if (isset($data['productId']) && !empty($data['productId'])) {
+            $order->setProductId($data['productId']);
+        }
     }
 }
