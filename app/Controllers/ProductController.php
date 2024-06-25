@@ -22,8 +22,11 @@ class ProductController
     public function create()
     {
         $productData = $_POST;
+        var_dump($productData);
+        
         $userId = $this->sessionController->getCurrentUserId();
         $result = $this->productBll->createProduct($productData, $userId);
+
 
         if ($result instanceof ProductModel) {
             header("Location: /resources/views/menu.php");
