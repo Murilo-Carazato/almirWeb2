@@ -11,7 +11,7 @@
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-950 overflow-x-hidden transition-all">
-    <?php include('resources\views\components\navbar.php') ?>
+    <?php include('.\resources\views\components\navbar.php') ?>
     <div class="md:mx-60 mx-20" x-data="{
         cart: [],
         init(){
@@ -47,7 +47,7 @@
                 <a class="relative flex flex-col items-center border border-gray-200 rounded-lg shadow-md md:flex-row md:h-32 md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                     <img class="bg-red-400 rounded-t-lg md:w-48 md:rounded-none md:rounded-s-lg" :src="item.image" alt="">
                     <div class="flex flex-row w-full justify-between p-4 leading-normal">
-                        <span class="font-normal text-gray-700 dark:text-gray-400" x-text="item.title"></span>
+                        <span class="font-normal text-gray-700 dark:text-gray-400 uppercase" x-text="item.title"></span>
                         <span class="font-bold text-gray-900 dark:text-gray-300" x-text="'$'+item.price"></span>
                     </div>
                     <div class="absolute hover:cursor-pointer inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900" @click="removeItemFromCart(index)">
@@ -67,9 +67,10 @@
                 <span x-text="totalPrice()"></span>
             </div>
         </div>
-        <button type="submit" class="block w-full md:max-w-xl bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 duration-300 text-white font-semibold mb-2">Finalizar</button>
+        <button type="submit" class="block mb-28 w-full md:max-w-xl bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 duration-300 text-white font-semibold">Finalizar</button>
 
     </div>
+    <?php include('.\resources\views\components\footer.html') ?>
     <script type="text/javascript" src="../../js/mode_switcher.js"></script>
 </body>
 

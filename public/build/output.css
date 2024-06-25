@@ -976,6 +976,10 @@ select {
   margin-bottom: 0.75rem;
 }
 
+.mb-28 {
+  margin-bottom: 7rem;
+}
+
 .block {
   display: block;
 }
