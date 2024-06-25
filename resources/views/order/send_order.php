@@ -30,12 +30,22 @@
             console.log(this.cart);
             let total = 0;
             for(let i=0; i<this.cart.length; i++){
-                total += parseFloat(this.cart[i].price);
+                total += parseFloat(this.cart[i].price*this.cart[i].quantity);
             }
                 return total.toLocaleString('pt-BR', {
                                         style: 'currency',
                                         currency: 'BRL',
               });
+        },
+        increase(index){
+            this.cart[index].quantity++;
+            localStorage.setItem('cart',JSON.stringify(this.cart));
+        },
+        decrease(index){
+            if(this.cart[index].quantity>1){
+                this.cart[index].quantity--;
+                localStorage.setItem('cart',JSON.stringify(this.cart));
+            }
         }
     }">
         <div class="mt-10 mb-5">
@@ -45,10 +55,20 @@
         <template x-for="(item, index) in cart" :key="index">
             <div class="mb-3">
                 <a class="relative flex flex-col items-center border border-gray-200 rounded-lg shadow-md md:flex-row md:h-32 md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                    <img class="bg-red-400 rounded-t-lg md:w-48 md:rounded-none md:rounded-s-lg" :src="item.image" alt="">
-                    <div class="flex flex-row w-full justify-between p-4 leading-normal">
+                    <img class="rounded-t-lg md:w-48 md:rounded-none md:rounded-s-lg" :src="item.image" alt="">
+                    <div class="flex flex-row w-full justify-between items-center p-4 leading-normal">
                         <span class="font-normal text-gray-700 dark:text-gray-400 uppercase" x-text="item.title"></span>
-                        <span class="font-bold text-gray-900 dark:text-gray-300" x-text="'$'+item.price"></span>
+                        <span class="font-bold text-gray-900 dark:text-gray-300" x-text="'$'+(item.price * parseFloat(item.quantity))"></span>
+                        <div class="flex flex-col gap-1 dark:text-white">
+                            <svg @click="increase(index)" class="bg-gray-200 dark:bg-gray-900" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up">
+                                <path d="m18 15-6-6-6 6" />
+                            </svg>
+                            <svg @click="decrease(index)" class="bg-gray-200 dark:bg-gray-900" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down">
+                                <path d="m6 9 6 6 6-6" />
+                            </svg>
+
+                        </div>
+
                     </div>
                     <div class="absolute hover:cursor-pointer inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900" @click="removeItemFromCart(index)">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash">
@@ -57,6 +77,7 @@
                             <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
                         </svg>
                     </div>
+                    <span class="absolute bottom-0 right-0 m-1 inline-flex items-center justify-center w-6 h-6 text-xs rounded-full bg-gray-200 dark:bg-gray-900 dark:text-white" x-text="item.quantity"></span>
                 </a>
             </div>
         </template>
