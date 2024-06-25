@@ -1,6 +1,7 @@
 <?php require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Bll\ProductBll;
+
 session_start();
 $bllProduct = new ProductBll();
 $products = $bllProduct->Select();
@@ -9,6 +10,21 @@ if (isset($_SESSION['currentUser'])) {
     $user = unserialize($_SESSION['currentUser']);
     $type = $user->getType();
 }
+
+if ($_GET['search']) {
+    $search = $_GET['search'];
+
+    $filteredProducts = [];
+
+    foreach ($products as $key => $product) {
+        if (str_contains(strtolower($product->getDescription()), strtolower($search))) {
+            $filteredProducts[] = $product;
+        }
+    }
+
+    $products = $filteredProducts;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +40,7 @@ if (isset($_SESSION['currentUser'])) {
 
 <body class="bg-gray-50 dark:bg-gray-950 overflow-x-hidden transition-all">
     <div class="min-h-screen">
-    <?php include_once('components/navbar.php') ?>
+        <?php include_once('components/navbar.php') ?>
         <div class="antialiased" x-data="{
         cart:[], 
         init(){
@@ -60,7 +76,7 @@ if (isset($_SESSION['currentUser'])) {
             // sobrescreve localStorage com nova lista de compras
             localStorage.setItem('cart',JSON.stringify(this.cart));
         }}">
-           
+
             <div class="bg-white border-gray-200 shadow-sm border-y dark:bg-gray-800 dark:border-gray-600">
                 <div class="grid max-w-screen-xl px-4 py-5 mx-auto text-sm text-gray-500 dark:text-gray-400 md:grid-cols-3 md:px-6">
                     <ul class="hidden mb-4 space-y-4 md:mb-0 md:block " aria-labelledby="mega-menu-full-image-button">
@@ -129,7 +145,7 @@ if (isset($_SESSION['currentUser'])) {
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                 </svg>
                             </div>
-                            <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pesquise um produto..." required />
+                            <input type="search" id="default-search" name="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pesquise um produto..." value="<?php echo (isset($search) ? $search : "")  ?>" />
                             <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800">Pesquisar</button>
                         </div>
                     </form>
