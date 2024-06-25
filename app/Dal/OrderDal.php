@@ -28,8 +28,11 @@ class OrderDal
 
             $date = new DateTime($line['date']);
             $order->setDate($date);
-            
+
+            $order->setProductId($line['product_id']);
             $order->setUserId($line['user_id']);
+            $order->setQuantity($line['quantity']);
+            $order->setTotalPrice($line['total_price']);
             $orders[] = $order;
         }
 
@@ -70,14 +73,22 @@ class OrderDal
     public function insert(OrderModel $order)
     {
         $pdo = Connection::connect();
-        $sql = "INSERT INTO almirweb.order (date, user_id) VALUES (:date, :user_id)";
+        // $sql = "INSERT INTO almirweb.order (date, user_id) VALUES (:date, :user_id)";
+        $sql = "INSERT INTO almirweb.order (product_id, user_id, quantity, total_price, date) VALUES (:product_id, :user_id, :quantity, :total_price, :date);";
+
         $stmt = $pdo->prepare($sql);
-
-        $date = $order->getDate()->format('Y-m-d');
+        
         $userId = $order->getUserId();
+        $productId = $order->getProductId();
+        $quantity = $order->getQuantity();
+        $totalPrice = $order->getTotalPrice();
+        $date = $order->getDate()->format('Y-m-d H:i:s');
 
-        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':product_id', $productId);
         $stmt->bindParam(':user_id', $userId);
+        $stmt->bindParam(':quantity', $quantity);
+        $stmt->bindParam(':total_price', $totalPrice);
+        $stmt->bindParam(':date', $date);
 
         $stmt->execute();
 
