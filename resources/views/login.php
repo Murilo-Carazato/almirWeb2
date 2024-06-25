@@ -23,7 +23,7 @@
 <body>
     <style>
         .login_img_section {
-            background: linear-gradient(rgba(2, 2, 2, .7), rgba(0, 0, 0, .7)), url(https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D) center center;
+            background: linear-gradient(rgba(2, 2, 2, .7), rgba(0, 0, 0, .7)), url(https://images.unsplash.com/photo-1524989899036-b1c54afba1c0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D) center center;
         }
     </style>
 
@@ -32,8 +32,8 @@
             justify-around items-center">
 
             <div class="w-full mx-auto px-20 flex-col items-center space-y-6">
-                <h1 class="text-white font-bold text-4xl font-sans">FinanGE</h1>
-                <p class="text-white mt-1">O seu gerente financeiro!</p>
+                <h1 class="text-white font-bold text-4xl font-sans">TrendyShop</h1>
+                <p class="text-white mt-1">O seu centro de compras!</p>
                 <div class="flex justify-center lg:justify-start mt-6">
                     <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
                         <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
