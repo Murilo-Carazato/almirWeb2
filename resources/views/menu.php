@@ -247,7 +247,8 @@ if ($_GET['search']) {
                                         'id': <?php echo $product->getId() ?>,
                                         'image': 'https:cdn.pixabay.com/photo/2016/11/19/18/06/feet-1840619_1280.jpg',
                                         'title': '<?php echo $product->getDescription() ?>',
-                                        'price': '<?php echo $product->getUnitPrice() ?>'
+                                        'price': '<?php echo $product->getUnitPrice() ?>',
+                                        'quantity': 1
                                 }); repeated=false" class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800">Comprar</button>
                                 </div>
                             </div>
