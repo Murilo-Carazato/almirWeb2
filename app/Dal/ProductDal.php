@@ -100,4 +100,25 @@ class ProductDal
 
         return $result;
     }
+
+    public function SelectByDescription(string $description)
+    {
+        $pdo = Connection::connect();
+        $sql = "SELECT * FROM product WHERE description = :description;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':description', $description);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        Connection::disconnect();
+
+        $product = new ProductModel();
+        $product->setId($data['id']);
+        $product->setDescription($data['description']);
+        $product->setUnitPrice($data['unit_price']);
+        $product->setStock($data['stock']);
+        $product->setUserId($data['user_id']);
+
+        return $product;
+    }
 }
