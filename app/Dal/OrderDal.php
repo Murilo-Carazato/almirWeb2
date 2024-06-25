@@ -66,12 +66,12 @@ class OrderDal
 
     public function Update(OrderModel $order)
     {
-        $sql = "UPDATE almirweb.order SET date = ?, product_id = ?, quantity = ? WHERE id = ?;";
+        $sql = "UPDATE almirweb.order SET date = ?, product_id = ?, quantity = ?, total_price = ? WHERE id = ?;";
 
         $pdo = Connection::connect();
         $query = $pdo->prepare($sql);
 
-        $result = $query->execute(array($order->getDate()->format('Y-m-d H:i:s'), $order->getProductId(), $order->getQuantity() ,$order->getId()));
+        $result = $query->execute(array($order->getDate()->format('Y-m-d H:i:s'), $order->getProductId(), $order->getQuantity(), $order->getTotalPrice() ,$order->getId()));
         Connection::disconnect();
 
         return $result;
