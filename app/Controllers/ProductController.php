@@ -77,4 +77,5 @@ class ProductController
             echo "Erro ao deletar produto";
         }
     }
+
 }
