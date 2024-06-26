@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Database\Connection;
 use App\Models\Order as OrderModel;
+use App\Models\OrderDetails;
 use DateTime;
 use PDO;
 
@@ -71,7 +72,7 @@ class OrderDal
         $pdo = Connection::connect();
         $query = $pdo->prepare($sql);
 
-        $result = $query->execute(array($order->getDate()->format('Y-m-d H:i:s'), $order->getProductId(), $order->getQuantity(), $order->getTotalPrice() ,$order->getId()));
+        $result = $query->execute(array($order->getDate()->format('Y-m-d H:i:s'), $order->getProductId(), $order->getQuantity(), $order->getTotalPrice(), $order->getId()));
         Connection::disconnect();
 
         return $result;
@@ -113,5 +114,47 @@ class OrderDal
         Connection::disconnect();
 
         return $result;
+    }
+
+    //PIVOT, AGRUPAMENTO, MULTIPLAS TABELAS
+    public function ShowOrderDetails()
+    {
+        $pdo = Connection::connect();
+        $sql = "SELECT 
+        u.id AS user_id,
+        u.name AS user_name,
+        p.description AS product_description,
+        COUNT(o.id) AS total_orders,
+        SUM(CASE WHEN u.type = 'admin' THEN o.total_price ELSE 0 END) AS total_admin_costs,
+        SUM(CASE WHEN u.type = 'client' THEN o.total_price ELSE 0 END) AS total_client_costs
+        FROM 
+            almirweb.order o
+        JOIN 
+            almirweb.user u ON o.user_id = u.id
+        JOIN 
+            almirweb.product p ON o.product_id = p.id
+        GROUP BY 
+            u.id,
+            u.name,
+            p.description;";
+        $stmt = $pdo->query($sql);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        Connection::disconnect();
+
+        $details = [];
+
+        foreach ($data as $line) {
+            $orderDetail = new OrderDetails();
+            $orderDetail->setUserId($line['user_id']);
+            $orderDetail->setUserName($line['user_name']);
+            $orderDetail->setProductDescription($line['product_description']);
+            $orderDetail->setTotalOrders($line['total_orders']);
+            $orderDetail->setTotalAdminCosts($line['total_admin_costs']);
+            $orderDetail->setTotalClientCosts($line['total_client_costs']);
+            $details[] = $orderDetail;
+        }
+
+        return $details;
     }
 }
