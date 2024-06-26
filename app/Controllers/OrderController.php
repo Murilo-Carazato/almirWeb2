@@ -63,7 +63,7 @@ class OrderController
         $result = $this->orderBll->updateOrder($id, $orderData, $userId);
 
         if ($result) {
-            header("Location: /resources/views/order/orders.php");
+            header("Location: /resources/views/order/my_orders.php");
             exit();
         } else {
             echo "Erro ao atualizar pedido";

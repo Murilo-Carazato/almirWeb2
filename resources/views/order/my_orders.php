@@ -56,10 +56,6 @@ $orderDetails = $dal->ShowOrderDetails();
         <?php
         if (isset($_SESSION['currentUser'])) {
             $user = unserialize($_SESSION['currentUser']);
-            // echo "<pre>";
-            // var_dump($user);
-            // echo "</pre>";
-            // die();
             $type = $user->getType();
         }
         if ($type == 'admin') {
@@ -113,7 +109,7 @@ $orderDetails = $dal->ShowOrderDetails();
         <div class="flex flex-col items-start w-2/3">
             <h3 class="text-base font-medium tracking-tight text-gray-500 dark:text-gray-300 ">Informações para pedidos de <?php $user = unserialize($_SESSION['currentUser']);
                                                                                                                             echo $user->getName() ?></h3>
-            <div class="relative overflow-x-auto w-full shadow-lg dark:shadow-none sm:rounded-lg border border-t-gray-200 dark:border-0">
+            <div class="relative overflow-x-auto w-full shadow-lg dark:shadow-none sm:rounded-lg border border-t-gray-200 dark:border-0 mb-20">
                 <table class="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400 mt-2">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -154,9 +150,10 @@ $orderDetails = $dal->ShowOrderDetails();
                                     <a class="font-medium text-yellow-600 dark:text-yellow-500" onclick="JavaScript:location.href='/resources/views/order/orderEditForm.php?id=' + '<?php echo $order->getId(); ?>'">
                                         <span class="hover:underline hover:text-">Editar</span> 
                                     </a>
-                                    <a class="font-medium text-red-600 dark:text-red-500" onclick="JavaScript: remover( <?php echo $order->getProductId(); ?> )">
+                                    <!-- DEVEMOS ALTERAR O echo $order->getProductId(); PARA echo $order->getOrderId(); -->
+                                    <!-- <a class="font-medium text-red-600 dark:text-red-500" onclick="JavaScript: remover( <?php //echo $order->getProductId(); ?> )">
                                         <span class="hover:underline hover:text-">Excluir</span> 
-                                    </a>
+                                    </a> -->
                                 </td>
                             </tr>
                         <?php } ?>
