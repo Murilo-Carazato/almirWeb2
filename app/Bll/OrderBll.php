@@ -27,7 +27,6 @@ class OrderBll
 
         $productId = $order->getProductId();
         $product = $this->productBll->getProductById($productId);
-
         $order->setTotalPrice($order->getQuantity() * $product->getUnitPrice());
 
         $result = $this->orderDal->insert($order);
@@ -98,25 +97,18 @@ class OrderBll
 
     private function validateOrderInput($data, Order $order)
     {
-        // $data['date'] = $data['date'] . " 00:00:00"; //hardcode
+        date_default_timezone_set('America/Sao_Paulo');
+        $dateString = date("Y-m-d H:i:s");
+        $date = new DateTime($dateString);
+        $order->setDate($date);
 
-        if (isset($data['date']) && !empty($data['date'])) {
-            $date = new DateTime($data['date']);
-            $order->setDate($date);
-            echo "teste2";
-        } else {
-            date_default_timezone_set('America/Sao_Paulo');
-            $dateString = date("Y-m-d H:i:s");
-            $date = new DateTime($dateString);
-            $order->setDate($date);
+        //Acessa objeto vindo do $_POST e valida atributo quantity
+        if (isset($data->quantity) && !empty($data->quantity)) {
+            $order->setQuantity($data->quantity);
         }
-
-        if (isset($data['quantity']) && !empty($data['quantity'])) {
-            $order->setQuantity($data['quantity']);
-        }
-
-        if (isset($data['productId']) && !empty($data['productId'])) {
-            $order->setProductId($data['productId']);
+        //Acessa objeto vindo do $_POST e valida atributo id (id do PRODUTO, e não do pedido)
+        if (isset($data->id) && !empty($data->id)) {
+            $order->setProductId($data->id);
         }
     }
 }

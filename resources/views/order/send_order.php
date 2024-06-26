@@ -60,44 +60,44 @@
             <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Finalizar pedido</h2>
             <h2 class="text-base font-medium tracking-tight text-gray-500 dark:text-gray-300">Revise e confirme seu pedido abaixo!</h2>
         </div>
-        <template x-for="(item, index) in cart" :key="index">
-            <div class="mb-3">
-                <a class="relative flex flex-col items-center border border-gray-200 rounded-lg shadow-md md:flex-row md:h-32 md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                    <img class="rounded-t-lg md:w-48 md:rounded-none md:rounded-s-lg" :src="item.image" alt="">
-                    <div class="flex flex-row w-full justify-between items-center p-4 leading-normal">
-                        <span class="font-normal text-gray-700 dark:text-gray-400 uppercase" x-text="item.title"></span>
-                        <span class="font-bold text-gray-900 dark:text-gray-300" x-text="'$'+(item.price * parseFloat(item.quantity))"></span>
-                        <div class="flex flex-col gap-1 dark:text-white">
-                            <svg @click="increase(index)" class="bg-gray-200 dark:bg-gray-900" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up">
-                                <path d="m18 15-6-6-6 6" />
-                            </svg>
-                            <svg @click="decrease(index)" class="bg-gray-200 dark:bg-gray-900" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down">
-                                <path d="m6 9 6 6 6-6" />
-                            </svg>
-
+        <form action="/public/index.php?action=createOrder" method="POST">
+            <template x-for="(item, index) in cart" :key="index">
+                <div class="mb-3">
+                    <a class="relative flex flex-col items-center border border-gray-200 rounded-lg shadow-md md:flex-row md:h-32 md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                        <img class="rounded-t-lg md:w-48 md:rounded-none md:rounded-s-lg" :src="item.image" alt="">
+                        <div class="flex flex-row w-full justify-between items-center p-4 leading-normal">
+                            <span class="font-normal text-gray-700 dark:text-gray-400 uppercase" x-text="item.title"></span>
+                            <span class="font-bold text-gray-900 dark:text-gray-300" x-text="'$'+(item.price * parseFloat(item.quantity))"></span>
+                            <div class="flex flex-col gap-1 dark:text-white">
+                                <svg @click="increase(index)" class="rounded-xl bg-gray-200 dark:bg-gray-900" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up">
+                                    <path d="m18 15-6-6-6 6" />
+                                </svg>
+                                <svg @click="decrease(index)" class="rounded-xl bg-gray-200 dark:bg-gray-900" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down">
+                                    <path d="m6 9 6 6 6-6" />
+                                </svg>
+                            </div>
                         </div>
-
-                    </div>
-                    <div class="absolute hover:cursor-pointer inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900" @click="removeItemFromCart(index)">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash">
-                            <path d="M3 6h18" />
-                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                        </svg>
-                    </div>
-                    <span class="absolute bottom-0 right-0 m-1 inline-flex items-center justify-center w-6 h-6 text-xs rounded-full bg-gray-200 dark:bg-gray-900 dark:text-white" x-text="item.quantity"></span>
-                </a>
+                        <div class="absolute hover:cursor-pointer inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900" @click="removeItemFromCart(index)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash">
+                                <path d="M3 6h18" />
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                            </svg>
+                        </div>
+                        <span class="absolute bottom-0 right-0 m-1 inline-flex items-center justify-center w-6 h-6 text-xs rounded-full bg-gray-200 dark:bg-gray-900 dark:text-white" x-text="item.quantity"></span>
+                    </a>
+                </div>
+            </template>
+            <input type="hidden" :value="JSON.stringify(cart)" name="cart" class="bg-red-500">
+            <div class="flex flex-row w-full md:max-w-xl justify-between">
+                <h3 class="text-sm font-medium tracking-tight text-gray-400 dark:text-gray-400">Está tudo certo? Clique para concluir sua compra.</h3>
+                <div class="flex flex-row text-base font-medium tracking-tight text-gray-500 dark:text-gray-300 gap-1">
+                    <p>Total: </p>
+                    <span x-text="totalPrice()"></span>
+                </div>
             </div>
-        </template>
-        <div class="flex flex-row w-full md:max-w-xl justify-between">
-            <h3 class="text-sm font-medium tracking-tight text-gray-400 dark:text-gray-400">Está tudo certo? Clique para concluir sua compra.</h3>
-            <div class="flex flex-row text-base font-medium tracking-tight text-gray-500 dark:text-gray-300 gap-1">
-                <p>Total: </p>
-                <span x-text="totalPrice()"></span>
-            </div>
-        </div>
-        <button type="submit" class="block mb-28 w-full md:max-w-xl bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 duration-300 text-white font-semibold">Finalizar</button>
-
+            <button type="submit" class="block mb-28 w-full md:max-w-xl bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 duration-300 text-white font-semibold">Confirmar</button>
+        </form>
     </div>
     <?php include('.\resources\views\components\footer.html') ?>
     <script type="text/javascript" src="../../js/mode_switcher.js"></script>
