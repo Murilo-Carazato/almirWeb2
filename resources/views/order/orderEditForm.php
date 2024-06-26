@@ -70,12 +70,13 @@ if (isset($_GET['id'])) {
 
             </div>
 
+            <?php $bllProduct = new ProductBll(); ?>
+
             <div class="input-field col s5">
                 <select name="productId">
-                    <option value="" disabled selected>Escolha um produto</option>
+                    <option value="" disabled selected><?php echo $bllProduct->getProductById($order->getProductId())->getDescription() ?></option>
 
                     <?php
-                    $bllProduct = new ProductBll();
                     $products = $bllProduct->getAllProducts();
 
                     foreach ($products as $Product) { ?>
