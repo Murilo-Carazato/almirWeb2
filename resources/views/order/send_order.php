@@ -47,8 +47,11 @@
               });
         },
         increase(index){
-            this.cart[index].quantity++;
-            localStorage.setItem('cart',JSON.stringify(this.cart));
+        console.log(this.cart[index].stock);
+            if(this.cart[index].quantity + 1 <= this.cart[index].stock){
+                this.cart[index].quantity++;
+                localStorage.setItem('cart',JSON.stringify(this.cart));
+            }
         },
         decrease(index){
             if(this.cart[index].quantity>1){

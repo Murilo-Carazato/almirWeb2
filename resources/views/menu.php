@@ -256,9 +256,13 @@ if ($_GET['search']) {
                                         'image': 'https:cdn.pixabay.com/photo/2016/11/19/18/06/feet-1840619_1280.jpg',
                                         'title': '<?php echo $product->getDescription() ?>',
                                         'price': '<?php echo $product->getUnitPrice() ?>',
-                                        'quantity': 1
+                                        'quantity': 1,
+                                        'stock': <?php echo $product->getStock() ?>
                                 });
-                                 repeated=false" class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800">Comprar</button>
+                                 repeated=false" <?php
+                                                    if ($product->getStock() < 1) { ?> disabled class="text-white bg-indigo-400 dark:bg-indigo-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center"<?php } else { ?> class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800" <?php } ?>>
+                                        <?php if($product->getStock() < 1) {echo 'Estoque vazio';} else {echo 'Comprar';}?>
+                                    </button>
                                 </div>
                             </div>
                             <?php
@@ -270,6 +274,11 @@ if ($_GET['search']) {
                                         <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
                                     </svg>
                                 </div>
+                                <span class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-mono text-white bg-indigo-500 border-2 border-white rounded-3xl -top-2 end-4 dark:border-gray-900" x-text="<?php echo $product->getStock() ?>"></span>
+
+                                <!-- <div class="absolute hover:cursor-pointer inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-green-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+                                    
+                                </div> -->
                             <?php } ?>
                         </div>
                     <?php endforeach ?>

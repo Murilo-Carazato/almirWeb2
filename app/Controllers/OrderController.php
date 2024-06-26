@@ -40,7 +40,7 @@ class OrderController
         if ($status) {
             echo "Erro ao criar pedido";
         } else {
-            header("Location: /resources/views/order/orders.php");
+            header("Location: /resources/views/order/my_orders.php");
             exit();
         }
     }
