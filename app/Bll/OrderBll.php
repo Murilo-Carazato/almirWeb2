@@ -80,7 +80,7 @@ class OrderBll
         $order->setTotalPrice($newQuantity * $product->getUnitPrice());
 
         $productDal = new ProductDal();
-        $productDal->update($product);//acho q é melhor usar o bll
+        $productDal->update($product); //acho q é melhor usar o bll
 
         $order->setUserId($userId);
 
@@ -112,17 +112,22 @@ class OrderBll
     private function validateOrderInput($data, Order $order)
     {
         //Acessa objeto vindo do $_POST e valida atributo quantity
-        if (!empty($data->quantity)) {
-            $order->setQuantity($data->quantity);
-        }
-        //Acessa objeto vindo do $_POST e valida atributo id (id do PRODUTO, e não do pedido)
-        if (!empty($data->id)) {
-            $order->setProductId($data->id);
+        if (!empty($data["quantity"])) {
+            $order->setQuantity($data["quantity"]);
         }
 
-        date_default_timezone_set('America/Sao_Paulo');
-        $dateString = date("Y-m-d H:i:s");
-        $date = new DateTime($dateString);
-        $order->setDate($date);
+        if (!empty($data["productId"])) {
+            $order->setProductId($data["productId"]);
+        }
+
+        if (!empty($data["date"])) {
+            $date = new DateTime($data['date']);
+            $order->setDate($date);
+        } else {
+            date_default_timezone_set('America/Sao_Paulo');
+            $dateString = date("Y-m-d H:i:s");
+            $date = new DateTime($dateString);
+            $order->setDate($date);
+        }
     }
 }
