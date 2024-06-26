@@ -46,6 +46,10 @@
                                         currency: 'BRL',
               });
         },
+        clearCart(){
+            this.cart = [];
+            localStorage.removeItem('cart');
+        },
         increase(index){
         console.log(this.cart[index].stock);
             if(this.cart[index].quantity + 1 <= this.cart[index].stock){

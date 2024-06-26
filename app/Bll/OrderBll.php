@@ -112,22 +112,16 @@ class OrderBll
     private function validateOrderInput($data, Order $order)
     {
         //Acessa objeto vindo do $_POST e valida atributo quantity
-        if (!empty($data["quantity"])) {
-            $order->setQuantity($data["quantity"]);
+        if (!empty($data->quantity)) {
+            $order->setQuantity($data->quantity);
         }
-
-        if (!empty($data["productId"])) {
-            $order->setProductId($data["productId"]);
+        //Acessa objeto vindo do $_POST e valida atributo id (id do PRODUTO, e não do pedido)
+        if (!empty($data->id)) {
+            $order->setProductId($data->id);
         }
-
-        if (!empty($data["date"])) {
-            $date = new DateTime($data['date']);
-            $order->setDate($date);
-        } else {
-            date_default_timezone_set('America/Sao_Paulo');
-            $dateString = date("Y-m-d H:i:s");
-            $date = new DateTime($dateString);
-            $order->setDate($date);
-        }
+        date_default_timezone_set('America/Sao_Paulo');
+        $dateString = date("Y-m-d H:i:s");
+        $date = new DateTime($dateString);
+        $order->setDate($date);
     }
 }

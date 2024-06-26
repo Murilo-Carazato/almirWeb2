@@ -37,6 +37,13 @@ $orderDetails = $dal->ShowOrderDetails();
 <body class="bg-gray-50 dark:bg-gray-950 overflow-x-hidden transition-all">
     <?php include('.\resources\views\components\navbar.php') ?>
     <div class="flex flex-col items-center min-h-screen" x-data="{
+        init(){
+            this.clearCart();
+        },
+        clearCart(){
+            this.cart = [];
+            localStorage.removeItem('cart');
+        },
         TotalPrice(price){
             let formattedPrice = price.toLocaleString('pt-BR', {
                 style: 'currency',
