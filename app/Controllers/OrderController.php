@@ -6,10 +6,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Controllers\SessionController;
 use App\Bll\OrderBll;
-use App\Bll\ProductBll;
 use App\Models\Order as OrderModel;
-use App\Models\Product;
-use DateTime;
 
 class OrderController
 {
@@ -44,12 +41,12 @@ class OrderController
             echo "Erro ao criar pedido";
         } else {
             header("Location: /resources/views/order/orders.php");
+            exit();
         }
     }
 
     public function index()
     {
-        // $userId = $this->sessionController->getCurrentUserId();
         $orders = $this->orderBll->getAllOrders();
         return $orders;
     }
@@ -67,6 +64,7 @@ class OrderController
 
         if ($result) {
             header("Location: /resources/views/order/orders.php");
+            exit();
         } else {
             echo "Erro ao atualizar pedido";
         }
@@ -78,6 +76,7 @@ class OrderController
 
         if ($result) {
             header("Location: /resources/views/order/orders.php");
+            exit();
         } else {
             echo "Erro ao deletar pedido";
         }

@@ -1,18 +1,13 @@
 <?php
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
-use App\Bll\ProductBll;
 use App\Controllers\UserController;
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-
     $userController = new UserController();
     $user = $userController->show($id);
-
-    var_dump($user);
-    echo $user->getPassword();
 } else {
     die("ID inválido.");
 }
@@ -27,8 +22,6 @@ if (isset($_GET['id'])) {
 </head>
 
 <body>
-    <?php //include_once '../menu.php'; 
-    ?>
     <div class="container indigo lighten-4 deep-orange-text col s12">
         <div class="center green">
             <h1>Inserir Receita</h1>

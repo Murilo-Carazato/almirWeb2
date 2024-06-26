@@ -22,11 +22,9 @@ class ProductController
     public function create()
     {
         $productData = $_POST;
-        var_dump($productData);
         
         $userId = $this->sessionController->getCurrentUserId();
         $result = $this->productBll->createProduct($productData, $userId);
-
 
         if ($result instanceof ProductModel) {
             header("Location: /resources/views/menu.php");
@@ -48,20 +46,22 @@ class ProductController
 
     public function update($id)
     {
-        
-        $unitPrice = str_replace("R$", "", $_POST["unitPrice"]);
-        $unitPrice = preg_replace("/[^\d.,]/", "", $unitPrice);
-        $unitPrice = str_replace(",", ".", $unitPrice);
-
-        $_POST["unitPrice"] = (float)$unitPrice; 
-        
         $productData = $_POST;
+    
+        // Formatar unitPrice
+        if (isset($productData["unitPrice"])) {
+            $unitPrice = str_replace("R$", "", $productData["unitPrice"]);
+            $unitPrice = preg_replace("/[^\d.,]/", "", $unitPrice);
+            $unitPrice = str_replace(",", ".", $unitPrice);
+            $productData["unitPrice"] = (float)$unitPrice;
+        }
 
         $userId = $this->sessionController->getCurrentUserId();
         $result = $this->productBll->updateProduct($id, $productData, $userId);
 
         if ($result) {
             header("Location: /resources/views/menu.php");
+            exit();
         } else {
             echo "Erro ao atualizar produto";
         }
@@ -73,6 +73,7 @@ class ProductController
 
         if ($result) {
             header("Location: /resources/views/menu.php");
+            exit();
         } else {
             echo "Erro ao deletar produto";
         }
