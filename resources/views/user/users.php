@@ -27,7 +27,7 @@ $users = $userController->index();
     <table class="highlight">
         <tr>
             <th>ID</th>
-            <th>Email</th>
+            <th>Nome</th>
             <th>Senha</th>
             <th>Tipo</th>
         </tr>

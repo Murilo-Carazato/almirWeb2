@@ -37,17 +37,17 @@ if (isset($_GET['id'])) {
             <form action="/public/index.php?action=updateUser&id=<?php echo $user->getId(); ?>" method="POST" class="col s12">
 
                 <div class="input-field col s8">
-                    <input placeholder="informe o email" id="email" name="name" type="text" class="validate" value="<?php echo $user->getName(); ?>">
-                    <label for="email">Email</label>
+                    <input placeholder="informe o nome" id="name" name="name" type="text" class="validate" required pattern="[A-Za-zÀ-ú\s]+$" required minlength="2" maxlenght="40" value="<?php echo $user->getName(); ?>">
+                    <label for="name">Nome</label>
                 </div>
 
                 <div class="input-field col s8">
-                    <input placeholder="informe a senha" id="password" name="password" type="text" class="validate" value="<?php echo $user->getPassword(); ?>">
+                    <input placeholder="informe a senha" id="password" name="password" type="text" class="validate" required minlength="2" maxlenght="20" value="<?php echo $user->getPassword(); ?>">
                     <label for="password">Senha</label>
                 </div>
 
                 <div class="input-field col s8">
-                    <input placeholder="informe o tipo" id="type" name="type" type="text" class="validate" value="<?php echo $user->getType(); ?>">
+                    <input placeholder="informe o tipo" id="type" name="type" type="text" class="validate" required minlength="2" maxlenght="20" value="<?php echo $user->getType(); ?>">
                     <label for="type">Tipo</label>
                 </div>
 

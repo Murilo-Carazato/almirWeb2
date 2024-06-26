@@ -39,7 +39,7 @@ if (isset($_GET['id'])) {
                 </div>
 
                 <div class="input-field col s8">
-                    <input placeholder="informe a quantidade requisitada" id="quantity" name="quantity" type="number" class="validate" value="<?php echo $order->getQuantity(); ?>">
+                    <input placeholder="informe a quantidade requisitada" id="quantity" name="quantity" max="1000" type="number" class="validate" value="<?php echo $order->getQuantity(); ?>">
                     <label for="quantity">Quantidade</label>
                 </div>
 
