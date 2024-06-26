@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `almirweb`.`product` (
     FOREIGN KEY (`user_id`)
     REFERENCES `almirweb`.`user` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 13
+AUTO_INCREMENT = 14
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `almirweb`.`order` (
     FOREIGN KEY (`product_id`)
     REFERENCES `almirweb`.`product` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 29
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
