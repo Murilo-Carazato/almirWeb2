@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -20,7 +21,8 @@
 
 <body class="bg-gray-50 dark:bg-gray-950 overflow-x-hidden transition-all">
     <?php include('.\resources\views\components\navbar.php') ?>
-    <div class="md:mx-60 mx-20" x-data="{
+    <div class="flex items-center justify-center">
+    <div class="flex flex-col items-start justify-center w-1/2" x-data="{
         cart: [],
         init(){
             this.cart = JSON.parse(localStorage.getItem('cart'));
@@ -35,7 +37,6 @@
             localStorage.setItem('cart',JSON.stringify(this.cart));
         },
         totalPrice(){
-            console.log(this.cart);
             let total = 0;
             for(let i=0; i<this.cart.length; i++){
                 total += parseFloat(this.cart[i].price*this.cart[i].quantity);
@@ -57,13 +58,13 @@
         }
     }">
         <div class="mt-10 mb-5">
-            <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Finalizar pedido</h2>
+            <h2 class="text-2xl font-bold tracking-tight text-left text-gray-900 dark:text-white">Finalizar pedido</h2>
             <h2 class="text-base font-medium tracking-tight text-gray-500 dark:text-gray-300">Revise e confirme seu pedido abaixo!</h2>
         </div>
-        <form action="/public/index.php?action=createOrder" method="POST">
+        <form action="/public/index.php?action=createOrder" method="POST" class="w-full">
             <template x-for="(item, index) in cart" :key="index">
                 <div class="mb-3">
-                    <a class="relative flex flex-col items-center border border-gray-200 rounded-lg shadow-md md:flex-row md:h-32 md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                    <a class="relative flex flex-col items-center border border-gray-200 rounded-lg shadow-md md:flex-row md:h-32 md:max-w-3xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                         <img class="rounded-t-lg md:w-48 md:rounded-none md:rounded-s-lg" :src="item.image" alt="">
                         <div class="flex flex-row w-full justify-between items-center p-4 leading-normal">
                             <span class="font-normal text-gray-700 dark:text-gray-400 uppercase" x-text="item.title"></span>
@@ -89,15 +90,16 @@
                 </div>
             </template>
             <input type="hidden" :value="JSON.stringify(cart)" name="cart" class="bg-red-500">
-            <div class="flex flex-row w-full md:max-w-xl justify-between">
+            <div class="flex flex-row w-full md:max-w-3xl justify-between">
                 <h3 class="text-sm font-medium tracking-tight text-gray-400 dark:text-gray-400">Está tudo certo? Clique para concluir sua compra.</h3>
                 <div class="flex flex-row text-base font-medium tracking-tight text-gray-500 dark:text-gray-300 gap-1">
                     <p>Total: </p>
                     <span x-text="totalPrice()"></span>
                 </div>
             </div>
-            <button type="submit" class="block mb-28 w-full md:max-w-xl bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 duration-300 text-white font-semibold">Confirmar</button>
+            <button type="submit" class="block mb-28 w-full md:max-w-3xl bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 duration-300 text-white font-semibold">Confirmar</button>
         </form>
+    </div>
     </div>
     <?php include('.\resources\views\components\footer.html') ?>
     <script type="text/javascript" src="../../js/mode_switcher.js"></script>

@@ -30,7 +30,7 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
             ?>
                 <a class="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline transition-all" href="/resources/views/product/send_products.php">Cadastrar produto</a>
             <?php  } ?>
-            <a class="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline transition-all" href="#">Meus pedidos</a>
+            <a class="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline transition-all" href="/resources/views/order/my_orders.php">Meus pedidos</a>
             <a class="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline transition-all" href="#">Novidades</a>
             <a class="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-white focus:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-red-400 focus:bg-gray-200 focus:outline-none focus:shadow-outline transition-all" href="/public/index.php?action=logoutUser">Logout</a>
 
