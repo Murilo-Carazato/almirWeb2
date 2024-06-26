@@ -43,8 +43,7 @@ $userId = $sessionController->getCurrentUserId();
         <div>
             <form action="/resources/views/product/products.php" method="GET">
                 <div>
-                    <input type="search" name="search">
-                    <!-- <label class="label-icon" for="search"><i class="material-icons">search</i></label> -->
+                    <input type="search" name="search">     
                     <button type="submit" name="action">
                         <i>close</i>
                 </div>

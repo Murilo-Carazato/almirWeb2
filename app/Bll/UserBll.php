@@ -37,7 +37,6 @@ class UserBll
 
     public function updateUser($id, $userData)
     {
-
         $user = new UserModel();
         $dalUser = new UserDal();
 
@@ -45,6 +44,10 @@ class UserBll
         $this->validateUserInput($userData, $user);
 
         $result = $dalUser->update($user);
+
+        if (!$user) {
+            return false;
+        }
 
         return $result;
     }
@@ -58,15 +61,15 @@ class UserBll
     private function validateUserInput($data, UserModel $user)
     {
 
-        if (isset($data['name']) && !empty($data['name'])) {
+        if (!empty($data['name'])) {
             $user->setName($data['name']);
         }
 
-        if (isset($data['password']) && !empty($data['password'])) {
+        if (!empty($data['password'])) {
             $user->setPassword(md5($data['password']));
         }
 
-        if (isset($data['type']) && !empty($data['type'])) {
+        if (!empty($data['type'])) {
             $user->setType($data['type']);
         }
     }

@@ -50,13 +50,13 @@ class ProductBll
 
     private function validateProductInput($data, Product $product)
     {
-        if (isset($data['description']) && !empty($data['description'])) {
+        if (!empty($data['description'])) {
             $product->setDescription($data['description']);
         }
-        if (isset($data['unitPrice'])) {
+        if (!empty($data['unitPrice'])) {
             $product->setUnitPrice((float)$data['unitPrice']);
         }
-        if (isset($data['stock']) && is_numeric($data['stock'])) {
+        if (!empty($data['stock'])) {
             $product->setStock($data['stock']);
         }
     }

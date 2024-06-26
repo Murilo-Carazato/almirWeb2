@@ -26,10 +26,10 @@ class UserController
 
         $user = new UserModel();
 
-        if (isset($_POST['name']) && !is_null($_POST['name'])) {
+        if (!empty($_POST['name'])) {
             $user->setName($_POST['name']);
         }
-        if (isset($_POST['password']) && !is_null($_POST['password'])) {
+        if (!empty($_POST['password'])) {
             $user->setPassword(md5($_POST['password']));
         }
 
@@ -41,6 +41,7 @@ class UserController
 
         if ($result instanceof UserModel) {
             header("location: /resources/views/menu.php");
+            exit();
         } else {
             echo "Erro ao criar usuário";
         }
@@ -65,6 +66,7 @@ class UserController
 
         if ($result) {
             header("Location: /resources/views/user/users.php");
+            exit();
         } else {
             echo "Erro ao atualizar usuário";
         }
@@ -76,6 +78,7 @@ class UserController
 
         if ($result) {
             header("Location: /resources/views/user/users.php");
+            exit();
         } else {
             echo "Erro ao deletar usuário";
         }

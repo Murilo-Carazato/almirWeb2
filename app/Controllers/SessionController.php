@@ -4,9 +4,6 @@ namespace App\Controllers;
 
 class SessionController
 {
-    public function __construct()
-    {
-    }
 
     public function getCurrentUserId()
     {

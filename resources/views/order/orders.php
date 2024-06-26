@@ -69,7 +69,7 @@ $userId = $sessionController->getCurrentUserId();
             <th>User ID</th>
             <th>Name</th>
             <th>Produto</th>
-            <th>Preço total do pedido</th>
+            <th>Numéro de pedidos para esse produto</th>
             <th>Custo do usuário no modo admin</th>
             <th>Custo do usuário no modo client</th>
         </tr>

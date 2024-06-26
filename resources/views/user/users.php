@@ -2,12 +2,7 @@
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use App\Controllers\UserController;
-use App\Controllers\SessionController;
-use App\Dal\UserDal;
-
 $userController = new UserController();
-$sessionController = new SessionController();
-
 $users = $userController->index();
 ?>
 

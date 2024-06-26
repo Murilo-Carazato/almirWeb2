@@ -19,10 +19,10 @@ class AuthController
     public function loginUser()
     {
 
-        if (isset($_POST['name']) && !is_null($_POST['name'])) {
+        if (!empty($_POST['name'])) {
             $name = $_POST['name'];
         }
-        if (isset($_POST['password']) && !is_null($_POST['password'])) {
+        if (!empty($_POST['password'])) {
             $password = $_POST['password'];
         }
 
@@ -35,15 +35,17 @@ class AuthController
             }
 
             $user = new User();
-
             $user->setId($result['id']);
             $user->setName($result['name']);
             $user->setPassword($result['password']);
             $user->setType($result['type']);
 
             $_SESSION['currentUser'] =  serialize($user);
+
             header("location: /resources/views/menu.php");
+            exit();
         } else header("location:index.php");
+        exit();
     }
 
     public function logoutUser()
@@ -54,5 +56,6 @@ class AuthController
 
         session_destroy();
         header("Location: /resources/views/login.php");
+        exit();
     }
 }

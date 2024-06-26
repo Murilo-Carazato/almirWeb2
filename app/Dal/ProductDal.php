@@ -7,124 +7,143 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 use App\Database\Connection;
 use App\Models\Product as ProductModel;
 use PDO;
+use PDOException;
 
 class ProductDal
 {
+    private $pdo;
+
+    public function __construct()
+    {
+        $this->pdo = Connection::connect();
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+
+    public function __destruct()
+    {
+        Connection::disconnect();
+    }
+
     public function Select()
     {
-        $pdo = Connection::connect();
-        $sql = "SELECT * FROM product;";
-        $stmt = $pdo->query($sql);
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $sql = "SELECT * FROM product;";
+            $stmt = $this->pdo->query($sql);
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        Connection::disconnect();
+            $products = [];
+            foreach ($data as $line) {
+                $product = new ProductModel();
+                $product->setId($line['id']);
+                $product->setDescription($line['description']);
+                $product->setUnitPrice($line['unit_price']);
+                $product->setStock($line['stock']);
+                $product->setUserId($line['user_id']);
+                $products[] = $product;
+            }
 
-        $products = [];
-
-        foreach ($data as $line) {
-            $product = new ProductModel();
-            $product->setId($line['id']);
-            $product->setDescription($line['description']);
-            $product->setUnitPrice($line['unit_price']);
-            $product->setStock($line['stock']);
-            $product->setUserId($line['user_id']);
-            $products[] = $product;
+            return $products;
+        } catch (PDOException $e) {
+            throw new \Exception("Database query error: " . $e->getMessage());
         }
-
-        return $products;
     }
 
     public function SelectById(string $id)
     {
-        $pdo = Connection::connect();
-        $sql = "SELECT * FROM product WHERE id = :id;";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        try {
+            $sql = "SELECT * FROM product WHERE id = :id;";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        Connection::disconnect();
-
-        $product = new ProductModel();
-        $product->setId($data['id']);
-        $product->setDescription($data['description']);
-        $product->setUnitPrice($data['unit_price']);
-        $product->setStock($data['stock']);
-        $product->setUserId($data['user_id']);
-
-        return $product;
+            if ($data) {
+                $product = new ProductModel();
+                $product->setId($data['id']);
+                $product->setDescription($data['description']);
+                $product->setUnitPrice($data['unit_price']);
+                $product->setStock($data['stock']);
+                $product->setUserId($data['user_id']);
+                return $product;
+            } else {
+                throw new \Exception("Product not found");
+            }
+        } catch (PDOException $e) {
+            throw new \Exception("Database query error: " . $e->getMessage());
+        }
     }
 
     public function Update(ProductModel $product)
     {
-        $sql = "UPDATE product SET description = ?, unit_price = ?, stock = ? WHERE id = ?;";
+        try {
+            $sql = "UPDATE product SET description = ?, unit_price = ?, stock = ? WHERE id = ?;";
+            $query = $this->pdo->prepare($sql);
+            $result = $query->execute([$product->getDescription(), $product->getUnitPrice(), $product->getStock(), $product->getId()]);
 
-        $pdo = Connection::connect();
-        $query = $pdo->prepare($sql);
-        $result = $query->execute(array($product->getDescription(), $product->getUnitPrice(), $product->getStock(), $product->getId()));
-        Connection::disconnect();
-
-        return $result;
+            return $result;
+        } catch (PDOException $e) {
+            throw new \Exception("Database query error: " . $e->getMessage());
+        }
     }
 
     public function insert(ProductModel $product)
     {
-        $pdo = Connection::connect();
-        $sql = "INSERT INTO product (description, unit_price, stock, user_id) VALUES (:description, :unit_price, :stock, :user_id)";
-        $stmt = $pdo->prepare($sql);
+        try {
+            $sql = "INSERT INTO product (description, unit_price, stock, user_id) VALUES (:description, :unit_price, :stock, :user_id)";
+            $stmt = $this->pdo->prepare($sql);
 
-        $description = $product->getDescription();
-        $unitPrice = $product->getUnitPrice();
-        $stock = $product->getStock();
-        $userId = $product->getUserId();
+            $stmt->bindParam(':description', $product->getDescription());
+            $stmt->bindParam(':unit_price', $product->getUnitPrice());
+            $stmt->bindParam(':stock', $product->getStock());
+            $stmt->bindParam(':user_id', $product->getUserId());
+            $stmt->execute();
 
-        $stmt->bindParam(':description', $description);
-        $stmt->bindParam(':unit_price', $unitPrice);
-        $stmt->bindParam(':stock', $stock);
-        $stmt->bindParam(':user_id', $userId);
-        $stmt->execute();
-
-        Connection::disconnect();
-
-        return $product;
+            return $product;
+        } catch (PDOException $e) {
+            throw new \Exception("Database query error: " . $e->getMessage());
+        }
     }
 
     public function Delete(int $id)
     {
-        $sql = "delete from product WHERE id = ?;";
+        try {
+            $sql = "DELETE FROM product WHERE id = ?;";
+            $query = $this->pdo->prepare($sql);
+            $result = $query->execute([$id]);
 
-        $pdo = Connection::connect();
-        $query = $pdo->prepare($sql);
-        $result = $query->execute(array($id));
-        Connection::disconnect();
-
-        return $result;
+            return $result;
+        } catch (PDOException $e) {
+            throw new \Exception("Database query error: " . $e->getMessage());
+        }
     }
 
     public function SelectByDescription(string $description)
     {
-        $pdo = Connection::connect();
-        $sql = "SELECT * FROM product WHERE description LIKE :description";
-        $stmt = $pdo->prepare($sql);
+        try {
+            $sql = "SELECT * FROM product WHERE description LIKE :description";
+            $stmt = $this->pdo->prepare($sql);
 
-        $descriptionLike = '%' . $description . '%';
-        $stmt->bindParam(':description', $descriptionLike, PDO::PARAM_STR);
+            $descriptionLike = '%' . $description . '%';
+            $stmt->bindParam(':description', $descriptionLike, PDO::PARAM_STR);
 
-        $stmt->execute();
+            $stmt->execute();
 
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $products = [];
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $products = [];
 
-        foreach ($data as $line) {
-            $product = new ProductModel();
-            $product->setId($line['id']);
-            $product->setDescription($line['description']);
-            $product->setUnitPrice($line['unit_price']);
-            $product->setStock($line['stock']);
-            $product->setUserId($line['user_id']);
-            $products[] = $product;
+            foreach ($data as $line) {
+                $product = new ProductModel();
+                $product->setId($line['id']);
+                $product->setDescription($line['description']);
+                $product->setUnitPrice($line['unit_price']);
+                $product->setStock($line['stock']);
+                $product->setUserId($line['user_id']);
+                $products[] = $product;
+            }
+
+            return $products;
+        } catch (PDOException $e) {
+            throw new \Exception("Database query error: " . $e->getMessage());
         }
-
-        return $products;
     }
 }
