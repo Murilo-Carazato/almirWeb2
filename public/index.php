@@ -108,6 +108,7 @@ if (isset($_SESSION['currentUser'])) {
         <li><a class="" href="/resources/views/user/users.php">users.php</a></li>
 
 
+
     </ul>
 </body>
 
