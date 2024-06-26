@@ -4,12 +4,13 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 use App\Controllers\OrderController;
 use App\Controllers\SessionController;
 use App\Dal\OrderDal;
+
 session_start();
 $orderController = new OrderController();
 $sessionController = new SessionController();
 
-// $orders = $orderController->index();
-// $userId = $sessionController->getCurrentUserId();
+$orders = $orderController->index();
+$userId = $sessionController->getCurrentUserId();
 $dal = new OrderDal;
 $orderDetails = $dal->ShowOrderDetails();
 ?>
@@ -44,66 +45,117 @@ $orderDetails = $dal->ShowOrderDetails();
             return formattedPrice;
         }
     }">
-        <h2 class="text-2xl font-bold tracking-tight text-left text-gray-900 dark:text-white my-8">Histórico de pedidos</h2>
-        <div class="relative overflow-x-auto shadow-lg sm:rounded-lg border border-t-gray-200 dark:border-0 border-b-inherit dark:border-b-transparent">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-2">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                            ID
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Data
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Quantidade
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Valor Total
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Produto
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php 
-                    
-                    foreach ($orderDetails as $order) { ?>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><?php echo $order->getUserId(); ?></th>
-                            <td class="px-6 py-4">
-                                <?php echo $order->getTotalClientCosts() ?>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <?php echo $order->getTotalOrders() ?></td>
-                            <td class="px-6 py-4">
-                                <span x-text="TotalPrice(<?php echo$order->getTotalAdminCosts()?>)"></span>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <?php echo $order->getProductDescription(); ?>
-                            </td>
 
-                            <?php if ($userId == $order->getUserId()) { ?>
-                                <td class="px-6 py-4 text-left rtl:text-right">
-                                    <a class="font-medium text-yellow-600 dark:text-yellow-500  hover:cursor-pointer" onclick="JavaScript:location.href='/resources/views/order/orderEditForm.php?id=' + '<?php echo $order->getUserId(); ?>'">
-                                        <span class="hover:underline">Editar</span>
+        <?php
+        if (isset($_SESSION['currentUser'])) {
+            $user = unserialize($_SESSION['currentUser']);
+            // echo "<pre>";
+            // var_dump($user);
+            // echo "</pre>";
+            // die();
+            $type = $user->getType();
+        }
+        if ($type == 'admin') {
+        ?>
+            <h2 class="text-2xl font-bold tracking-tight text-left text-gray-900 dark:text-white my-8">Histórico de pedidos</h2>
+            <div class="flex flex-col items-start w-2/3 mb-6">
+                <h3 class="text-base font-medium tracking-tight text-gray-500 dark:text-gray-300 ">Informações para administrador</h3>
+                <div class="relative overflow-x-auto w-full shadow-lg dark:shadow-none sm:rounded-lg border border-t-gray-200 dark:border-0">
+                    <table class="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400 mt-2">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    Comprador
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Produto
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Quantidade de pedidos
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Valor Total
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+
+                            foreach ($orderDetails as $order) { ?>
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <?php echo $order->getUserName(); ?>
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <?php echo $order->getProductDescription(); ?>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <?php echo $order->getTotalOrders() ?></td>
+                                    <td class="px-6 py-4">
+                                        <span x-text="TotalPrice(<?php echo $order->getTotalAdminCosts() ?>)"></span>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        <?php } ?>
+
+        <div class="flex flex-col items-start w-2/3">
+            <h3 class="text-base font-medium tracking-tight text-gray-500 dark:text-gray-300 ">Informações para pedidos de <?php $user = unserialize($_SESSION['currentUser']);
+                                                                                                                            echo $user->getName() ?></h3>
+            <div class="relative overflow-x-auto w-full shadow-lg dark:shadow-none sm:rounded-lg border border-t-gray-200 dark:border-0">
+                <table class="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400 mt-2">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                PRODUTO ID
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Data
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Quantidade
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Preço total
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Ações
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+
+                        foreach ($orders as $order) { ?>
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <?php echo $order->getProductId(); ?>
+                                </th>
+                                <td class="px-6 py-4">
+                                    <?php echo $order->getDate()->format('d/m/Y h:i'); ?>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <?php echo $order->getQuantity() ?></td>
+                                <td class="px-6 py-4">
+                                    <span x-text="TotalPrice(<?php echo $order->getTotalPrice() ?>)"></span>
+                                </td>
+                                <td class="px-6 py-4 hover:cursor-pointer">
+                                    <a class="font-medium text-yellow-600 dark:text-yellow-500" onclick="JavaScript:location.href='/resources/views/order/orderEditForm.php?id=' + '<?php echo $order->getId(); ?>'">
+                                        <span class="hover:underline hover:text-">Editar</span> 
                                     </a>
-                                    <a class="font-medium text-indigo-600 dark:text-indigo-500  hover:cursor-pointer" onclick="JavaScript:location.href='/resources/views/order/orderDetails.php?id=' + '<?php echo $order->getUserId(); ?>'">
-                                        <span class="hover:underline">Ver</span>
-                                    </a>
-                                    <a class="font-medium text-red-600 dark:text-red-500  hover:cursor-pointer" onclick="JavaScript: remover( <?php echo $order->getUserId(); ?> )">
-                                        <span class="hover:underline">Excluir</span>
+                                    <a class="font-medium text-red-600 dark:text-red-500" onclick="JavaScript: remover( <?php echo $order->getProductId(); ?> )">
+                                        <span class="hover:underline hover:text-">Excluir</span> 
                                     </a>
                                 </td>
-                            <?php } ?>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <?php include('.\resources\views\components\footer.html') ?>

@@ -77,7 +77,7 @@ class OrderController
         $result = $this->orderBll->deleteOrder($id);
 
         if ($result) {
-            header("Location: /resources/views/order/orders.php");
+            header("Location: /resources/views/order/my_orders.php");
         } else {
             echo "Erro ao deletar pedido";
         }
