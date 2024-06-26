@@ -6,6 +6,7 @@ use App\Controllers\AuthController;
 use App\Controllers\OrderController;
 use App\Controllers\UserController;
 use App\Controllers\ProductController;
+use App\Dal\OrderDal;
 
 if (isset($_GET['action'])) {
     $action = $_GET['action'];

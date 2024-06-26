@@ -3,6 +3,7 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use App\Controllers\OrderController;
 use App\Controllers\SessionController;
+use App\Dal\OrderDal;
 
 $orderController = new OrderController();
 $sessionController = new SessionController();
@@ -54,6 +55,31 @@ $userId = $sessionController->getCurrentUserId();
                             <i class="material-icons">delete</i></a>
                     </td>
                 <?php } ?>
+            </tr>
+        <?php } ?>
+
+        <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Produto</th>
+            <th>Preço total do pedido</th>
+            <th>Custo do usuário no modo admin</th>
+            <th>Custo do usuário no modo client</th>
+        </tr>
+
+        <?php
+        $dal = new OrderDal;
+        $orderDetails = $dal->ShowOrderDetails();
+
+        foreach ($orderDetails as $orderDetail) {
+        ?>
+            <tr>
+                <td><?php echo $orderDetail->getUserId()?></td>
+                <td><?php echo $orderDetail->getUserName()?></td>
+                <td><?php echo $orderDetail->getProductDescription()?></td>
+                <td><?php echo $orderDetail->getTotalOrders()?></td>
+                <td><?php echo $orderDetail->getTotalAdminCosts()?></td>
+                <td><?php echo $orderDetail->getTotalClientCosts()?></td>
             </tr>
         <?php } ?>
 
