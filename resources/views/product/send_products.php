@@ -9,28 +9,35 @@
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
-<script>
-    const mascaraMoeda = (event) => {
-        const onlyDigits = event.target.value
-            .split("")
-            .filter(s => /\d/.test(s))
-            .join("")
-            .padStart(3, "0")
-        const digitsFloat = onlyDigits.slice(0, -2) + "." + onlyDigits.slice(-2)
-        event.target.value = maskCurrency(digitsFloat)
-    }
-
-    const maskCurrency = (valor, locale = 'pt-BR', currency = 'BRL') => {
-        return new Intl.NumberFormat(locale, {
-            style: 'currency',
-            currency
-        }).format(valor)
-    }
-</script>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+
+        const mascaraMoeda = (event) => {
+            const onlyDigits = event.target.value
+                .split("")
+                .filter(s => /\d/.test(s))
+                .join("")
+                .padStart(3, "0")
+            const digitsFloat = onlyDigits.slice(0, -2) + "." + onlyDigits.slice(-2)
+            event.target.value = maskCurrency(digitsFloat)
+        }
+
+        const maskCurrency = (valor, locale = 'pt-BR', currency = 'BRL') => {
+            return new Intl.NumberFormat(locale, {
+                style: 'currency',
+                currency
+            }).format(valor)
+        }
+    </script>
     <title>Cadastrar produto</title>
     <link href="../../../public/build/output.css" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/mask@3.x.x/dist/cdn.min.js"></script>

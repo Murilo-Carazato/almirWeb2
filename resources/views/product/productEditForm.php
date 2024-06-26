@@ -15,29 +15,36 @@ if (isset($_GET['id'])) {
 
 <!DOCTYPE html>
 <html lang="pt-Br">
-<script>
-    const mascaraMoeda = (event) => {
-        const onlyDigits = event.target.value
-            .split("")
-            .filter(s => /\d/.test(s))
-            .join("")
-            .padStart(3, "0")
-        const digitsFloat = onlyDigits.slice(0, -2) + "." + onlyDigits.slice(-2)
-        event.target.value = maskCurrency(digitsFloat)
-    }
-
-    const maskCurrency = (valor, locale = 'pt-BR', currency = 'BRL') => {
-        return new Intl.NumberFormat(locale, {
-            style: 'currency',
-            currency
-        }).format(valor)
-    }
-</script>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/../../../public/build/output.css" rel="stylesheet">
+    <script>
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+
+        const mascaraMoeda = (event) => {
+            const onlyDigits = event.target.value
+                .split("")
+                .filter(s => /\d/.test(s))
+                .join("")
+                .padStart(3, "0")
+            const digitsFloat = onlyDigits.slice(0, -2) + "." + onlyDigits.slice(-2)
+            event.target.value = maskCurrency(digitsFloat)
+        }
+
+        const maskCurrency = (valor, locale = 'pt-BR', currency = 'BRL') => {
+            return new Intl.NumberFormat(locale, {
+                style: 'currency',
+                currency
+            }).format(valor)
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <title>Editar Produtos</title>
 </head>
@@ -50,9 +57,9 @@ if (isset($_GET['id'])) {
             <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Atualize um produto</h2>
             <h2 class="text-base font-medium tracking-tight text-gray-500 dark:text-gray-300">Este produto ficará visível para usuários comprarem!</h2>
         </div>
-        <form action="/public/index.php?action=updateProduct&id=<?php echo$product->getId(); ?>" method="POST" x-data="{
-            unitPrice : <?php echo$product->getUnitPrice(); ?>,
-            unitPriceMask: 'R$ <?php echo$product->getUnitPrice(); ?>',
+        <form action="/public/index.php?action=updateProduct&id=<?php echo $product->getId(); ?>" method="POST" x-data="{
+            unitPrice : <?php echo $product->getUnitPrice(); ?>,
+            unitPriceMask: 'R$ <?php echo $product->getUnitPrice(); ?>',
             castUnitPrice(){
                 let stringLimpada = this.unitPriceMask.replace(/R\$|\s/g, '');
                 stringLimpada = stringLimpada.replace(/\./g, '');
@@ -67,7 +74,7 @@ if (isset($_GET['id'])) {
             </div>
             <div class="mb-5">
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preço (unitário)</label>
-                <input name="unitPrice" value="<?php echo $product->getUnitPrice(); ?>" required @input="castUnitPrice()" x-model="unitPriceMask" type="text" oninput="mascaraMoeda(event);"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500">
+                <input name="unitPrice" value="<?php echo $product->getUnitPrice(); ?>" required @input="castUnitPrice()" x-model="unitPriceMask" type="text" oninput="mascaraMoeda(event);" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500">
                 <!-- <input type="hidden" x-model="unitPrice" name="unitPrice"> -->
             </div>
             <div class="mb-5">
