@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use App\Controllers\ProductController;
-
+session_start();
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 

@@ -875,11 +875,6 @@ select {
   margin-right: 0.5rem;
 }
 
-.mx-20 {
-  margin-left: 5rem;
-  margin-right: 5rem;
-}
-
 .mx-60 {
   margin-left: 15rem;
   margin-right: 15rem;
@@ -893,6 +888,11 @@ select {
 .my-10 {
   margin-top: 2.5rem;
   margin-bottom: 2.5rem;
+}
+
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .mb-1 {
@@ -1041,6 +1041,10 @@ select {
 
 .min-h-screen {
   min-height: 100vh;
+}
+
+.w-1\/2 {
+  width: 50%;
 }
 
 .w-3 {
@@ -1231,8 +1235,16 @@ select {
   overflow: hidden;
 }
 
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
 .overflow-x-hidden {
   overflow-x: hidden;
+}
+
+.whitespace-nowrap {
+  white-space: nowrap;
 }
 
 .rounded {
@@ -1309,6 +1321,15 @@ select {
 .border-white {
   --tw-border-opacity: 1;
   border-color: rgb(255 255 255 / var(--tw-border-opacity));
+}
+
+.border-b-inherit {
+  border-bottom-color: inherit;
+}
+
+.border-t-gray-200 {
+  --tw-border-opacity: 1;
+  border-top-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
 
 .bg-blue-50 {
@@ -1473,6 +1494,11 @@ select {
 .py-3 {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
+}
+
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .py-5 {
@@ -1642,9 +1668,19 @@ select {
   color: rgb(17 24 39 / var(--tw-text-opacity));
 }
 
+.text-indigo-600 {
+  --tw-text-opacity: 1;
+  color: rgb(79 70 229 / var(--tw-text-opacity));
+}
+
 .text-red-500 {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity));
+}
+
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity));
 }
 
 .text-white {
@@ -1655,6 +1691,11 @@ select {
 .text-yellow-300 {
   --tw-text-opacity: 1;
   color: rgb(253 224 71 / var(--tw-text-opacity));
+}
+
+.text-yellow-600 {
+  --tw-text-opacity: 1;
+  color: rgb(202 138 4 / var(--tw-text-opacity));
 }
 
 .antialiased {
@@ -1889,6 +1930,14 @@ select {
   --tw-ring-color: rgb(99 102 241 / var(--tw-ring-opacity));
 }
 
+.dark\:border-0:is(.dark *) {
+  border-width: 0px;
+}
+
+.dark\:border-b-0:is(.dark *) {
+  border-bottom-width: 0px;
+}
+
 .dark\:border-gray-600:is(.dark *) {
   --tw-border-opacity: 1;
   border-color: rgb(75 85 99 / var(--tw-border-opacity));
@@ -1902,6 +1951,15 @@ select {
 .dark\:border-gray-900:is(.dark *) {
   --tw-border-opacity: 1;
   border-color: rgb(17 24 39 / var(--tw-border-opacity));
+}
+
+.dark\:border-t-gray-900:is(.dark *) {
+  --tw-border-opacity: 1;
+  border-top-color: rgb(17 24 39 / var(--tw-border-opacity));
+}
+
+.dark\:border-b-transparent:is(.dark *) {
+  border-bottom-color: transparent;
 }
 
 .dark\:bg-gray-700:is(.dark *) {
@@ -1964,6 +2022,11 @@ select {
   color: rgb(75 85 99 / var(--tw-text-opacity));
 }
 
+.dark\:text-indigo-500:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(99 102 241 / var(--tw-text-opacity));
+}
+
 .dark\:text-red-500:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity));
@@ -1972,6 +2035,11 @@ select {
 .dark\:text-white:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.dark\:text-yellow-500:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(234 179 8 / var(--tw-text-opacity));
 }
 
 .dark\:placeholder-gray-400:is(.dark *)::-moz-placeholder {
@@ -1987,6 +2055,11 @@ select {
 .dark\:shadow-black:is(.dark *) {
   --tw-shadow-color: #000;
   --tw-shadow: var(--tw-shadow-colored);
+}
+
+.dark\:hover\:bg-gray-600:hover:is(.dark *) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(75 85 99 / var(--tw-bg-opacity));
 }
 
 .dark\:hover\:bg-gray-700:hover:is(.dark *) {
@@ -2084,6 +2157,10 @@ select {
     justify-content: space-between;
   }
 
+  .sm\:rounded-lg {
+    border-radius: 0.5rem;
+  }
+
   .sm\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -2091,11 +2168,6 @@ select {
 }
 
 @media (min-width: 768px) {
-  .md\:mx-60 {
-    margin-left: 15rem;
-    margin-right: 15rem;
-  }
-
   .md\:-mt-1 {
     margin-top: -0.25rem;
   }
@@ -2152,12 +2224,12 @@ select {
     width: 100vw;
   }
 
-  .md\:max-w-screen-sm {
-    max-width: 640px;
+  .md\:max-w-3xl {
+    max-width: 48rem;
   }
 
-  .md\:max-w-xl {
-    max-width: 36rem;
+  .md\:max-w-screen-sm {
+    max-width: 640px;
   }
 
   .md\:grid-cols-2 {
@@ -2239,4 +2311,8 @@ select {
 
 .rtl\:space-x-reverse:where([dir="rtl"], [dir="rtl"] *) > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 1;
+}
+
+.rtl\:text-right:where([dir="rtl"], [dir="rtl"] *) {
+  text-align: right;
 }
