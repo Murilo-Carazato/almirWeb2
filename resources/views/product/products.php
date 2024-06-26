@@ -20,7 +20,7 @@ if ($busca == null) {
     $products = $productController->index();
 } else {
     $dal = new ProductDal();
-    $data = $dal->SelectByDescription($busca);
+    $products = $dal->SelectByDescription($busca);
 }
 
 $userId = $sessionController->getCurrentUserId();
@@ -61,44 +61,22 @@ $userId = $sessionController->getCurrentUserId();
             <th>IdUser</th>
         </tr>
 
-        <?php if ($products != null) {
-            foreach ($products as $product) { ?>
-                <tr>
-                    <td><?php echo $product->getId(); ?></td>
-                    <td><?php echo $product->getDescription(); ?></td>
-                    <td><?php echo $product->getUnitPrice(); ?></td>
-                    <td><?php echo $product->getStock(); ?></td>
-                    <td><?php echo $product->getUserId(); ?></td>
-
-                    <?php if ($userId == $product->getUserId()) { ?>
-                        <td>
-                            <a class="btn-floating btn-small waves-effect waves-light orange" onclick="JavaScript:location.href='/resources/views/product/productEditForm.php?id=' + '<?php echo $product->getId(); ?>'">
-                                <i class="material-icons">edit</i></a>
-
-                            <a class="btn-floating btn-small waves-effect waves-light blue" onclick="JavaScript:location.href='/resources/views/product/productDetails.php?id=' + '<?php echo $product->getId(); ?>'"><i class="material-icons">details</i></a>
-
-                            <a class="btn-floating btn-small waves-effect waves-light red" onclick="JavaScript: remover( <?php echo $product->getId(); ?> )">
-                                <i class="material-icons">delete</i></a>
-                        </td>
-                    <?php } ?>
-                </tr>
-            <?php }
-        } else { ?>
+        <?php foreach ($products as $product) { ?>
             <tr>
-                <td><?php echo $data->getId(); ?></td>
-                <td><?php echo $data->getDescription(); ?></td>
-                <td><?php echo $data->getUnitPrice(); ?></td>
-                <td><?php echo $data->getStock(); ?></td>
-                <td><?php echo $data->getUserId(); ?></td>
+                <td><?php echo $product->getId(); ?></td>
+                <td><?php echo $product->getDescription(); ?></td>
+                <td><?php echo $product->getUnitPrice(); ?></td>
+                <td><?php echo $product->getStock(); ?></td>
+                <td><?php echo $product->getUserId(); ?></td>
 
-                <?php if ($userId == $data->getUserId()) { ?>
+                <?php if ($userId == $product->getUserId()) { ?>
                     <td>
-                        <a class="btn-floating btn-small waves-effect waves-light orange" onclick="JavaScript:location.href='/resources/views/product/productEditForm.php?id=' + '<?php echo $data->getId(); ?>'">
+                        <a class="btn-floating btn-small waves-effect waves-light orange" onclick="JavaScript:location.href='/resources/views/product/productEditForm.php?id=' + '<?php echo $product->getId(); ?>'">
                             <i class="material-icons">edit</i></a>
 
-                        <a class="btn-floating btn-small waves-effect waves-light blue" onclick="JavaScript:location.href='/resources/views/product/productDetails.php?id=' + '<?php echo $data->getId(); ?>'"><i class="material-icons">details</i></a>
+                        <a class="btn-floating btn-small waves-effect waves-light blue" onclick="JavaScript:location.href='/resources/views/product/productDetails.php?id=' + '<?php echo $product->getId(); ?>'"><i class="material-icons">details</i></a>
 
-                        <a class="btn-floating btn-small waves-effect waves-light red" onclick="JavaScript: remover( <?php echo $data->getId(); ?> )">
+                        <a class="btn-floating btn-small waves-effect waves-light red" onclick="JavaScript: remover( <?php echo $product->getId(); ?> )">
                             <i class="material-icons">delete</i></a>
                     </td>
                 <?php } ?>

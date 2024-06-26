@@ -104,21 +104,27 @@ class ProductDal
     public function SelectByDescription(string $description)
     {
         $pdo = Connection::connect();
-        $sql = "SELECT * FROM product WHERE description = :description;";
+        $sql = "SELECT * FROM product WHERE description LIKE :description";
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':description', $description);
+
+        $descriptionLike = '%' . $description . '%';
+        $stmt->bindParam(':description', $descriptionLike, PDO::PARAM_STR);
+
         $stmt->execute();
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        Connection::disconnect();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $products = [];
 
-        $product = new ProductModel();
-        $product->setId($data['id']);
-        $product->setDescription($data['description']);
-        $product->setUnitPrice($data['unit_price']);
-        $product->setStock($data['stock']);
-        $product->setUserId($data['user_id']);
+        foreach ($data as $line) {
+            $product = new ProductModel();
+            $product->setId($line['id']);
+            $product->setDescription($line['description']);
+            $product->setUnitPrice($line['unit_price']);
+            $product->setStock($line['stock']);
+            $product->setUserId($line['user_id']);
+            $products[] = $product;
+        }
 
-        return $product;
+        return $products;
     }
 }
