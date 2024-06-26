@@ -20,11 +20,11 @@ $userId = $sessionController->getCurrentUserId();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar Orders</title>
+    <title>Listar Pedidos</title>
 </head>
 
 <body>
-    <h1>Listar Orders</h1>
+    <h4>Listar Pedidos</h4>
     <table class="highlight">
         <tr>
             <th>ID</th>
@@ -57,7 +57,14 @@ $userId = $sessionController->getCurrentUserId();
                 <?php } ?>
             </tr>
         <?php } ?>
+    </table>
+    <button class="waves-effect waves-light btn green" type="button" onclick="JavaScript:location.href='/resources/views/order/orderForm.php'"><i class="material-icons">add</i>
+    </button>
 
+    <hr>
+
+    <h4>Listar Detalhe dos Pedidos</h4>
+    <table>
         <tr>
             <th>User ID</th>
             <th>Name</th>
@@ -74,19 +81,18 @@ $userId = $sessionController->getCurrentUserId();
         foreach ($orderDetails as $orderDetail) {
         ?>
             <tr>
-                <td><?php echo $orderDetail->getUserId()?></td>
-                <td><?php echo $orderDetail->getUserName()?></td>
-                <td><?php echo $orderDetail->getProductDescription()?></td>
-                <td><?php echo $orderDetail->getTotalOrders()?></td>
-                <td><?php echo $orderDetail->getTotalAdminCosts()?></td>
-                <td><?php echo $orderDetail->getTotalClientCosts()?></td>
+                <td><?php echo $orderDetail->getUserId() ?></td>
+                <td><?php echo $orderDetail->getUserName() ?></td>
+                <td><?php echo $orderDetail->getProductDescription() ?></td>
+                <td><?php echo $orderDetail->getTotalOrders() ?></td>
+                <td><?php echo $orderDetail->getTotalAdminCosts() ?></td>
+                <td><?php echo $orderDetail->getTotalClientCosts() ?></td>
             </tr>
         <?php } ?>
 
     </table>
 
-    <button class="waves-effect waves-light btn green" type="button" onclick="JavaScript:location.href='/resources/views/order/orderForm.php'"><i class="material-icons">add</i>
-    </button>
+
 </body>
 
 </html>

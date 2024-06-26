@@ -34,11 +34,11 @@ $userId = $sessionController->getCurrentUserId();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar Products</title>
+    <title>Listar Produtos</title>
 </head>
 
 <body>
-    <h1>Listar Products</h1>
+    <h1>Listar Produtos</h1>
     <div>
         <div>
             <form action="/resources/views/product/products.php" method="GET">

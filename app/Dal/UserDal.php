@@ -40,6 +40,26 @@ class UserDal
         return $users;
     }
 
+    public function SelectById(string $id)
+    {
+        $pdo = Connection::connect();
+        $sql = "SELECT * FROM user WHERE id = :id;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        Connection::disconnect();
+
+        $user = new UserModel();
+        $user->setId($data['id']);
+        $user->setName($data['name']);
+        $user->setPassword($data['password']);
+        $user->setType($data['type']);
+
+        return $user;
+    }
+
     public function SelectByName(string $name)
     {
         $pdo = Connection::connect();
@@ -52,6 +72,19 @@ class UserDal
         Connection::disconnect();
 
         return $data;
+    }
+
+    public function Update(UserModel $user)
+    {
+        $sql = "UPDATE user SET name = ?, password = ?, type = ? WHERE id = ?;";
+
+        $pdo = Connection::connect();
+        $query = $pdo->prepare($sql);
+
+        $result = $query->execute(array($user->getName(), $user->getPassword(), $user->getType(), $user->getId()));
+        Connection::disconnect();
+
+        return $result;
     }
 
     public function insert(UserModel $user)
@@ -78,5 +111,17 @@ class UserDal
         Connection::disconnect();
 
         return $user;
+    }
+
+    public function Delete(int $id)
+    {
+        $sql = "DELETE FROM user WHERE id = ?;";
+
+        $pdo = Connection::connect();
+        $query = $pdo->prepare($sql);
+        $result = $query->execute(array($id));
+        Connection::disconnect();
+
+        return $result;
     }
 }

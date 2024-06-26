@@ -20,16 +20,25 @@ if (isset($_GET['action'])) {
     }
 
     switch ($action) {
-            //User
-        case 'registerUser':
-            $userController->registerUser();
-            break;
+            //Auth
         case 'loginUser':
             $authController->loginUser();
             break;
         case 'logoutUser':
             $authController->logoutUser();
             break;
+
+            //User
+        case 'registerUser':
+            $userController->registerUser();
+            break;
+        case 'updateUser':
+            $userController->update($id);
+            break;
+        case 'destroyUser':
+            $userController->destroy($id);
+            break;
+
 
             //Product
         case 'createProduct':
@@ -96,6 +105,8 @@ if (isset($_SESSION['currentUser'])) {
         <li><a class="" href="/resources/views/product/products.php">products.php</a></li>
         <li></li>
         <li><a class="" href="/resources/views/order/orders.php">orders.php</a></li>
+        <li></li>
+        <li><a class="" href="/resources/views/user/users.php">users.php</a></li>
 
 
     </ul>

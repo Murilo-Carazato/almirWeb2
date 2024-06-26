@@ -45,4 +45,39 @@ class UserController
             echo "Erro ao criar usuário";
         }
     }
+
+    public function index()
+    {
+        $users = $this->userBll->getAllUsers();
+        return $users;
+    }
+
+    public function show($id)
+    {
+        return $this->userBll->getUserById($id);
+    }
+
+    public function update($id)
+    {
+        $userData = $_POST;
+
+        $result = $this->userBll->updateUser($id, $userData);
+
+        if ($result) {
+            header("Location: /resources/views/user/users.php");
+        } else {
+            echo "Erro ao atualizar usuário";
+        }
+    }
+
+    public function destroy($id)
+    {
+        $result = $this->userBll->deleteUser($id);
+
+        if ($result) {
+            header("Location: /resources/views/user/users.php");
+        } else {
+            echo "Erro ao deletar usuário";
+        }
+    }
 }
