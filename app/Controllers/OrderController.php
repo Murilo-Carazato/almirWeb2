@@ -25,16 +25,25 @@ class OrderController
 
     public function create()
     {
-        $orderData = $_POST;
-        // var_dump($orderData);
-
+        $orderData = json_decode($_POST['cart']);
         $userId = $this->sessionController->getCurrentUserId();
-        $result = $this->orderBll->createOrder($orderData, $userId);
-
-        if ($result instanceof OrderModel) {
-            header("Location: /resources/views/order/orders.php");
-        } else {
+        $results = [];
+        $status = false;
+        foreach ($orderData as $val) {
+            $results[] = $this->orderBll->createOrder($val, $userId);
+        }
+        foreach ($results as $result) {
+            if ($result instanceof OrderModel) {
+                $status = false;
+            } else {
+                $status = true;
+                break;
+            }
+        }
+        if ($status) {
             echo "Erro ao criar pedido";
+        } else {
+            header("Location: /resources/views/order/orders.php");
         }
     }
 
