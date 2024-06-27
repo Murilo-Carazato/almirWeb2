@@ -52,34 +52,20 @@ $products = $bllProduct->getAllProducts();
             </div>
             <div class="mb-5">
                 <label for="input-quantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quantidade comprada</label>
-                <input id="input-quantity" name="quantity" value="<?php echo $order->getQuantity(); ?>" required type="number" class="transition-all bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500">
+                <input id="input-quantity" name="quantity" value="<?php echo $order->getQuantity(); ?>" min="0" required type="number" class="transition-all bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500">
             </div>
             <label for="select-product" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alterar produto</label>
             <select name="productId" id="select-product" class="transition-all bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500">
                 <?php
-                $teste = $bllProduct->getProductById($order->getProductId());
-                //preciso ver qnd ele trocou
-
-                //no js
-                //id do produto escolhido antigo
-
-
-                //id do produto escolhido atual
-
-
-                //
-                var_dump("---");
-                //
-                var_dump($order->getQuantity());
-                var_dump($teste->getStock());
-                var_dump($teste->getStock() + $order->getQuantity());
-
-
                 $selectedProductId = $order->getProductId();
                 foreach ($products as $Product) {
-                    $selected = $Product->getId() == $selectedProductId ? 'selected' : '';
+                    if ($Product->getId() == $selectedProductId) {
+                        $selected = 'selected';
+                    } else {
+                        $selected = '';
+                    }
                 ?>
-                    <option value="<?php echo $Product->getId(); ?>" data-stock="<?php echo $Product->getStock(); ?>" <?php echo $selected; ?>>
+                    <option value="<?php echo $Product->getId(); ?>" data-stock="<?php echo ($Product->getStock() + $order->getQuantity()); ?>" <?php echo $selected; ?>>
                         <?php echo $Product->getDescription(); ?>
                     </option>
 
@@ -112,6 +98,8 @@ $products = $bllProduct->getAllProducts();
             const stock = selectedOption.getAttribute('data-stock');
             inputQuantity.setAttribute('max', stock);
 
+            //
+
             var oldProductChosen = <?php echo $order->getProductId(); ?>;
             //comparar o atual com o antigo
             console.log('Selected Product ID:', selectedOption.value); //atual
@@ -119,7 +107,7 @@ $products = $bllProduct->getAllProducts();
             console.log('Stock:', stock);
 
             var form = document.getElementById('orderForm');
-            if (oldProductChosen != selectedOption.value) { 
+            if (oldProductChosen != selectedOption.value) {
                 console.log('TROCOU O PRODUTO ORIGINAL');
                 form.action = '/public/index.php?action=updateOrder&id=<?php echo $order->getId(); ?>&idDoProdutoAntigo=' + oldProductChosen;
             }
