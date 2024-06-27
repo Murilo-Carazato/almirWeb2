@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
+use App\Bll\ProductBll;
 use App\Controllers\OrderController;
 use App\Controllers\SessionController;
 use App\Dal\OrderDal;
@@ -11,8 +12,10 @@ $sessionController = new SessionController();
 
 $orders = $orderController->index();
 $userId = $sessionController->getCurrentUserId();
+$productBll = new ProductBll();
 $dal = new OrderDal;
 $orderDetails = $dal->ShowOrderDetails();
+
 ?>
 
 <!DOCTYPE html>
@@ -112,15 +115,19 @@ $orderDetails = $dal->ShowOrderDetails();
 
         <?php } ?>
 
-        <div class="flex flex-col items-start w-2/3">
-            <h3 class="text-base font-medium tracking-tight text-gray-500 dark:text-gray-300 ">Informações para pedidos de <?php $user = unserialize($_SESSION['currentUser']);
-                                                                                                                            echo $user->getName() ?></h3>
+        <div class="flex flex-col items-start w-11/12">
+            <h3 class="text-base font-medium tracking-tight text-gray-500 dark:text-gray-300 ">
+                Informações para pedidos de <?php $user = unserialize($_SESSION['currentUser']);
+                                            echo $user->getName() ?></h3>
             <div class="relative overflow-x-auto w-full shadow-lg dark:shadow-none sm:rounded-lg border border-t-gray-200 dark:border-0 mb-20">
                 <table class="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400 mt-2">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 PRODUTO ID
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Nome
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Data
@@ -140,29 +147,37 @@ $orderDetails = $dal->ShowOrderDetails();
                         <?php
 
                         foreach ($orders as $order) { ?>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    <?php echo $order->getProductId(); ?>
-                                </th>
-                                <td class="px-6 py-4">
-                                    <?php echo $order->getDate()->format('d/m/Y H:i'); ?>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <?php echo $order->getQuantity() ?></td>
-                                <td class="px-6 py-4">
-                                    <span x-text="TotalPrice(<?php echo $order->getTotalPrice() ?>)"></span>
-                                </td>
-                                <td class="px-6 py-4 hover:cursor-pointer">
-                                    <a class="font-medium text-yellow-600 dark:text-yellow-500" onclick="JavaScript:location.href='/resources/views/order/orderEditForm.php?id=' + '<?php echo $order->getId(); ?>'">
-                                        <span class="hover:underline hover:text-">Editar</span> 
-                                    </a>
-                                    <!-- DEVEMOS ALTERAR O echo $order->getProductId(); PARA echo $order->getOrderId(); -->
-                                    <!-- <a class="font-medium text-red-600 dark:text-red-500" onclick="JavaScript: remover( <?php //echo $order->getProductId(); ?> )">
-                                        <span class="hover:underline hover:text-">Excluir</span> 
-                                    </a> -->
-                                </td>
-                            </tr>
-                        <?php } ?>
+                            <?php
+                            if ($user->getId() == $order->getUserId()) {
+                                $productId = $order->getProductId();
+                                $product = $productBll->getProductById($productId);
+                            ?>
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <?php echo $order->getProductId(); ?>
+                                    </th>
+                                    <th scope="row" class="px-6 py-4">
+                                        <?php echo $product->getDescription() ?>
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <?php echo $order->getDate()->format('d/m/Y H:i'); ?>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <?php echo $order->getQuantity() ?></td>
+                                    <td class="px-6 py-4">
+                                        <span x-text="TotalPrice(<?php echo $order->getTotalPrice() ?>)"></span>
+                                    </td>
+                                    <td class="px-6 py-4 hover:cursor-pointer">
+                                        <a class="font-medium text-yellow-600 dark:text-yellow-500" onclick="JavaScript:location.href='/resources/views/order/orderEditForm.php?id=' + '<?php echo $order->getId(); ?>'">
+                                            <span class="hover:underline hover:text-">Editar</span>
+                                        </a>
+                                        <a class="font-medium text-red-600 dark:text-red-500" onclick="JavaScript: remover(<?php echo $order->getId() ?>, '<?php echo $product->getDescription() ?>')">
+                                            <span class="hover:underline hover:text-">Excluir</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                        <?php }
+                        } ?>
                     </tbody>
                 </table>
             </div>
@@ -175,8 +190,9 @@ $orderDetails = $dal->ShowOrderDetails();
 </html>
 
 <script>
-    function remover(id) {
-        if (confirm('Excluir o produto ' + id + '?')) {
+    function remover(id, name) {
+        console.log(id);
+        if (confirm('Excluir o pedido ' + name + '?')) {
             location.href = '/public/index.php?action=destroyOrder&id=' + id;
         }
     }
