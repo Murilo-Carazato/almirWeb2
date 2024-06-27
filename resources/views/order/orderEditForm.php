@@ -13,6 +13,9 @@ if (isset($_GET['id'])) {
 } else {
     die("ID inválido.");
 }
+
+$bllProduct = new ProductBll();
+$products = $bllProduct->getAllProducts();
 ?>
 
 <!DOCTYPE html>
@@ -52,16 +55,20 @@ if (isset($_GET['id'])) {
                 <input id="input-quantity" name="quantity" value="<?php echo $order->getQuantity(); ?>" required type="number" class="transition-all bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500">
             </div>
             <label for="select-product" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alterar produto</label>
-            <select id="select-product" class="transition-all bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500">
+            <select name="productId" id="select-product" class="transition-all bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500">
                 <?php
-                $bllProduct = new ProductBll();
-                $products = $bllProduct->getAllProducts();
+                
+                $teste = $bllProduct->getProductById($order->getProductId());
+                var_dump($teste->getId());
 
                 foreach ($products as $Product) { ?>
-                    <option value="<?php echo $Product->getId(); ?>">
+                    <option value="<?php echo $Product->getId(); ?>" data-stock="<?php echo $Product->getStock(); ?>">
                         <?php echo $Product->getDescription() ?>
                     </option>
-                <?php } ?>
+                <?php }
+
+                
+                ?>
             </select>
             <button type="submit" class="block w-full bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 duration-300 text-white font-semibold mb-2">Atualizar</button>
         </form>
@@ -71,3 +78,26 @@ if (isset($_GET['id'])) {
 </body>
 
 </html>
+
+<script>
+    //valor inicial do select está errado
+
+    //qnt comprada antiga + stock do produto escolhido antigo
+    //$order->getQuantity(); + $order->product->stock
+    
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const selectProduct = document.getElementById('select-product');
+        const inputQuantity = document.getElementById('input-quantity');
+
+        selectProduct.addEventListener('change', (event) => {
+            const selectedOption = selectProduct.options[selectProduct.selectedIndex];
+            const stock = selectedOption.getAttribute('data-stock');
+            inputQuantity.setAttribute('max', stock);
+
+            console.log('Selected Product ID:', selectedOption.value);
+            console.log('Stock:', stock);
+        });
+
+        selectProduct.dispatchEvent(new Event('change'));
+    });
+</script>

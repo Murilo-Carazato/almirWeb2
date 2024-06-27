@@ -59,6 +59,8 @@ class OrderController
     public function update($id)
     {
         $orderData = $_POST;
+        // var_dump($orderData);
+        // die();
         $userId = $this->sessionController->getCurrentUserId();
         $result = $this->orderBll->updateOrder($id, $orderData, $userId);
 
