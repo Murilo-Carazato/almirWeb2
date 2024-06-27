@@ -56,13 +56,12 @@ class OrderController
         return $this->orderBll->getOrderById($id);
     }
 
-    public function update($id)
+    public function update($id, $idDoProdutoAntigo)
     {
         $orderData = $_POST;
-        // var_dump($orderData);
-        // die();
         $userId = $this->sessionController->getCurrentUserId();
-        $result = $this->orderBll->updateOrder($id, $orderData, $userId);
+        
+        $result = $this->orderBll->updateOrder($id, $orderData, $userId, $idDoProdutoAntigo);
 
         if ($result) {
             header("Location: /resources/views/order/my_orders.php");
