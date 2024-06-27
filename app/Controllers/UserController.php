@@ -80,7 +80,7 @@ class UserController
         $result = $this->userBll->deleteUser($id);
 
         if ($result) {
-            header("Location: /resources/views/user/users.php");
+            header("Location: /resources/views/login.php");
             exit();
         } else {
             echo "Erro ao deletar usuário";
