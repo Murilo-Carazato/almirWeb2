@@ -54,7 +54,7 @@ class OrderBll
         return $this->orderDal->selectById($id);
     }
 
-    public function updateOrder($id, $orderData, $userId)
+    public function updateOrder($id, $orderData, $userId, $idDoProdutoAntigo)
     {
         $order = $this->orderDal->selectById($id);
         if (!$order) {
@@ -71,16 +71,29 @@ class OrderBll
             throw new \Exception("Produto não encontrado.");
         }
 
-        if ($lastQuantity > $newQuantity) {
-            $product->setStock($product->getStock() + ($lastQuantity - $newQuantity));
+        $productDal = new ProductDal();
+        $productDal2 = new ProductDal();
+
+        if ($idDoProdutoAntigo != null) {
+            //metodo para atualizar estoque do produto trocado
+            $oldProduct = $this->productBll->getProductById($idDoProdutoAntigo);
+            $oldProduct->setStock($oldProduct->getStock() + $order->getQuantity());
+
+            $product->setStock($product->getStock() - $order->getQuantity());
+
+            $productDal->update($oldProduct); //melhor usar bbl?
+            $productDal2->update($product);
         } else {
-            $product->setStock($product->getStock() - ($newQuantity - $lastQuantity));
+            if ($lastQuantity > $newQuantity) {
+                $product->setStock($product->getStock() + ($lastQuantity - $newQuantity));
+            } else {
+                $product->setStock($product->getStock() - ($newQuantity - $lastQuantity));
+            }
+
+            $productDal2->update($product);
         }
 
         $order->setTotalPrice($newQuantity * $product->getUnitPrice());
-
-        $productDal = new ProductDal();
-        $productDal->update($product); //acho q é melhor usar o bll
 
         $order->setUserId($userId);
 
@@ -146,5 +159,9 @@ class OrderBll
                 $order->setDate($date);
             }
         }
+    }
+
+    public function updateChangedOrder($id, $orderData, $userId)
+    {
     }
 }

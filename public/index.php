@@ -56,7 +56,10 @@ if (isset($_GET['action'])) {
             $orderController->create();
             break;
         case 'updateOrder':
-            $orderController->update($id);
+            if (isset($_GET['idDoProdutoAntigo'])) {
+                $idDoProdutoAntigo = $_GET['idDoProdutoAntigo'];
+            }
+            $orderController->update($id, $idDoProdutoAntigo);
             break;
         case 'destroyOrder':
             $orderController->destroy($id);
