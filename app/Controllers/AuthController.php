@@ -43,9 +43,10 @@ class AuthController
             $_SESSION['currentUser'] =  serialize($user);
 
             header("location: /resources/views/menu.php");
+        } else {
+            header("location: /resources/views/login.php");
             exit();
-        } else header("location:index.php");
-        exit();
+        }
     }
 
     public function logoutUser()
