@@ -64,7 +64,7 @@ $orderDetails = $dal->ShowOrderDetails();
         if ($type == 'admin') {
         ?>
             <h2 class="text-2xl font-bold tracking-tight text-left text-gray-900 dark:text-white my-8">Histórico de pedidos</h2>
-            <div class="flex flex-col items-start w-2/3 mb-6">
+            <div class="flex flex-col items-start mb-6">
                 <h3 class="text-base font-medium tracking-tight text-gray-500 dark:text-gray-300 ">Informações para administrador</h3>
                 <div class="relative overflow-x-auto w-full shadow-lg dark:shadow-none sm:rounded-lg border border-t-gray-200 dark:border-0">
                     <table class="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400 mt-2">
