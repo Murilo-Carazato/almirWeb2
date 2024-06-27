@@ -65,7 +65,10 @@ class UserController
         $result = $this->userBll->updateUser($id, $userData);
 
         if ($result) {
-            header("Location: /resources/views/user/users.php");
+            session_abort();
+            session_start();
+            $_SESSION['currentUser'] = serialize($this->show($id));
+            header("Location: /resources/views/menu.php");
             exit();
         } else {
             echo "Erro ao atualizar usuário";
@@ -77,7 +80,7 @@ class UserController
         $result = $this->userBll->deleteUser($id);
 
         if ($result) {
-            header("Location: /resources/views/user/users.php");
+            header("Location: /resources/views/login.php");
             exit();
         } else {
             echo "Erro ao deletar usuário";

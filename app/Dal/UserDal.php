@@ -91,9 +91,9 @@ class UserDal
     public function Update(UserModel $user)
     {
         try {
-            $sql = "UPDATE user SET name = ?, password = ?, type = ? WHERE id = ?;";
+            $sql = "UPDATE user SET name = ?,  type = ? WHERE id = ?;";
             $query = $this->pdo->prepare($sql);
-            $result = $query->execute([$user->getName(), $user->getPassword(), $user->getType(), $user->getId()]);
+            $result = $query->execute([$user->getName(), $user->getType(), $user->getId()]);
 
             return $result;
         } catch (PDOException $e) {
