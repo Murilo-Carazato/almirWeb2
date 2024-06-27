@@ -136,6 +136,7 @@ class OrderDal
                 u.id AS user_id,
                 u.name AS user_name,
                 p.description AS product_description,
+                 p.id AS product_id,
                 COUNT(o.id) AS total_orders,
                 SUM(CASE WHEN u.type = 'admin' THEN o.total_price ELSE 0 END) AS total_admin_costs,
                 SUM(CASE WHEN u.type = 'client' THEN o.total_price ELSE 0 END) AS total_client_costs
@@ -146,7 +147,7 @@ class OrderDal
             JOIN 
                 almirweb.product p ON o.product_id = p.id
             GROUP BY 
-                u.id, u.name, p.description;";
+                u.id, u.name, p.description, p.id;";
             $stmt = $this->pdo->query($sql);
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

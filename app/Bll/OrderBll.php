@@ -109,7 +109,7 @@ class OrderBll
         return $this->orderDal->delete($id);
     }
 
-    private function validateOrderInput($data, Order $order)//testar update e insert com esse método
+    private function validateOrderInput($data, Order $order) //testar update e insert com esse método
     {
         //Acessa objeto vindo do $_POST e valida atributo quantity
         if (!empty($data->quantity)) {
