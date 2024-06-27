@@ -74,6 +74,9 @@ $orderDetails = $dal->ShowOrderDetails();
                                     Produto
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    Produto id
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     Quantidade de pedidos
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -91,6 +94,9 @@ $orderDetails = $dal->ShowOrderDetails();
                                     </th>
                                     <td class="px-6 py-4">
                                         <?php echo $order->getProductDescription(); ?>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <?php echo $order->getProductId(); ?>
                                     </td>
                                     <td class="px-6 py-4">
                                         <?php echo $order->getTotalOrders() ?></td>
