@@ -75,7 +75,7 @@ class ProductController
             header("Location: /resources/views/menu.php");
             exit();
         } else {
-            echo "Erro ao deletar produto";
+            header("Location: /resources/views/menu.php?error=500");
         }
     }
 
