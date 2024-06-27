@@ -11,11 +11,13 @@ use DateTime;
 class OrderBll
 {
     private $orderDal;
+    private $productDal;
     private $productBll;
 
     public function __construct()
     {
         $this->orderDal = new OrderDal();
+        $this->productDal = new ProductDal();
         $this->productBll = new ProductBll();
     }
 
@@ -56,47 +58,29 @@ class OrderBll
 
     public function updateOrder($id, $orderData, $userId, $idDoProdutoAntigo)
     {
+        // Busca o pedido pelo ID
         $order = $this->orderDal->selectById($id);
-        if (!$order) {
-            throw new \Exception("Pedido não encontrado.");
-        }
 
         $lastQuantity = $order->getQuantity();
         $this->validateOrderInput($orderData, $order);
         $newQuantity =  $order->getQuantity();
 
+        // Busca o produto associado ao pedido
         $productId = $order->getProductId();
         $product = $this->productBll->getProductById($productId);
-        if (!$product) {
-            throw new \Exception("Produto não encontrado.");
-        }
 
-        $productDal = new ProductDal();
-        $productDal2 = new ProductDal();
-
+        // Atualiza o estoque dos produtos
         if ($idDoProdutoAntigo != null) {
-            //metodo para atualizar estoque do produto trocado
-            $oldProduct = $this->productBll->getProductById($idDoProdutoAntigo);
-            $oldProduct->setStock($oldProduct->getStock() + $order->getQuantity());
-
-            $product->setStock($product->getStock() - $order->getQuantity());
-
-            $productDal->update($oldProduct); //melhor usar bbl?
-            $productDal2->update($product);
+            $this->updateProductStockOnExchange($order, $idDoProdutoAntigo);
         } else {
-            if ($lastQuantity > $newQuantity) {
-                $product->setStock($product->getStock() + ($lastQuantity - $newQuantity));
-            } else {
-                $product->setStock($product->getStock() - ($newQuantity - $lastQuantity));
-            }
-
-            $productDal2->update($product);
+            $this->adjustProductStock($order, $lastQuantity, $newQuantity);
         }
 
-        $order->setTotalPrice($newQuantity * $product->getUnitPrice());
+        // Calcula o preço total do pedido com base na nova quantidade
+        $order->setTotalPrice($order->getQuantity() * $product->getUnitPrice());
 
+        // Atualiza o pedido no banco de dados
         $order->setUserId($userId);
-
         $result = $this->orderDal->update($order);
 
         return $result;
@@ -161,7 +145,38 @@ class OrderBll
         }
     }
 
-    public function updateChangedOrder($id, $orderData, $userId)
+    private function updateProductStockOnExchange($order, $idDoProdutoAntigo)
     {
+        // Atualiza o estoque do produto antigo
+        $oldProduct = $this->productBll->getProductById($idDoProdutoAntigo);
+        $oldProduct->setStock($oldProduct->getStock() + $order->getQuantity());
+
+        // Atualiza o estoque do novo produto
+        $newProductId = $order->getProductId();
+        $newProduct = $this->productBll->getProductById($newProductId);
+        $newProduct->setStock($newProduct->getStock() - $order->getQuantity());
+
+        // Atualiza os produtos no banco de dados
+        $this->productDal->update($oldProduct);
+        $this->productDal->update($newProduct);
+    }
+
+    private function adjustProductStock($order, $lastQuantity, $newQuantity)
+    {
+        $productId = $order->getProductId();
+        $product = $this->productBll->getProductById($productId);
+        if (!$product) {
+            throw new \Exception("Produto não encontrado.");
+        }
+
+        // Ajusta o estoque do produto com base na mudança de quantidade
+        if ($lastQuantity > $newQuantity) {
+            $product->setStock($product->getStock() + ($lastQuantity - $newQuantity));
+        } else {
+            $product->setStock($product->getStock() - ($newQuantity - $lastQuantity));
+        }
+
+        // Atualiza o produto no banco de dados
+        $this->productDal->update($product);
     }
 }
