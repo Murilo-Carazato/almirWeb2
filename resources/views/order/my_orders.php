@@ -139,7 +139,7 @@ $orderDetails = $dal->ShowOrderDetails();
                                     <?php echo $order->getProductId(); ?>
                                 </th>
                                 <td class="px-6 py-4">
-                                    <?php echo $order->getDate()->format('d/m/Y h:i'); ?>
+                                    <?php echo $order->getDate()->format('d/m/Y H:i'); ?>
                                 </td>
                                 <td class="px-6 py-4">
                                     <?php echo $order->getQuantity() ?></td>
