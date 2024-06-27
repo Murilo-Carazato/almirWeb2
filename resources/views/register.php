@@ -55,18 +55,18 @@
 
                     <!-- Inserir nome -->
                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
-                    <input type="text" name="name" required placeholder="Digite seu nome" id="name" required pattern="[A-Za-zÀ-ú\s]+$" required minlength="2" maxlenght="40" class="duration-300 mb-5 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input type="text" name="name" required placeholder="Digite seu nome" id="name" required pattern="[A-Za-zÀ-ú\s]+$" required minlength="2" maxlenght="40" class="duration-300 mb-5 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500">
 
                     <!-- Inserir senha -->
                     <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Senha</label>
-                    <input type="password" id="password" name="password" placeholder="Digite sua senha" required aria-describedby="helper-text-explanation" required minlength="2" maxlenght="20" class="duration-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input type="password" id="password" name="password" placeholder="Digite sua senha" required aria-describedby="helper-text-explanation" required minlength="2" maxlenght="20" class="duration-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500">
 
                     <button type="submit" name="action" class="block w-full bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 duration-300 text-white font-semibold mb-2">Registrar-se</button>
                     <div class="flex justify-between mt-4">
-                        <span class="text-sm ml-2 hover:text-blue-500 dark:text-gray-300 cursor-pointer hover:-translate-y-1 duration-300">Esqueceu
+                        <span class="text-sm ml-2 hover:text-indigo-500 dark:text-gray-300 cursor-pointer hover:-translate-y-1 duration-300">Esqueceu
                             a senha?</span>
 
-                        <a href="login.php" class="text-sm ml-2 hover:text-blue-500 dark:text-gray-300 cursor-pointer hover:-translate-y-1 duration-300">Já
+                        <a href="login.php" class="text-sm ml-2 hover:text-indigo-500 dark:text-gray-300 cursor-pointer hover:-translate-y-1 duration-300">Já
                             possui uma conta?</a>
                     </div>
 

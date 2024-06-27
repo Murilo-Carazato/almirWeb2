@@ -81,7 +81,8 @@ class UserDal
             if ($data) {
                 return $data;
             } else {
-                throw new \Exception("User not found");
+                header("location: /resources/views/login.php");
+                exit();
             }
         } catch (PDOException $e) {
             throw new \Exception("Database query error: " . $e->getMessage());
