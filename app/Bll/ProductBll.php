@@ -2,6 +2,8 @@
 
 namespace App\Bll;
 
+use App\Controllers\OrderController;
+use App\Dal\OrderDal;
 use App\Models\Product;
 use App\Dal\ProductDal;
 
@@ -45,7 +47,22 @@ class ProductBll
 
     public function deleteProduct($id)
     {
-        return $this->productDal->delete($id);
+        $dal = new OrderDal;
+        $orderDetails = $dal->ShowOrderDetails();
+
+        $result = true;
+
+        foreach ($orderDetails as $detail) {
+            if ($detail->getProductId() == $id) {
+                $result = false;
+            }
+        }
+
+        if ($result == false) {
+            return false;
+        } else {
+            return $this->productDal->delete($id);
+        }
     }
 
     private function validateProductInput($data, Product $product)
