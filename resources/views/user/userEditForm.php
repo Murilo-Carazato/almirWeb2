@@ -16,45 +16,43 @@ if (isset($_GET['id'])) {
 <html lang="pt-Br">
 
 <head>
-    <title>Inserir Pedido</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../js/init.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/../../../public/build/output.css" rel="stylesheet">
+    <script>
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <title>Editar perfil</title>
 </head>
 
-<body>
-    <div class="container indigo lighten-4 deep-orange-text col s12">
-        <div class="center green">
-            <h1>Inserir Receita</h1>
+<body class="bg-gray-50 dark:bg-gray-950 overflow-x-auto transition-all">
+<?php include('resources\views\components\navbar.php') ?>
+    <div class="md:mx-60 mx-20">
+        <div class="mt-10 mb-5">
+            <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Atualize suas informações pessoais</h2>
+            <h2 class="text-base font-medium tracking-tight text-gray-500 dark:text-gray-300">Preservamos sua privacidade e coletamos somente seu nome, legal né?</h2>
         </div>
-        <div class="row black-text">
-            <form action="/public/index.php?action=updateUser&id=<?php echo $user->getId(); ?>" method="POST" class="col s12">
+        <form action="/public/index.php?action=updateUser&id=<?php echo $user->getId(); ?>" method="POST">
+            <div class="mb-5">
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
+                <input id="name" name="name" minlength="2"  maxlength="30" value="<?php echo $user->getName(); ?>" required type="text" maxlength="30" class="transition-all bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500">
+            </div>
+            <div class="mb-5">
+                <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de usuário (admin ou client)</label>
+                <input id="type" name="type" value="<?php echo $user->getType(); ?>" required type="text" class="transition-all bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500">
 
-                <div class="input-field col s8">
-                    <input placeholder="informe o nome" id="name" name="name" type="text" class="validate" required pattern="[A-Za-zÀ-ú\s]+$" required minlength="2" maxlenght="40" value="<?php echo $user->getName(); ?>">
-                    <label for="name">Nome</label>
-                </div>
-
-                <div class="input-field col s8">
-                    <input placeholder="informe a senha" id="password" name="password" type="text" class="validate" required minlength="2" maxlenght="20" value="<?php echo $user->getPassword(); ?>">
-                    <label for="password">Senha</label>
-                </div>
-
-                <div class="input-field col s8">
-                    <input placeholder="informe o tipo" id="type" name="type" type="text" class="validate" required minlength="2" maxlenght="20" value="<?php echo $user->getType(); ?>">
-                    <label for="type">Tipo</label>
-                </div>
-
-                <div class="brown lighten-3 center col s12">
-                    <br>
-                    <button class="waves-effect waves-light btn green" type="submit">
-                        Gravar <i class="material-icons">save</i>
-                    </button>
-                    <br>
-                    <br>
-                </div>
-            </form>
-        </div>
+            </div>
+            <button type="submit" class="block w-full bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 duration-300 text-white font-semibold mb-2">Atualizar</button>
+        </form>
+        <p></p>
     </div>
+    <script type="text/javascript" src="../../js/mode_switcher.js"></script>
 </body>
 
 </html>

@@ -1,5 +1,13 @@
 <?php
 require_once __DIR__ . '/../../../vendor/autoload.php';
+if (isset($_SESSION['currentUser'])) {
+    $user = unserialize($_SESSION['currentUser']);
+    // echo "<pre>";
+    // var_dump($user);
+    // echo "</pre>";
+    // die();
+    $type = $user->getType();
+}
 ?>
 
 
@@ -17,21 +25,12 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
         </div>
         <nav :class="{'flex': open, 'hidden': !open}" class="flex-col flex-grow justify-end hidden pb-4 md:pb-0 md:flex md:justify-end md:flex-row">
             <?php
-
-            if (isset($_SESSION['currentUser'])) {
-                $user = unserialize($_SESSION['currentUser']);
-                // echo "<pre>";
-                // var_dump($user);
-                // echo "</pre>";
-                // die();
-                $type = $user->getType();
-            }
             if ($type == 'admin') {
             ?>
                 <a class="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline transition-all" href="/resources/views/product/send_products.php">Cadastrar produto</a>
             <?php  } ?>
             <a class="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline transition-all" href="/resources/views/order/my_orders.php">Meus pedidos</a>
-            <a class="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline transition-all" href="#">Novidades</a>
+            <a class="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline transition-all hover:cursor-pointer" onclick="JavaScript:location.href='/resources/views/user/userEditForm.php?id=' + '<?php echo $user->getId(); ?>'">Meu perfil</a>
             <a class="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-white focus:text-gray-900 dark:hover:text-white hover:bg-red-400 focus:bg-gray-200 focus:outline-none focus:shadow-outline transition-all" href="/public/index.php?action=logoutUser">Logout</a>
 
             <!-- darkMode toggle -->

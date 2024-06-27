@@ -213,7 +213,6 @@ if ($_GET['search']) {
                     </div>
                 </div>
 
-
                 <!-- Cards de produtos -->
                 <?php if (count($products) < 1) { ?>
                     <h1 class="text-center my-10 text-gray-600 dark:text-gray-400">Nenhum produto encontrado...</h1>
@@ -260,8 +259,12 @@ if ($_GET['search']) {
                                         'stock': <?php echo $product->getStock() ?>
                                 });
                                  repeated=false" <?php
-                                                    if ($product->getStock() < 1) { ?> disabled class="text-white bg-indigo-400 dark:bg-indigo-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center"<?php } else { ?> class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800" <?php } ?>>
-                                        <?php if($product->getStock() < 1) {echo 'Estoque vazio';} else {echo 'Comprar';}?>
+                                                    if ($product->getStock() < 1) { ?> disabled class="text-white bg-indigo-400 dark:bg-indigo-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center" <?php } else { ?> class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-blue-800" <?php } ?>>
+                                        <?php if ($product->getStock() < 1) {
+                                            echo 'Estoque vazio';
+                                        } else {
+                                            echo 'Comprar';
+                                        } ?>
                                     </button>
                                 </div>
                             </div>
