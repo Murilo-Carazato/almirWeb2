@@ -154,6 +154,7 @@ class OrderDal
             foreach ($data as $line) {
                 $orderDetail = new OrderDetails();
                 $orderDetail->setUserId($line['user_id']);
+                $orderDetail->setProductId($line['product_id']);
                 $orderDetail->setUserName($line['user_name']);
                 $orderDetail->setProductDescription($line['product_description']);
                 $orderDetail->setTotalOrders($line['total_orders']);

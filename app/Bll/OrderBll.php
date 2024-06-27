@@ -109,7 +109,7 @@ class OrderBll
         return $this->orderDal->delete($id);
     }
 
-    private function validateOrderInput($data, Order $order)
+    private function validateOrderInput($data, Order $order)//testar update e insert com esse método
     {
         //Acessa objeto vindo do $_POST e valida atributo quantity
         if (!empty($data->quantity)) {
@@ -119,9 +119,23 @@ class OrderBll
         if (!empty($data->id)) {
             $order->setProductId($data->id);
         }
-        date_default_timezone_set('America/Sao_Paulo');
-        $dateString = date("Y-m-d H:i:s");
-        $date = new DateTime($dateString);
-        $order->setDate($date);
+
+        if (!empty($data["quantity"])) {
+            $order->setQuantity($data["quantity"]);
+        }
+
+        if (!empty($data["productId"])) {
+            $order->setProductId($data["productId"]);
+        }
+
+        if (!empty($data["date"])) {
+            $date = new DateTime($data['date']);
+            $order->setDate($date);
+        } else {
+            date_default_timezone_set('America/Sao_Paulo');
+            $dateString = date("Y-m-d H:i:s");
+            $date = new DateTime($dateString);
+            $order->setDate($date);
+        }
     }
 }

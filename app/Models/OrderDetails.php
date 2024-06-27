@@ -5,6 +5,7 @@ namespace App\Models;
 class OrderDetails
 {
    private ?int $userId;
+   private ?int $productId;
    private ?string $userName;
    private ?string $productDescription;
    private ?int $totalOrders;
@@ -23,6 +24,16 @@ class OrderDetails
    public function setUserId(int $userId)
    {
       $this->userId = $userId;
+   }
+
+   public function getProductId()
+   {
+      return $this->productId;
+   }
+
+   public function setProductId(int $productId)
+   {
+      $this->productId = $productId;
    }
 
    public function getUserName()
