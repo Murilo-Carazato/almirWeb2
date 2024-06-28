@@ -39,7 +39,7 @@ $products = $bllProduct->getAllProducts();
 
 
 <body class="bg-gray-50 dark:bg-gray-950 overflow-x-auto transition-all">
-    <?php include('resources\views\components\navbar.php') ?>
+    <?php include('..\components\navbar.php') ?>
     <div class="md:mx-60 w-2/3 flex flex-col items-start">
         <div class="mt-10 mb-5">
             <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Atualize um pedido</h2>

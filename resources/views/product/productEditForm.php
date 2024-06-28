@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use App\Controllers\ProductController;
+
 session_start();
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -51,7 +52,7 @@ if (isset($_GET['id'])) {
 
 
 <body class="bg-gray-50 dark:bg-gray-950 overflow-x-hidden transition-all">
-    <?php include('resources\views\components\navbar.php') ?>
+    <?php include('..\components\navbar.php') ?>
     <div class="mx-60">
         <div class="mt-10 mb-5">
             <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Atualize um produto</h2>
@@ -70,7 +71,7 @@ if (isset($_GET['id'])) {
         }">
             <div class="mb-5">
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descrição</label>
-                <input name="description" minlength="2"  maxlength="30" value="<?php echo $product->getDescription(); ?>" required type="text" maxlength="30" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500">
+                <input name="description" minlength="2" maxlength="30" value="<?php echo $product->getDescription(); ?>" required type="text" maxlength="30" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500">
             </div>
             <div class="mb-5">
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preço (unitário)</label>

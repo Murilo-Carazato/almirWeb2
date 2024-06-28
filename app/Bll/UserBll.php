@@ -2,6 +2,8 @@
 
 namespace App\Bll;
 
+use App\Dal\OrderDal;
+use App\Dal\ProductDal;
 use App\Dal\UserDal;
 use App\Models\User as UserModel;
 
@@ -55,6 +57,16 @@ class UserBll
     public function deleteUser($id)
     {
         $dalUser = new UserDal();
+        $dalOrder = new OrderDal();
+
+        $orders = $dalOrder->Select();
+
+        foreach ($orders as $order) {
+            if ($order->getUserId() == $id) {
+                $dalOrder->Delete($order->getId());
+            }
+        }
+
         return $dalUser->delete($id);
     }
 

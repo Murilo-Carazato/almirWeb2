@@ -32,7 +32,7 @@ if (isset($_GET['id'])) {
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-950 overflow-x-auto transition-all">
-    <?php include('resources\views\components\navbar.php') ?>
+    <?php include('..\components\navbar.php') ?>
     <div class="md:mx-60 mx-20">
         <div class="flex flex-row justify-between w-full items-end mt-10 mb-5">
             <div class=" flex flex-col">
@@ -69,7 +69,7 @@ if (isset($_GET['id'])) {
 </html>
 <script>
     function remover(id) {
-        if (confirm('Tem certeza que deseja excluir sua conta?')) {
+        if (confirm('Tem certeza que deseja excluir sua conta? Todos seus pedidos serão deletados!')) {
             location.href = '/public/index.php?action=destroyUser&id=' + id;
         }
     }

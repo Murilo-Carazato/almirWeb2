@@ -38,7 +38,7 @@ $orderDetails = $dal->ShowOrderDetails();
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-950 overflow-x-hidden transition-all">
-    <?php include('.\resources\views\components\navbar.php') ?>
+    <?php include('..\components\navbar.php') ?>
     <div class="flex flex-col items-center min-h-screen" x-data="{
         init(){
             this.clearCart();
@@ -183,7 +183,7 @@ $orderDetails = $dal->ShowOrderDetails();
             </div>
         </div>
     </div>
-    <?php include('.\resources\views\components\footer.html') ?>
+    <?php include('..\components\footer.html') ?>
     <script type="text/javascript" src="../../js/mode_switcher.js"></script>
 </body>
 
