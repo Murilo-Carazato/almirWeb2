@@ -83,7 +83,12 @@ if ($_GET['search']) {
             return this.cart.length;
         },
         deleteProduct(id){
-            window.location.href = `http://localhost:8000/resources/views/product/deleteProduct.php?id=${id}`;
+            if (confirm('Tem certeza que deseja excluir o produto?')) {
+                window.location.href = `http://localhost:8000/resources/views/product/deleteProduct.php?id=${id}`;
+            }
+            <?php if (isset($_GET['error'])) { ?>
+                confirm('Não foi possível excluir produto pois possui pedidos!')
+            <?php } ?>
         },
         showProduct(id){
             window.location.href = `http://localhost:8000/resources/views/product/productEditForm.php?id=${id}`;
